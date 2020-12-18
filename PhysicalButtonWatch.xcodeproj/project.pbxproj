@@ -7,25 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BF56D8E52587D34E00FAEF28 /* PhysicalButtonWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56D8E42587D34E00FAEF28 /* PhysicalButtonWatchApp.swift */; };
-		BF56D8E72587D34E00FAEF28 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56D8E62587D34E00FAEF28 /* ContentView.swift */; };
-		BF56D8E92587D34E00FAEF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF56D8E82587D34E00FAEF28 /* Assets.xcassets */; };
-		BF56D8EC2587D34E00FAEF28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF56D8EB2587D34E00FAEF28 /* Preview Assets.xcassets */; };
-		BF56D8F525887C0600FAEF28 /* StopWatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF56D8F425887C0600FAEF28 /* StopWatchManager.swift */; };
+		BFC68B51258C721800269902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC68B50258C721800269902 /* AppDelegate.swift */; };
+		BFC68B53258C721800269902 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC68B52258C721800269902 /* SceneDelegate.swift */; };
+		BFC68B55258C721800269902 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC68B54258C721800269902 /* ViewController.swift */; };
+		BFC68B58258C721800269902 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFC68B56258C721800269902 /* Main.storyboard */; };
+		BFC68B5A258C721A00269902 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFC68B59258C721A00269902 /* Assets.xcassets */; };
+		BFC68B5D258C721A00269902 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFC68B5B258C721A00269902 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BF56D8E12587D34E00FAEF28 /* PhysicalButtonWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhysicalButtonWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF56D8E42587D34E00FAEF28 /* PhysicalButtonWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalButtonWatchApp.swift; sourceTree = "<group>"; };
-		BF56D8E62587D34E00FAEF28 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		BF56D8E82587D34E00FAEF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BF56D8EB2587D34E00FAEF28 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		BF56D8ED2587D34E00FAEF28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BF56D8F425887C0600FAEF28 /* StopWatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatchManager.swift; sourceTree = "<group>"; };
+		BFC68B4D258C721800269902 /* PhysicalButtonWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhysicalButtonWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFC68B50258C721800269902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BFC68B52258C721800269902 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		BFC68B54258C721800269902 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BFC68B57258C721800269902 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BFC68B59258C721A00269902 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BFC68B5C258C721A00269902 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BFC68B5E258C721A00269902 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		BF56D8DE2587D34E00FAEF28 /* Frameworks */ = {
+		BFC68B4A258C721800269902 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -35,78 +37,71 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BF56D8D82587D34E00FAEF28 = {
+		BFC68B44258C721800269902 = {
 			isa = PBXGroup;
 			children = (
-				BF56D8E32587D34E00FAEF28 /* PhysicalButtonWatch */,
-				BF56D8E22587D34E00FAEF28 /* Products */,
+				BFC68B4F258C721800269902 /* PhysicalButtonWatch */,
+				BFC68B4E258C721800269902 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		BF56D8E22587D34E00FAEF28 /* Products */ = {
+		BFC68B4E258C721800269902 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BF56D8E12587D34E00FAEF28 /* PhysicalButtonWatch.app */,
+				BFC68B4D258C721800269902 /* PhysicalButtonWatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BF56D8E32587D34E00FAEF28 /* PhysicalButtonWatch */ = {
+		BFC68B4F258C721800269902 /* PhysicalButtonWatch */ = {
 			isa = PBXGroup;
 			children = (
-				BF56D8E42587D34E00FAEF28 /* PhysicalButtonWatchApp.swift */,
-				BF56D8E62587D34E00FAEF28 /* ContentView.swift */,
-				BF56D8F425887C0600FAEF28 /* StopWatchManager.swift */,
-				BF56D8E82587D34E00FAEF28 /* Assets.xcassets */,
-				BF56D8ED2587D34E00FAEF28 /* Info.plist */,
-				BF56D8EA2587D34E00FAEF28 /* Preview Content */,
+				BFC68B50258C721800269902 /* AppDelegate.swift */,
+				BFC68B52258C721800269902 /* SceneDelegate.swift */,
+				BFC68B54258C721800269902 /* ViewController.swift */,
+				BFC68B56258C721800269902 /* Main.storyboard */,
+				BFC68B59258C721A00269902 /* Assets.xcassets */,
+				BFC68B5B258C721A00269902 /* LaunchScreen.storyboard */,
+				BFC68B5E258C721A00269902 /* Info.plist */,
 			);
 			path = PhysicalButtonWatch;
-			sourceTree = "<group>";
-		};
-		BF56D8EA2587D34E00FAEF28 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				BF56D8EB2587D34E00FAEF28 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BF56D8E02587D34E00FAEF28 /* PhysicalButtonWatch */ = {
+		BFC68B4C258C721800269902 /* PhysicalButtonWatch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BF56D8F02587D34E00FAEF28 /* Build configuration list for PBXNativeTarget "PhysicalButtonWatch" */;
+			buildConfigurationList = BFC68B61258C721A00269902 /* Build configuration list for PBXNativeTarget "PhysicalButtonWatch" */;
 			buildPhases = (
-				BF56D8DD2587D34E00FAEF28 /* Sources */,
-				BF56D8DE2587D34E00FAEF28 /* Frameworks */,
-				BF56D8DF2587D34E00FAEF28 /* Resources */,
+				BFC68B49258C721800269902 /* Sources */,
+				BFC68B4A258C721800269902 /* Frameworks */,
+				BFC68B4B258C721800269902 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = PhysicalButtonWatch;
-			productName = PhysicalButtonWatch;
-			productReference = BF56D8E12587D34E00FAEF28 /* PhysicalButtonWatch.app */;
+			productName = PhysicalButtonWatch_storyboard;
+			productReference = BFC68B4D258C721800269902 /* PhysicalButtonWatch.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		BF56D8D92587D34E00FAEF28 /* Project object */ = {
+		BFC68B45258C721800269902 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
-					BF56D8E02587D34E00FAEF28 = {
+					BFC68B4C258C721800269902 = {
 						CreatedOnToolsVersion = 12.2;
 					};
 				};
 			};
-			buildConfigurationList = BF56D8DC2587D34E00FAEF28 /* Build configuration list for PBXProject "PhysicalButtonWatch" */;
+			buildConfigurationList = BFC68B48258C721800269902 /* Build configuration list for PBXProject "PhysicalButtonWatch" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -114,43 +109,63 @@
 				en,
 				Base,
 			);
-			mainGroup = BF56D8D82587D34E00FAEF28;
-			productRefGroup = BF56D8E22587D34E00FAEF28 /* Products */;
+			mainGroup = BFC68B44258C721800269902;
+			productRefGroup = BFC68B4E258C721800269902 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BF56D8E02587D34E00FAEF28 /* PhysicalButtonWatch */,
+				BFC68B4C258C721800269902 /* PhysicalButtonWatch */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		BF56D8DF2587D34E00FAEF28 /* Resources */ = {
+		BFC68B4B258C721800269902 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF56D8EC2587D34E00FAEF28 /* Preview Assets.xcassets in Resources */,
-				BF56D8E92587D34E00FAEF28 /* Assets.xcassets in Resources */,
+				BFC68B5D258C721A00269902 /* LaunchScreen.storyboard in Resources */,
+				BFC68B5A258C721A00269902 /* Assets.xcassets in Resources */,
+				BFC68B58258C721800269902 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		BF56D8DD2587D34E00FAEF28 /* Sources */ = {
+		BFC68B49258C721800269902 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF56D8E72587D34E00FAEF28 /* ContentView.swift in Sources */,
-				BF56D8F525887C0600FAEF28 /* StopWatchManager.swift in Sources */,
-				BF56D8E52587D34E00FAEF28 /* PhysicalButtonWatchApp.swift in Sources */,
+				BFC68B55258C721800269902 /* ViewController.swift in Sources */,
+				BFC68B51258C721800269902 /* AppDelegate.swift in Sources */,
+				BFC68B53258C721800269902 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		BFC68B56258C721800269902 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFC68B57258C721800269902 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BFC68B5B258C721A00269902 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFC68B5C258C721A00269902 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		BF56D8EE2587D34E00FAEF28 /* Debug */ = {
+		BFC68B5F258C721A00269902 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -211,7 +226,7 @@
 			};
 			name = Debug;
 		};
-		BF56D8EF2587D34E00FAEF28 /* Release */ = {
+		BFC68B60258C721A00269902 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -266,17 +281,14 @@
 			};
 			name = Release;
 		};
-		BF56D8F12587D34E00FAEF28 /* Debug */ = {
+		BFC68B62258C721A00269902 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"PhysicalButtonWatch/Preview Content\"";
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = PhysicalButtonWatch/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = "$(SRCROOT)/PhysicalButtonWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -288,17 +300,14 @@
 			};
 			name = Debug;
 		};
-		BF56D8F22587D34E00FAEF28 /* Release */ = {
+		BFC68B63258C721A00269902 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"PhysicalButtonWatch/Preview Content\"";
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = PhysicalButtonWatch/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = "$(SRCROOT)/PhysicalButtonWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -313,25 +322,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BF56D8DC2587D34E00FAEF28 /* Build configuration list for PBXProject "PhysicalButtonWatch" */ = {
+		BFC68B48258C721800269902 /* Build configuration list for PBXProject "PhysicalButtonWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BF56D8EE2587D34E00FAEF28 /* Debug */,
-				BF56D8EF2587D34E00FAEF28 /* Release */,
+				BFC68B5F258C721A00269902 /* Debug */,
+				BFC68B60258C721A00269902 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BF56D8F02587D34E00FAEF28 /* Build configuration list for PBXNativeTarget "PhysicalButtonWatch" */ = {
+		BFC68B61258C721A00269902 /* Build configuration list for PBXNativeTarget "PhysicalButtonWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BF56D8F12587D34E00FAEF28 /* Debug */,
-				BF56D8F22587D34E00FAEF28 /* Release */,
+				BFC68B62258C721A00269902 /* Debug */,
+				BFC68B63258C721A00269902 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = BF56D8D92587D34E00FAEF28 /* Project object */;
+	rootObject = BFC68B45258C721800269902 /* Project object */;
 }
