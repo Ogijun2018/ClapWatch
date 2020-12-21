@@ -10,7 +10,7 @@ import AVFoundation
 import MediaPlayer
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+
     var volumeValue : Float = 0.0
     var volumeView: MPVolumeView!
     

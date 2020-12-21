@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		BFC68B51258C721800269902 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC68B50258C721800269902 /* AppDelegate.swift */; };
-		BFC68B53258C721800269902 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC68B52258C721800269902 /* SceneDelegate.swift */; };
 		BFC68B55258C721800269902 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC68B54258C721800269902 /* ViewController.swift */; };
 		BFC68B58258C721800269902 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFC68B56258C721800269902 /* Main.storyboard */; };
 		BFC68B5A258C721A00269902 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFC68B59258C721A00269902 /* Assets.xcassets */; };
@@ -18,7 +17,6 @@
 /* Begin PBXFileReference section */
 		BFC68B4D258C721800269902 /* PhysicalButtonWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhysicalButtonWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFC68B50258C721800269902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BFC68B52258C721800269902 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BFC68B54258C721800269902 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BFC68B57258C721800269902 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFC68B59258C721A00269902 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				BFC68B50258C721800269902 /* AppDelegate.swift */,
-				BFC68B52258C721800269902 /* SceneDelegate.swift */,
 				BFC68B54258C721800269902 /* ViewController.swift */,
 				BFC68B56258C721800269902 /* Main.storyboard */,
 				BFC68B59258C721A00269902 /* Assets.xcassets */,
@@ -139,7 +136,6 @@
 			files = (
 				BFC68B55258C721800269902 /* ViewController.swift in Sources */,
 				BFC68B51258C721800269902 /* AppDelegate.swift in Sources */,
-				BFC68B53258C721800269902 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
