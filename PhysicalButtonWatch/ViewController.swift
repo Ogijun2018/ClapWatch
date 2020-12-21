@@ -39,12 +39,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var mode: stopWatchMode = .stopped
     
     var laps: [String] = []
-    
     var timer = Timer()
+    
+    @objc func updateTimer(_ timer: Timer){
+        self.secondsElapsed += 0.01
+        
+        // secondsElapsedは小数点2桁までのDouble値
+        self.calcuratedMinute = Int((self.secondsElapsed / 60).truncatingRemainder(dividingBy: 60))
+        self.calcuratedSecond = Int(self.secondsElapsed.truncatingRemainder(dividingBy: 60.0))
+        self.calcuratedMSec = Int((self.secondsElapsed * 100).truncatingRemainder(dividingBy: 100))
+        
+        self.minute.text = String(format:"%02d", self.calcuratedMinute)
+        self.second.text = String(format:"%02d", self.calcuratedSecond)
+        self.mSec.text = String(format:"%02d", self.calcuratedMSec)
+    }
     
     // Table View Methods
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "Cell")
+        let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "Cell")
         cell.backgroundColor = self.view.backgroundColor
         cell.textLabel?.text = "Lap \(laps.count - indexPath.row)"
         cell.detailTextLabel?.text = laps[indexPath.row]
@@ -100,18 +112,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func startTimer() {
         mode = .running
         print("press start")
-        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true){_ in
-            self.secondsElapsed += 0.01
-            
-            // secondsElapsedは小数点2桁までのDouble値
-            self.calcuratedMinute = Int((self.secondsElapsed / 60).truncatingRemainder(dividingBy: 60))
-            self.calcuratedSecond = Int(self.secondsElapsed.truncatingRemainder(dividingBy: 60.0))
-            self.calcuratedMSec = Int((self.secondsElapsed * 100).truncatingRemainder(dividingBy: 100))
-            
-            self.minute.text = String(format:"%02d", self.calcuratedMinute)
-            self.second.text = String(format:"%02d", self.calcuratedSecond)
-            self.mSec.text = String(format:"%02d", self.calcuratedMSec)
-        }
+        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
+        RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
         
         // スタートしたら明るくする
         lapButton.backgroundColor = UIColor.lightGray
@@ -181,48 +183,39 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     print(userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as Any)
                     if volumeValue > userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
                         print("volume down")
-                        // 一時停止中ならタイマーをリセットさせる
                         if (mode == .paused) {
                             resetTimer()
-                            print("reset timer!")
                         } else if (mode == .running){
-                            // ラップを測れるようにしたい
                             lap()
                         }
                     }
                     else if volumeValue < userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
                         print("volume up")
-                        // 停止中, 一時停止中ならタイマーをスタートさせる
                         if (mode == .paused || mode == .stopped) {
                             print("start timer!")
                             startTimer()
                         } else if (mode == .running){
-                            // 実行中ならタイマー停止
                             print("stop timer!")
                             stopTimer()
                         }
                     }
                     else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 1{
                         print("volume max")
-                        // 停止中, 一時停止中ならタイマーをスタートさせる
                         if (mode == .paused || mode == .stopped) {
-                            startTimer()
                             print("start timer!")
+                            startTimer()
                         } else if (mode == .running){
-                            // 実行中ならタイマーを停止させる
-                            stopTimer()
                             print("stop timer!")
+                            stopTimer()
                         }
                         
                     }
                     else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 0{
                         print("volume min")
-                        // 一時停止中ならタイマーをリセットさせる
                         if (mode == .paused) {
-                            resetTimer()
                             print("reset timer!")
+                            resetTimer()
                         } else if (mode == .running){
-                            // ラップを測れるようにしたい
                             lap()
                         }
                     }
