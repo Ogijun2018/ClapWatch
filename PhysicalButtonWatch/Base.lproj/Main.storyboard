@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PhysicalButtonWatch_storyboard" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PhysicalButtonWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -20,7 +20,7 @@
                                 <rect key="frame" x="57" y="50" width="300" height="150"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffg-md-6bv">
-                                        <rect key="frame" x="209" y="31" width="91" height="88"/>
+                                        <rect key="frame" x="210" y="30.666666666666664" width="90" height="88.666666666666686"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="ffg-md-6bv" secondAttribute="height" multiplier="73:72" id="Ehk-H3-2C6"/>
                                             <constraint firstAttribute="width" constant="90" id="qfP-hl-pWh"/>
@@ -30,7 +30,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZST-lT-K14">
-                                        <rect key="frame" x="104" y="38" width="91" height="75"/>
+                                        <rect key="frame" x="105" y="37.666666666666671" width="90" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="ZST-lT-K14" secondAttribute="height" multiplier="12:10" id="AB5-zu-Vxe"/>
                                             <constraint firstAttribute="width" constant="90" id="bSt-xe-kCM"/>
@@ -50,7 +50,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkI-Ac-uYu">
-                                        <rect key="frame" x="0.0" y="38" width="90" height="75"/>
+                                        <rect key="frame" x="0.0" y="37.666666666666671" width="90" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="90" id="QbV-eN-7l3"/>
                                             <constraint firstAttribute="width" secondItem="pkI-Ac-uYu" secondAttribute="height" multiplier="12:10" id="yX3-aY-MB6"/>
@@ -96,8 +96,9 @@
                                             <constraint firstAttribute="width" constant="100" id="NHV-yw-2YE"/>
                                             <constraint firstAttribute="height" constant="70" id="Xzd-nM-UZB"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Start">
-                                            <color key="titleColor" red="0.54731725899428518" green="1" blue="0.49393225356969961" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -115,6 +116,7 @@
                                             <constraint firstAttribute="height" constant="70" id="XY4-hb-2bk"/>
                                             <constraint firstAttribute="width" constant="100" id="uC1-hL-DYM"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Reset">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -134,8 +136,9 @@
                                             <constraint firstAttribute="height" constant="70" id="Dmi-nG-bUQ"/>
                                             <constraint firstAttribute="width" constant="100" id="bXv-hM-8MJ"/>
                                         </constraints>
-                                        <state key="normal" title="Reset">
-                                            <color key="titleColor" white="0.6463887674825175" alpha="0.6651519982993197" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Lap">
+                                            <color key="titleColor" systemColor="systemGrayColor"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -153,6 +156,7 @@
                                             <constraint firstAttribute="height" constant="70" id="DfF-6z-FVC"/>
                                             <constraint firstAttribute="width" constant="100" id="f4I-MU-rvB"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Stop">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -186,6 +190,10 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="67i-Kc-4W3"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="fHJ-WL-v1S"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="QBW-Kc-Ji6"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -219,6 +227,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

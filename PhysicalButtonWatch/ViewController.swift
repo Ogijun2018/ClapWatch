@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var volumeValue : Float = 0.0
     var volumeView: MPVolumeView!
@@ -31,11 +31,32 @@ class ViewController: UIViewController {
     @IBOutlet weak var second: UILabel!
     @IBOutlet weak var mSec: UILabel!
     
+    var calcuratedMinute : Int = 0
+    var calcuratedSecond : Int = 0
+    var calcuratedMSec : Int = 0
     
     var secondsElapsed = 0.0
     var mode: stopWatchMode = .stopped
     
+    var laps: [String] = []
+    
     var timer = Timer()
+    
+    // Table View Methods
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "Cell")
+        cell.backgroundColor = self.view.backgroundColor
+        cell.textLabel?.text = "Lap \(laps.count - indexPath.row)"
+        cell.detailTextLabel?.text = laps[indexPath.row]
+        cell.textLabel?.font = UIFont(name: "Avenir Next", size: 15)
+        cell.detailTextLabel?.font = UIFont(name: "Avenir Next", size: 15)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return laps.count
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,21 +104,25 @@ class ViewController: UIViewController {
             self.secondsElapsed += 0.01
             
             // secondsElapsedは小数点2桁までのDouble値
-            let minute = Int((self.secondsElapsed / 60).truncatingRemainder(dividingBy: 60))
-            let second = Int(self.secondsElapsed.truncatingRemainder(dividingBy: 60.0))
-            let mSec = Int((self.secondsElapsed * 100).truncatingRemainder(dividingBy: 100))
-           
-            self.minute.text = String(format:"%02d", minute)
-            self.second.text = String(format:"%02d", second)
-            self.mSec.text = String(format:"%02d", mSec)
+            self.calcuratedMinute = Int((self.secondsElapsed / 60).truncatingRemainder(dividingBy: 60))
+            self.calcuratedSecond = Int(self.secondsElapsed.truncatingRemainder(dividingBy: 60.0))
+            self.calcuratedMSec = Int((self.secondsElapsed * 100).truncatingRemainder(dividingBy: 100))
+            
+            self.minute.text = String(format:"%02d", self.calcuratedMinute)
+            self.second.text = String(format:"%02d", self.calcuratedSecond)
+            self.mSec.text = String(format:"%02d", self.calcuratedMSec)
         }
+        
+        // スタートしたら明るくする
+        lapButton.backgroundColor = UIColor.lightGray
+        lapButton.setTitleColor(UIColor.white, for: .normal)
         
         startButton.isHidden = true
         stopButton.isHidden = false
         resetButton.isHidden = true
         lapButton.isHidden = false
         // 一時的にfalse
-        lapButton.isEnabled = false
+        lapButton.isEnabled = true
     }
     
     
@@ -109,11 +134,18 @@ class ViewController: UIViewController {
         self.mSec.text = "00"
         mode = .stopped
         
+        lapButton.backgroundColor = UIColor.darkGray
+        lapButton.setTitleColor(UIColor.gray, for: .normal)
+        
         startButton.isHidden = false
         stopButton.isHidden = true
         resetButton.isHidden = true
         lapButton.isHidden = false
         lapButton.isEnabled = false
+        
+        // lap reset
+        laps.removeAll(keepingCapacity: false)
+        tableView.reloadData()
     }
     
     @IBAction func stopTimer() {
@@ -126,32 +158,20 @@ class ViewController: UIViewController {
         lapButton.isHidden = true
     }
     
-    var strings = [String]()
+    @IBAction func lap() {
+        let lapMinute = String(format:"%02d", self.calcuratedMinute)
+        let lapSecond = String(format:"%02d", self.calcuratedSecond)
+        let lapMSec = String(format:"%02d", self.calcuratedMSec)
+        
+        let lapText = "\(lapMinute):\(lapSecond).\(lapMSec)"
+        laps.insert(lapText, at: 0)
+        tableView.reloadData()
+    }
     
-//    @IBAction func lap() {
-//        //あらかじめデータソースを編集しておく。
-//        self.strings.insert("insert1", at: 0)
-//        self.strings.insert("insert2", at: 0)
-//
-//        //テーブルビュー挿入開始
-//        self.tableView.beginUpdates()
-//
-//        //挿入するIndexPath
-//        var paths = [IndexPath]()
-//        paths.append(IndexPath(row: 0, section: 0))
-//        paths.append(IndexPath(row: 1, section: 0))
-//
-//        //挿入処理
-//        self.tableView.insertRows(at: paths, with: .automatic)
-//
-//        //テーブルビュー挿入終了
-//        self.tableView.endUpdates()
-//    }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(true)
-//        timer.invalidate()
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        timer.invalidate()
+    }
 
     @objc func volumeChanged(notification: NSNotification) {
 
@@ -167,7 +187,7 @@ class ViewController: UIViewController {
                             print("reset timer!")
                         } else if (mode == .running){
                             // ラップを測れるようにしたい
-                            // lap()
+                            lap()
                         }
                     }
                     else if volumeValue < userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
@@ -203,7 +223,7 @@ class ViewController: UIViewController {
                             print("reset timer!")
                         } else if (mode == .running){
                             // ラップを測れるようにしたい
-                            // lap()
+                            lap()
                         }
                     }
                     volumeValue = userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float
