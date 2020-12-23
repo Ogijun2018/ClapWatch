@@ -208,9 +208,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             print("stop timer!")
                             stopTimer()
                         }
-                        
                     }
-                    else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 0{
+                    else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue <= 0.0625{
                         print("volume min")
                         if (mode == .paused) {
                             print("reset timer!")
