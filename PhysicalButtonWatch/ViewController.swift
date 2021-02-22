@@ -20,12 +20,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         case paused
     }
     
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
+    
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var lapButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    
+    @IBOutlet weak var latestLap: UILabel!
     
     @IBOutlet weak var minute: UILabel!
     @IBOutlet weak var second: UILabel!
@@ -40,6 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var laps: [String] = []
     var timer = Timer()
+    var mSecForBackground : Date!
     
     @objc func updateTimer(_ timer: Timer){
         self.secondsElapsed += 0.01
@@ -59,7 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "Cell")
         cell.backgroundColor = self.view.backgroundColor
         cell.textLabel?.text = "Lap \(laps.count - indexPath.row)"
-        cell.detailTextLabel?.text = laps[indexPath.row]
+        cell.detailTextLabel?.text = "\(laps[indexPath.row])   \(laps[indexPath.row])"
         cell.textLabel?.font = UIFont(name: "Avenir Next", size: 15)
         cell.detailTextLabel?.font = UIFont(name: "Avenir Next", size: 15)
         
@@ -69,6 +72,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return laps.count
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           // 登録
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewWillEnterForeground(
+                                                _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewDidEnterBackground(
+                                                _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,14 +89,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(volumeView)
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.volumeChanged(notification:)), name:
         NSNotification.Name("AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewWillEnterForeground(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(
-                    self,
-                    selector: #selector(ViewController.viewDidEnterBackground(_:)),
-                    name: UIApplication.didEnterBackgroundNotification,
-                    object: nil)
         
         startButton.isHidden = false
         stopButton.isHidden = true
@@ -99,13 +103,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func viewWillEnterForeground(_ notification: Notification?) {
         if (self.isViewLoaded && (self.view.window != nil)) {
-            print("フォアグラウンド")
+            if mode == .running {
+                let timeInterval = Date().timeIntervalSince(mSecForBackground)
+                var ms = Double(timeInterval)
+                ms = round(ms * 100) / 100
+                // 若干の誤差があるので0.05sだけ足す
+                self.secondsElapsed += (ms + 0.05)
+                timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
+            }
         }
     }
 
     @objc func viewDidEnterBackground(_ notification: Notification?) {
+        timer.invalidate()
         if (self.isViewLoaded && (self.view.window != nil)) {
-            print("バックグラウンド")
+            if mode == .running {
+                mSecForBackground = Date()
+            }
         }
     }
     
@@ -147,6 +161,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // lap reset
         laps.removeAll(keepingCapacity: false)
+        latestLap.text = "00:00.00"
         tableView.reloadData()
     }
     
@@ -166,6 +181,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let lapMSec = String(format:"%02d", self.calcuratedMSec)
         
         let lapText = "\(lapMinute):\(lapSecond).\(lapMSec)"
+        latestLap.text = lapText
         laps.insert(lapText, at: 0)
         tableView.reloadData()
     }

@@ -18,6 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+//    func applicationDidEnterBackground(_ application: UIApplication) {
+//            // アプリがバックグラウンドへ移行するタイミングを通知
+//        NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+//        print("aaaaaa")
+//    }
+//
+//    func applicationWillEnterForeground(_ application: UIApplication) {
+//        // アプリがフォアグラウンドへ移行するタイミングを通知
+//        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+//    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         backgroundTaskID = application.beginBackgroundTask(){
             [weak self] in
