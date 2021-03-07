@@ -62,7 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "Cell")
         cell.backgroundColor = self.view.backgroundColor
         cell.textLabel?.text = "Lap \(laps.count - indexPath.row)"
-        cell.detailTextLabel?.text = "\(laps[indexPath.row])   \(laps[indexPath.row])"
+        cell.detailTextLabel?.text = "\(laps[indexPath.row])"
         cell.textLabel?.font = UIFont(name: "Avenir Next", size: 15)
         cell.detailTextLabel?.font = UIFont(name: "Avenir Next", size: 15)
         
