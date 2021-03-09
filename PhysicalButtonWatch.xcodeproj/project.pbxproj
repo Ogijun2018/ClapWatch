@@ -100,10 +100,10 @@
 			};
 			buildConfigurationList = BFC68B48258C721800269902 /* Build configuration list for PBXProject "PhysicalButtonWatch" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				ja,
 				Base,
 			);
 			mainGroup = BFC68B44258C721800269902;

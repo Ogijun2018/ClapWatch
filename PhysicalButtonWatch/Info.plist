@@ -8,7 +8,7 @@
 		<string>com.ogijun.PhysicalButtonWatch-storyboard.maintenance</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>ja_JP</string>
 	<key>CFBundleDisplayName</key>
 	<string>Volume Watch</string>
 	<key>CFBundleExecutable</key>
