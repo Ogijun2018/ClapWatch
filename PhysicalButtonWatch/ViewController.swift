@@ -27,21 +27,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var lapButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var latestLap: UILabel!
     
     @IBOutlet weak var minute: UILabel!
     @IBOutlet weak var second: UILabel!
     @IBOutlet weak var mSec: UILabel!
     
+    // スプリットタイム用UILabel
+    @IBOutlet weak var splitMinute: UILabel!
+    @IBOutlet weak var splitSecond: UILabel!
+    @IBOutlet weak var splitMSec: UILabel!
+    
     var calcuratedMinute : Int = 0
     var calcuratedSecond : Int = 0
     var calcuratedMSec : Int = 0
     
+    var calcuratedSplitMinute : Int = 0
+    var calcuratedSplitSecond : Int = 0
+    var calcuratedSplitMSec : Int = 0
+    
     var secondsElapsed = 0.0
+    var secondsSplitElapsed = 0.0
     var mode: stopWatchMode = .stopped
+    var splitMode: stopWatchMode = .stopped
     
     var laps: [String] = []
     var timer = Timer()
+    var splitTimer = Timer()
     var mSecForBackground : Date!
     
     @objc func updateTimer(_ timer: Timer){
@@ -55,6 +66,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.minute.text = String(format:"%02d", self.calcuratedMinute)
         self.second.text = String(format:"%02d", self.calcuratedSecond)
         self.mSec.text = String(format:"%02d", self.calcuratedMSec)
+    }
+    
+    @objc func updateSplitTimer(_ timer: Timer){
+        self.secondsSplitElapsed += 0.01
+        
+        // secondsElapsedは小数点2桁までのDouble値
+        self.calcuratedSplitMinute = Int((self.secondsSplitElapsed / 60).truncatingRemainder(dividingBy: 60))
+        self.calcuratedSplitSecond = Int(self.secondsSplitElapsed.truncatingRemainder(dividingBy: 60.0))
+        self.calcuratedSplitMSec = Int((self.secondsSplitElapsed * 100).truncatingRemainder(dividingBy: 100))
+        
+        self.splitMinute.text = String(format:"%02d", self.calcuratedSplitMinute)
+        self.splitSecond.text = String(format:"%02d", self.calcuratedSplitSecond)
+        self.splitMSec.text = String(format:"%02d", self.calcuratedSplitMSec)
     }
     
     // Table View Methods
@@ -109,13 +133,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 ms = round(ms * 100) / 100
                 // 若干の誤差があるので0.05sだけ足す
                 self.secondsElapsed += (ms + 0.05)
+                self.secondsSplitElapsed += (ms + 0.05)
+                // 全体のタイマーをスタート
                 timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
+                // スプリットタイマーをスタート
+                splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
             }
         }
     }
 
     @objc func viewDidEnterBackground(_ notification: Notification?) {
         timer.invalidate()
+        splitTimer.invalidate()
         if (self.isViewLoaded && (self.view.window != nil)) {
             if mode == .running {
                 mSecForBackground = Date()
@@ -128,6 +157,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("press start")
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
+        
+        if splitMode == .paused && !laps.isEmpty {
+            splitMode = .running
+            splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
+            RunLoop.current.add(splitTimer, forMode: RunLoop.Mode.common)
+        }
         
         // スタートしたら明るくする
         lapButton.backgroundColor = UIColor.lightGray
@@ -144,11 +179,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func resetTimer() {
         timer.invalidate()
+        splitTimer.invalidate()
         secondsElapsed = 0.0
+        secondsSplitElapsed = 0.0
+        
         self.minute.text = "00"
         self.second.text = "00"
         self.mSec.text = "00"
+        self.splitMinute.text = "00"
+        self.splitSecond.text = "00"
+        self.splitMSec.text = "00"
+        calcuratedSplitSecond = 0
+        calcuratedSplitMinute = 0
+        calcuratedSplitMSec = 0
         mode = .stopped
+        splitMode = .stopped
         
         lapButton.backgroundColor = UIColor.darkGray
         lapButton.setTitleColor(UIColor.gray, for: .normal)
@@ -161,13 +206,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // lap reset
         laps.removeAll(keepingCapacity: false)
-        latestLap.text = "00:00.00"
         tableView.reloadData()
     }
     
     @IBAction func stopTimer() {
         timer.invalidate()
+        splitTimer.invalidate()
         mode = .paused
+        splitMode = .paused
         
         startButton.isHidden = false
         stopButton.isHidden = true
@@ -176,12 +222,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func lap() {
+        // スプリットタイマーをスタート
+        if splitMode == .stopped {
+            splitMode = .running
+            splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
+            RunLoop.current.add(splitTimer, forMode: RunLoop.Mode.common)
+        } else if splitMode == .running {
+            splitMode = .running
+            secondsSplitElapsed = 0.0
+        }
+        
         let lapMinute = String(format:"%02d", self.calcuratedMinute)
         let lapSecond = String(format:"%02d", self.calcuratedSecond)
         let lapMSec = String(format:"%02d", self.calcuratedMSec)
         
-        let lapText = "\(lapMinute):\(lapSecond).\(lapMSec)"
-        latestLap.text = lapText
+        let splitLapMinute = String(format:"%02d", self.calcuratedSplitMinute)
+        let splitLapSecond = String(format:"%02d", self.calcuratedSplitSecond)
+        let splitLapMSec = String(format:"%02d", self.calcuratedSplitMSec)
+        
+        var lapText = "Split: \(lapMinute):\(lapSecond).\(lapMSec)    Lap: \(splitLapMinute):\(splitLapSecond).\(splitLapMSec)"
+        if laps.isEmpty {
+            lapText = "Lap: \(lapMinute):\(lapSecond).\(lapMSec)"
+        }
         laps.insert(lapText, at: 0)
         tableView.reloadData()
     }
@@ -189,6 +251,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         timer.invalidate()
+        splitTimer.invalidate()
     }
 
     @objc func volumeChanged(notification: NSNotification) {
