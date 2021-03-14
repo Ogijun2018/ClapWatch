@@ -1,3 +1,5 @@
+[![Swift](https://github.com/Ogijun2018/Volume-Watch/actions/workflows/swift.yml/badge.svg)](https://github.com/Ogijun2018/Volume-Watch/actions/workflows/swift.yml)
+
 # Volume Watch
 ![1](https://user-images.githubusercontent.com/39939005/111056553-26d64d80-84c3-11eb-8c26-16844ce10697.png)
 
