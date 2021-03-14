@@ -15,8 +15,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BFC68B4D258C721800269902 /* PhysicalButtonWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhysicalButtonWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFC68B50258C721800269902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BFC68B4D258C721800269902 /* VolumeWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VolumeWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFC68B50258C721800269902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "/Users/jun/Develop/Volume-Watch/VolumeWatch/AppDelegate.swift"; sourceTree = "<absolute>"; };
 		BFC68B54258C721800269902 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BFC68B57258C721800269902 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFC68B59258C721A00269902 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -38,7 +38,7 @@
 		BFC68B44258C721800269902 = {
 			isa = PBXGroup;
 			children = (
-				BFC68B4F258C721800269902 /* PhysicalButtonWatch */,
+				BFC68B4F258C721800269902 /* VolumeWatch */,
 				BFC68B4E258C721800269902 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,12 +46,12 @@
 		BFC68B4E258C721800269902 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BFC68B4D258C721800269902 /* PhysicalButtonWatch.app */,
+				BFC68B4D258C721800269902 /* VolumeWatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BFC68B4F258C721800269902 /* PhysicalButtonWatch */ = {
+		BFC68B4F258C721800269902 /* VolumeWatch */ = {
 			isa = PBXGroup;
 			children = (
 				BFC68B50258C721800269902 /* AppDelegate.swift */,
@@ -61,15 +61,16 @@
 				BFC68B5B258C721A00269902 /* LaunchScreen.storyboard */,
 				BFC68B5E258C721A00269902 /* Info.plist */,
 			);
-			path = PhysicalButtonWatch;
-			sourceTree = "<group>";
+			name = VolumeWatch;
+			path = "/Users/jun/Develop/Volume-Watch/VolumeWatch";
+			sourceTree = "<absolute>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BFC68B4C258C721800269902 /* PhysicalButtonWatch */ = {
+		BFC68B4C258C721800269902 /* VolumeWatch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BFC68B61258C721A00269902 /* Build configuration list for PBXNativeTarget "PhysicalButtonWatch" */;
+			buildConfigurationList = BFC68B61258C721A00269902 /* Build configuration list for PBXNativeTarget "VolumeWatch" */;
 			buildPhases = (
 				BFC68B49258C721800269902 /* Sources */,
 				BFC68B4A258C721800269902 /* Frameworks */,
@@ -79,9 +80,9 @@
 			);
 			dependencies = (
 			);
-			name = PhysicalButtonWatch;
+			name = VolumeWatch;
 			productName = PhysicalButtonWatch_storyboard;
-			productReference = BFC68B4D258C721800269902 /* PhysicalButtonWatch.app */;
+			productReference = BFC68B4D258C721800269902 /* VolumeWatch.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -98,7 +99,7 @@
 					};
 				};
 			};
-			buildConfigurationList = BFC68B48258C721800269902 /* Build configuration list for PBXProject "PhysicalButtonWatch" */;
+			buildConfigurationList = BFC68B48258C721800269902 /* Build configuration list for PBXProject "VolumeWatch" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = ja;
 			hasScannedForEncodings = 0;
@@ -111,7 +112,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BFC68B4C258C721800269902 /* PhysicalButtonWatch */,
+				BFC68B4C258C721800269902 /* VolumeWatch */,
 			);
 		};
 /* End PBXProject section */
@@ -285,7 +286,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.0.1;
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
-				INFOPLIST_FILE = "$(SRCROOT)/PhysicalButtonWatch/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/VolumeWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -306,7 +307,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.0.1;
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
-				INFOPLIST_FILE = "$(SRCROOT)/PhysicalButtonWatch/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/VolumeWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -322,7 +323,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BFC68B48258C721800269902 /* Build configuration list for PBXProject "PhysicalButtonWatch" */ = {
+		BFC68B48258C721800269902 /* Build configuration list for PBXProject "VolumeWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BFC68B5F258C721A00269902 /* Debug */,
@@ -331,7 +332,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BFC68B61258C721A00269902 /* Build configuration list for PBXNativeTarget "PhysicalButtonWatch" */ = {
+		BFC68B61258C721A00269902 /* Build configuration list for PBXNativeTarget "VolumeWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BFC68B62258C721A00269902 /* Debug */,
