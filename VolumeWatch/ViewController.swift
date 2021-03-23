@@ -127,15 +127,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func viewWillEnterForeground(_ notification: Notification?) {
         if (self.isViewLoaded && (self.view.window != nil)) {
+            let timeInterval = Date().timeIntervalSince(mSecForBackground)
+            var ms = Double(timeInterval)
+            ms = round(ms * 100) / 100
             if mode == .running {
-                let timeInterval = Date().timeIntervalSince(mSecForBackground)
-                var ms = Double(timeInterval)
-                ms = round(ms * 100) / 100
                 // 若干の誤差があるので0.05sだけ足す
                 self.secondsElapsed += (ms + 0.05)
-                self.secondsSplitElapsed += (ms + 0.05)
                 // 全体のタイマーをスタート
                 timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
+            }
+            if splitMode == .running {
+                self.secondsSplitElapsed += (ms + 0.05)
                 // スプリットタイマーをスタート
                 splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
             }
