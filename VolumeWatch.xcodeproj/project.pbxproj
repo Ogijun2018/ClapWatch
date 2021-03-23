@@ -15,6 +15,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BF16705A260A304C00C7E9CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		BF16705B260A304C00C7E9CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BFC68B4D258C721800269902 /* VolumeWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VolumeWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFC68B50258C721800269902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "/Users/jun/Develop/Volume-Watch/VolumeWatch/AppDelegate.swift"; sourceTree = "<absolute>"; };
 		BFC68B54258C721800269902 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			knownRegions = (
 				ja,
 				Base,
+				en,
 			);
 			mainGroup = BFC68B44258C721800269902;
 			productRefGroup = BFC68B4E258C721800269902 /* Products */;
@@ -147,6 +150,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BFC68B57258C721800269902 /* Base */,
+				BF16705A260A304C00C7E9CA /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -155,6 +159,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BFC68B5C258C721A00269902 /* Base */,
+				BF16705B260A304C00C7E9CA /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -227,6 +233,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -284,7 +291,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2.1.0;
+				CURRENT_PROJECT_VERSION = 1.2.1.1;
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
 				INFOPLIST_FILE = "$(SRCROOT)/VolumeWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -305,7 +312,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2.1.0;
+				CURRENT_PROJECT_VERSION = 1.2.1.1;
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
 				INFOPLIST_FILE = "$(SRCROOT)/VolumeWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
