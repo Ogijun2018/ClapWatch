@@ -5,6 +5,9 @@
 	<a href="https://apps.apple.com/jp/app/volume-watch/id1554084257">
 		<img src="Download_on_the_App_Store_Badge_JP_RGB_blk_100317.svg" width="200" height="100" alt="Click to see the source">
 	</a>
+	<a href="https://apps.apple.com/us/app/volume-watch/id1554084257">
+		<img src="Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg" width="200" height="100" alt="Click to see the source">
+	</a>
 	<br>
 </div>
 
