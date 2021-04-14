@@ -1,5 +1,8 @@
 [![Swift](https://github.com/Ogijun2018/Volume-Watch/actions/workflows/swift.yml/badge.svg)](https://github.com/Ogijun2018/Volume-Watch/actions/workflows/swift.yml)
 
+# Volume Watch
+![1](https://user-images.githubusercontent.com/39939005/111056553-26d64d80-84c3-11eb-8c26-16844ce10697.png)
+
 <div align="center">
 	<br>
 	<a href="https://apps.apple.com/jp/app/volume-watch/id1554084257">
@@ -10,9 +13,6 @@
 	</a>
 	<br>
 </div>
-
-# Volume Watch
-![1](https://user-images.githubusercontent.com/39939005/111056553-26d64d80-84c3-11eb-8c26-16844ce10697.png)
 
 ## How to use
 ![2](https://user-images.githubusercontent.com/39939005/111056555-28a01100-84c3-11eb-8bd8-0bbabb7647e7.png)
