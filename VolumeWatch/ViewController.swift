@@ -221,6 +221,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         stopButton.isHidden = true
         resetButton.isHidden = false
         lapButton.isHidden = true
+        
+        var num: Int = laps.count
+        for val in laps {
+            print("Lap\(num):   \(val)")
+            num -= 1
+        }
     }
     
     @IBAction func lap() {
