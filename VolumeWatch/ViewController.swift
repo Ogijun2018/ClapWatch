@@ -32,6 +32,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var second: UILabel!
     @IBOutlet weak var mSec: UILabel!
     
+    @IBOutlet weak var copyButton: UIButton!
+    
     // スプリットタイム用UILabel
     @IBOutlet weak var splitMinute: UILabel!
     @IBOutlet weak var splitSecond: UILabel!
@@ -51,9 +53,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var splitMode: stopWatchMode = .stopped
     
     var laps: [String] = []
+    var lapsForOutput: [String] = []
+    var copyTargetText: String = ""
     var timer = Timer()
     var splitTimer = Timer()
-    var mSecForBackground : Date!
+    var mSecForBackground : Date?
+    
+    func OutputLapText(removeSpace:Bool) -> String {
+        let lapMinute = String(format:"%02d", self.calcuratedMinute)
+        let lapSecond = String(format:"%02d", self.calcuratedSecond)
+        let lapMSec = String(format:"%02d", self.calcuratedMSec)
+        
+        let splitLapMinute = String(format:"%02d", self.calcuratedSplitMinute)
+        let splitLapSecond = String(format:"%02d", self.calcuratedSplitSecond)
+        let splitLapMSec = String(format:"%02d", self.calcuratedSplitMSec)
+        
+        var lapText = "Split: \(lapMinute):\(lapSecond).\(lapMSec)    Lap: \(splitLapMinute):\(splitLapSecond).\(splitLapMSec)"
+        if laps.isEmpty || lapsForOutput.isEmpty {
+            lapText = "Lap: \(lapMinute):\(lapSecond).\(lapMSec)"
+        }
+        
+        if(removeSpace){
+            let result = lapText.range(of: "  ")
+            if let theRange = result {
+                lapText.removeSubrange(theRange)
+            }
+        }
+        return lapText
+    }
     
     @objc func updateTimer(_ timer: Timer){
         self.secondsElapsed += 0.01
@@ -119,6 +146,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         resetButton.isHidden = true
         lapButton.isHidden = false
         lapButton.isEnabled = false
+        copyButton.isEnabled = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -127,19 +155,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func viewWillEnterForeground(_ notification: Notification?) {
         if (self.isViewLoaded && (self.view.window != nil)) {
-            let timeInterval = Date().timeIntervalSince(mSecForBackground)
-            var ms = Double(timeInterval)
-            ms = round(ms * 100) / 100
             if mode == .running {
+                let timeInterval = Date().timeIntervalSince(mSecForBackground!)
+                var ms = Double(timeInterval)
+                ms = round(ms * 100) / 100
+                
                 // 若干の誤差があるので0.05sだけ足す
                 self.secondsElapsed += (ms + 0.05)
                 // 全体のタイマーをスタート
                 timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
-            }
-            if splitMode == .running {
-                self.secondsSplitElapsed += (ms + 0.05)
-                // スプリットタイマーをスタート
-                splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
+                
+                if splitMode == .running {
+                    self.secondsSplitElapsed += (ms + 0.05)
+                    // スプリットタイマーをスタート
+                    splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
+                }
             }
         }
     }
@@ -152,6 +182,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 mSecForBackground = Date()
             }
         }
+    }
+    
+    @IBAction func copyLap() {
+        UIPasteboard.general.string = copyTargetText
+        let alertController:UIAlertController =
+                    UIAlertController(title:"Lap Copied!",
+                                      message: nil,
+                              preferredStyle: .alert)
+        let defaultAction:UIAlertAction =
+                    UIAlertAction(title: "OK",
+                          style: .default,
+                          handler:{
+                            (action:UIAlertAction!) -> Void in
+                })
+        alertController.addAction(defaultAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func startTimer() {
@@ -176,6 +222,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         lapButton.isHidden = false
         // 一時的にfalse
         lapButton.isEnabled = true
+        copyButton.isEnabled = false
     }
     
     
@@ -205,9 +252,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         resetButton.isHidden = true
         lapButton.isHidden = false
         lapButton.isEnabled = false
+        copyButton.isEnabled = false
         
         // lap reset
         laps.removeAll(keepingCapacity: false)
+        lapsForOutput.removeAll(keepingCapacity: false)
         tableView.reloadData()
     }
     
@@ -215,18 +264,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         timer.invalidate()
         splitTimer.invalidate()
         mode = .paused
-        splitMode = .paused
+        if laps.isEmpty {
+            splitMode = .stopped
+        } else {
+            splitMode = .paused
+        }
         
         startButton.isHidden = false
         stopButton.isHidden = true
         resetButton.isHidden = false
         lapButton.isHidden = true
+        copyButton.isEnabled = true
         
-        var num: Int = laps.count
-        for val in laps {
-            print("Lap\(num):   \(val)")
-            num -= 1
+        var lapText: String = ""
+        var num: Int = 1
+        for val in lapsForOutput {
+            lapText += "Lap\(num):  \(val)\n"
+            num += 1
         }
+        lapText += "Lap\(num):  \(OutputLapText(removeSpace: true))"
+        copyTargetText = lapText
     }
     
     @IBAction func lap() {
@@ -239,20 +296,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             splitMode = .running
             secondsSplitElapsed = 0.0
         }
-        
-        let lapMinute = String(format:"%02d", self.calcuratedMinute)
-        let lapSecond = String(format:"%02d", self.calcuratedSecond)
-        let lapMSec = String(format:"%02d", self.calcuratedMSec)
-        
-        let splitLapMinute = String(format:"%02d", self.calcuratedSplitMinute)
-        let splitLapSecond = String(format:"%02d", self.calcuratedSplitSecond)
-        let splitLapMSec = String(format:"%02d", self.calcuratedSplitMSec)
-        
-        var lapText = "Split: \(lapMinute):\(lapSecond).\(lapMSec)    Lap: \(splitLapMinute):\(splitLapSecond).\(splitLapMSec)"
-        if laps.isEmpty {
-            lapText = "Lap: \(lapMinute):\(lapSecond).\(lapMSec)"
-        }
-        laps.insert(lapText, at: 0)
+        laps.insert(OutputLapText(removeSpace: false), at: 0)
+        lapsForOutput.append(OutputLapText(removeSpace: true))
         tableView.reloadData()
     }
     

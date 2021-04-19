@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,13 +13,13 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PhysicalButtonWatch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z9x-TS-4Bo">
-                                <rect key="frame" x="37.5" y="30" width="300" height="150"/>
+                                <rect key="frame" x="57" y="94" width="300" height="150"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffg-md-6bv">
                                         <rect key="frame" x="210" y="30.5" width="90" height="89"/>
@@ -99,16 +101,41 @@
                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YiN-gh-Vxe">
+                                        <rect key="frame" x="270" y="-30" width="50" height="50"/>
+                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="PhA-RB-7JH"/>
+                                            <constraint firstAttribute="height" constant="50" id="gQL-g1-y7t"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <color key="tintColor" name="ButtonColor"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="doc.on.clipboard" catalog="system" symbolScale="large"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="25"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="copyLap" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hrz-0a-3nr"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="DwR-lF-c9F" firstAttribute="centerY" secondItem="Z9x-TS-4Bo" secondAttribute="centerY" id="0hh-If-Uq8"/>
+                                    <constraint firstAttribute="trailing" secondItem="YiN-gh-Vxe" secondAttribute="trailing" constant="-20" id="5f1-IP-DHH"/>
                                     <constraint firstItem="DwR-lF-c9F" firstAttribute="leading" secondItem="ZST-lT-K14" secondAttribute="trailing" id="9kg-iO-5B5"/>
                                     <constraint firstAttribute="bottom" secondItem="Xay-yc-wrH" secondAttribute="bottom" id="CJJ-DC-sNx"/>
                                     <constraint firstItem="08s-Sc-Clf" firstAttribute="leading" secondItem="OqY-aj-wFu" secondAttribute="trailing" constant="3" id="GhI-8q-Tql"/>
                                     <constraint firstAttribute="bottom" secondItem="nNV-nt-6qP" secondAttribute="bottom" id="JtP-Wy-waP"/>
                                     <constraint firstItem="ZST-lT-K14" firstAttribute="leading" secondItem="BPa-yY-ef1" secondAttribute="trailing" id="O0g-Cp-jXV"/>
                                     <constraint firstAttribute="trailing" secondItem="Xay-yc-wrH" secondAttribute="trailing" constant="15" id="Qrp-pC-m42"/>
+                                    <constraint firstItem="YiN-gh-Vxe" firstAttribute="top" secondItem="Z9x-TS-4Bo" secondAttribute="top" constant="-30" id="Rie-W7-Hc4"/>
                                     <constraint firstItem="pkI-Ac-uYu" firstAttribute="leading" secondItem="Z9x-TS-4Bo" secondAttribute="leading" id="VpN-XD-Tt6"/>
                                     <constraint firstAttribute="bottom" secondItem="08s-Sc-Clf" secondAttribute="bottom" id="X6j-iv-dLf"/>
                                     <constraint firstAttribute="trailing" secondItem="ffg-md-6bv" secondAttribute="trailing" id="afb-sg-dly"/>
@@ -127,7 +154,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YMs-Ra-Hsv">
-                                <rect key="frame" x="37.5" y="257" width="300" height="110"/>
+                                <rect key="frame" x="57" y="486" width="300" height="110"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YcY-KK-mvp">
                                         <rect key="frame" x="170" y="20" width="100" height="70"/>
@@ -225,7 +252,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PvS-GO-kV7">
-                                <rect key="frame" x="10" y="367" width="355" height="300"/>
+                                <rect key="frame" x="10" y="596" width="394" height="300"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="67i-Kc-4W3"/>
@@ -243,12 +270,13 @@
                             <constraint firstItem="Z9x-TS-4Bo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="72y-mw-0hw"/>
                             <constraint firstAttribute="trailing" secondItem="PvS-GO-kV7" secondAttribute="trailing" constant="10" id="CT7-a4-IFd"/>
                             <constraint firstAttribute="bottom" secondItem="PvS-GO-kV7" secondAttribute="bottom" id="G2t-Yn-tny"/>
-                            <constraint firstItem="Z9x-TS-4Bo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="ZZe-H8-nTm"/>
+                            <constraint firstItem="Z9x-TS-4Bo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="ZZe-H8-nTm"/>
                             <constraint firstItem="YMs-Ra-Hsv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qzT-nd-adH"/>
                             <constraint firstItem="PvS-GO-kV7" firstAttribute="top" secondItem="YMs-Ra-Hsv" secondAttribute="bottom" id="t7I-gm-lgh"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="copyButton" destination="YiN-gh-Vxe" id="vCl-uo-76I"/>
                         <outlet property="lapButton" destination="AiG-zt-fK2" id="BQG-CT-2I2"/>
                         <outlet property="mSec" destination="ffg-md-6bv" id="Uey-7B-0r5"/>
                         <outlet property="minute" destination="pkI-Ac-uYu" id="FdR-mq-Tc8"/>
@@ -267,12 +295,20 @@
             <point key="canvasLocation" x="-39.200000000000003" y="55.322338830584712"/>
         </scene>
     </scenes>
+    <color key="tintColor" name="ButtonColor"/>
     <resources>
+        <image name="doc.on.clipboard" catalog="system" width="116" height="128"/>
+        <namedColor name="ButtonColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
