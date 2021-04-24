@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YSB-ZN-KFV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PVV-Il-LbG">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z9x-TS-4Bo">
-                                <rect key="frame" x="57" y="114" width="300" height="150"/>
+                                <rect key="frame" x="57" y="158" width="300" height="150"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffg-md-6bv">
                                         <rect key="frame" x="210" y="30.5" width="90" height="89"/>
@@ -238,7 +238,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YiN-gh-Vxe">
-                                <rect key="frame" x="344" y="64" width="50" height="50"/>
+                                <rect key="frame" x="344" y="108" width="50" height="50"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="PhA-RB-7JH"/>
@@ -275,7 +275,9 @@
                             <constraint firstItem="PvS-GO-kV7" firstAttribute="top" secondItem="YMs-Ra-Hsv" secondAttribute="bottom" id="t7I-gm-lgh"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Watch" image="stopwatch.fill" catalog="system" id="g7g-yu-eI3"/>
+                    <tabBarItem key="tabBarItem" title="Watch" selectedImage="clock.fill" catalog="system" id="D9b-Zs-w2g"/>
+                    <navigationItem key="navigationItem" id="763-1c-26F"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="copyButton" destination="YiN-gh-Vxe" id="vCl-uo-76I"/>
                         <outlet property="lapButton" destination="AiG-zt-fK2" id="BQG-CT-2I2"/>
@@ -293,47 +295,32 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="890" y="-249"/>
+            <point key="canvasLocation" x="1800.0000000000002" y="-249.10714285714283"/>
         </scene>
-        <!--Record-->
-        <scene sceneID="08n-zu-GXM">
+        <!--Watch-->
+        <scene sceneID="JUP-3K-cFn">
             <objects>
-                <viewController id="V10-32-3nU" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9Py-wh-gSV">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="BbK-a6-I0W"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Record" image="paperclip.circle" catalog="system" id="XXi-MB-p7R"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mUE-mU-26t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="890" y="416"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="d68-V6-hz2">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="YSB-ZN-KFV" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PVV-Il-LbG" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Watch" image="stopwatch.fill" catalog="system" id="g7g-yu-eI3"/>
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EbV-Oz-frJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="F6V-ps-Doi">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBar>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="7Wp-Xh-4l0"/>
-                        <segue destination="V10-32-3nU" kind="relationship" relationship="viewControllers" id="Ou6-Iq-DYu"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="e9q-Eh-EOY"/>
                     </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9eb-a1-LvY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ufh-AC-Z0C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-40.579710144927539" y="54.910714285714285"/>
+            <point key="canvasLocation" x="889.85507246376824" y="-249.10714285714283"/>
         </scene>
     </scenes>
     <color key="tintColor" name="ButtonColor"/>
     <resources>
+        <image name="clock.fill" catalog="system" width="128" height="121"/>
         <image name="doc.on.clipboard" catalog="system" width="116" height="128"/>
-        <image name="paperclip.circle" catalog="system" width="128" height="121"/>
         <image name="stopwatch.fill" catalog="system" width="121" height="128"/>
         <namedColor name="ButtonColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
