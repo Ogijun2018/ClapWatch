@@ -24,25 +24,25 @@
             </objects>
             <point key="canvasLocation" x="-1876" y="-351"/>
         </scene>
-        <!--Initial View Controller-->
+        <!--Main-->
         <scene sceneID="HZT-qv-sy9">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="Initial View Controller" id="gdA-P9-gwz" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Main" id="gdA-P9-gwz" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Watch" image="clock.fill" catalog="system" selectedImage="clock.fill" id="G0U-hN-LMR"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dqp-NH-iwc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1017" y="-654"/>
+            <point key="canvasLocation" x="-1018" y="-554"/>
         </scene>
-        <!--Record View Controller-->
+        <!--Record-->
         <scene sceneID="ozj-hF-1d3">
             <objects>
-                <viewControllerPlaceholder storyboardName="Record" referencedIdentifier="Record View Controller" id="gqO-hB-vNB" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Record" id="gqO-hB-vNB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Record" image="clock.arrow.circlepath" catalog="system" id="hdI-Ah-Lvf"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NJL-dA-8vJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-989" y="-335"/>
+            <point key="canvasLocation" x="-1018" y="-158"/>
         </scene>
     </scenes>
     <resources>
