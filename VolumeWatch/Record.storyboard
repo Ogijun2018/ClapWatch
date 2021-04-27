@@ -11,12 +11,29 @@
         <!--Record-->
         <scene sceneID="qaL-So-CDz">
             <objects>
-                <viewController id="c4a-Ih-wps" sceneMemberID="viewController">
+                <viewController id="c4a-Ih-wps" customClass="RecordViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xy9-Ss-br9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bJ-iD-3gL">
+                                <rect key="frame" x="166" y="429.5" width="82" height="37"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Hello!">
+                                        <attributes>
+                                            <font key="NSFont" size="32" name="Helvetica"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Krd-xE-doC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="4bJ-iD-3gL" firstAttribute="centerX" secondItem="Xy9-Ss-br9" secondAttribute="centerX" id="Y0W-ef-gMU"/>
+                            <constraint firstItem="4bJ-iD-3gL" firstAttribute="centerY" secondItem="Xy9-Ss-br9" secondAttribute="centerY" id="o78-km-vyt"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Record" image="clock.arrow.circlepath" catalog="system" id="c7R-7H-hw8"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>

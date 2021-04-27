@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var volumeValue : Float = 0.0
     var volumeView: MPVolumeView!
@@ -127,9 +127,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ animated: Bool) {
            super.viewWillAppear(animated)
            // 登録
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewWillEnterForeground(
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewWillEnterForeground(
                                                 _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewDidEnterBackground(
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewDidEnterBackground(
                                                 _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
 
@@ -138,7 +138,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("success")
         let volumeView = MPVolumeView(frame: CGRect(origin:CGPoint(x:-3000, y:0), size:CGSize.zero))
         self.view.addSubview(volumeView)
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.volumeChanged(notification:)), name:
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.volumeChanged(notification:)), name:
         NSNotification.Name("AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
         
         startButton.isHidden = false
