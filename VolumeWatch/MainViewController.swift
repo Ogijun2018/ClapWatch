@@ -258,6 +258,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         laps.removeAll(keepingCapacity: false)
         lapsForOutput.removeAll(keepingCapacity: false)
         tableView.reloadData()
+
+        // Recordタブに値を渡す
+//        let viewController = RecordViewController.makeInstance(textLabel: "aaaaa")
+//        self.present(viewController, animated: false, completion: nil)
     }
     
     @IBAction func stopTimer() {

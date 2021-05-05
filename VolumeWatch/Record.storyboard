@@ -11,32 +11,58 @@
         <!--Record-->
         <scene sceneID="qaL-So-CDz">
             <objects>
-                <viewController id="c4a-Ih-wps" customClass="RecordViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecordViewController" id="c4a-Ih-wps" customClass="RecordViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xy9-Ss-br9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bJ-iD-3gL">
-                                <rect key="frame" x="166" y="429.5" width="82" height="37"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Hello!">
-                                        <attributes>
-                                            <font key="NSFont" size="32" name="Helvetica"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4AD-Ck-pkl">
+                                <rect key="frame" x="0.0" y="278" width="414" height="535"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="twp-vr-heO"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="xm2-ei-UfC">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xm2-ei-UfC" id="yzx-UD-QXA">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="c4a-Ih-wps" id="ZQG-By-dH8"/>
+                                    <outlet property="delegate" destination="c4a-Ih-wps" id="ED8-dy-M4P"/>
+                                </connections>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tSW-xh-Px8">
+                                <rect key="frame" x="182" y="144" width="50" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="BgB-IV-ggc"/>
+                                    <constraint firstAttribute="width" constant="50" id="ahA-a8-ogp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Krd-xE-doC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="4bJ-iD-3gL" firstAttribute="centerX" secondItem="Xy9-Ss-br9" secondAttribute="centerX" id="Y0W-ef-gMU"/>
-                            <constraint firstItem="4bJ-iD-3gL" firstAttribute="centerY" secondItem="Xy9-Ss-br9" secondAttribute="centerY" id="o78-km-vyt"/>
+                            <constraint firstItem="tSW-xh-Px8" firstAttribute="top" secondItem="Krd-xE-doC" secondAttribute="top" constant="100" id="9Nx-KH-0Ar"/>
+                            <constraint firstItem="4AD-Ck-pkl" firstAttribute="leading" secondItem="Krd-xE-doC" secondAttribute="leading" id="CDQ-Ue-EkQ"/>
+                            <constraint firstItem="tSW-xh-Px8" firstAttribute="centerX" secondItem="Xy9-Ss-br9" secondAttribute="centerX" id="F68-fA-rYK"/>
+                            <constraint firstItem="4AD-Ck-pkl" firstAttribute="bottom" secondItem="Krd-xE-doC" secondAttribute="bottom" id="SoC-33-HHp"/>
+                            <constraint firstItem="Krd-xE-doC" firstAttribute="trailing" secondItem="4AD-Ck-pkl" secondAttribute="trailing" id="WNC-JS-ig2"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Record" image="clock.arrow.circlepath" catalog="system" id="c7R-7H-hw8"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="outputLabel" destination="tSW-xh-Px8" id="DQQ-p0-fNM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cid-WM-Pgz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
