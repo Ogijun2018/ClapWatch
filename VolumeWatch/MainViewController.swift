@@ -9,8 +9,14 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 
+protocol FirstDelegate: class {
+    func saveLapToRecord(text: String)
+}
+
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    weak var delegate: FirstDelegate?
+    
     var volumeValue : Float = 0.0
     var volumeView: MPVolumeView!
     
@@ -259,9 +265,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         lapsForOutput.removeAll(keepingCapacity: false)
         tableView.reloadData()
 
-        // Recordタブに値を渡す
-//        let viewController = RecordViewController.makeInstance(textLabel: "aaaaa")
-//        self.present(viewController, animated: false, completion: nil)
+        delegate?.saveLapToRecord(text: "aaa")
     }
     
     @IBAction func stopTimer() {
