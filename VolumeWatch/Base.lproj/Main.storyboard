@@ -28,7 +28,7 @@
             </objects>
             <point key="canvasLocation" x="258" y="-109"/>
         </scene>
-        <!--Record View Controller-->
+        <!--Record-->
         <scene sceneID="spX-Ob-XS6">
             <objects>
                 <viewController id="XgA-9G-pao" customClass="RecordViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
@@ -36,37 +36,91 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xNT-02-GqV">
-                                <rect key="frame" x="186" y="438" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hIf-dh-3je">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="recordCell" rowHeight="60" id="x6o-VO-5jg">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x6o-VO-5jg" id="yB4-Pg-qdl">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="4Lp-CG-M75" kind="show" id="7Jm-zO-FUK"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="XgA-9G-pao" id="KrE-FA-iEf"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="rdN-ag-Nkq"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="hIf-dh-3je" firstAttribute="leading" secondItem="rdN-ag-Nkq" secondAttribute="leading" id="MWX-h9-jC8"/>
+                            <constraint firstItem="rdN-ag-Nkq" firstAttribute="bottom" secondItem="hIf-dh-3je" secondAttribute="bottom" id="XtN-bj-lL0"/>
+                            <constraint firstItem="rdN-ag-Nkq" firstAttribute="trailing" secondItem="hIf-dh-3je" secondAttribute="trailing" id="mmo-SY-SlE"/>
+                            <constraint firstItem="hIf-dh-3je" firstAttribute="top" secondItem="rdN-ag-Nkq" secondAttribute="top" id="wh9-RX-M5i"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Record" image="clock.arrow.circlepath" catalog="system" selectedImage="clock.arrow.circlepath" id="PRR-R9-3U5"/>
+                    <navigationItem key="navigationItem" id="qyf-zM-b95"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="recordTableView" destination="hIf-dh-3je" id="nOo-y0-yao"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bpv-1i-1h7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2096" y="323"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="wUY-lf-7eH">
+            <objects>
+                <viewController id="4Lp-CG-M75" customClass="DetailViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1MS-G8-o3u">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ae3-1I-2hA">
+                                <rect key="frame" x="177" y="437.5" width="60" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="DxM-pF-TTc"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="rdN-ag-Nkq"/>
+                        <viewLayoutGuide key="safeArea" id="DYP-nu-hhq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ae3-1I-2hA" firstAttribute="centerX" secondItem="1MS-G8-o3u" secondAttribute="centerX" id="1yb-dx-NfO"/>
+                            <constraint firstItem="ae3-1I-2hA" firstAttribute="centerY" secondItem="1MS-G8-o3u" secondAttribute="centerY" id="pNV-96-TZW"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="qyf-zM-b95"/>
+                    <navigationItem key="navigationItem" id="qvy-lk-QFh"/>
                     <connections>
-                        <outlet property="label" destination="xNT-02-GqV" id="LVe-sw-xQP"/>
+                        <outlet property="label" destination="ae3-1I-2hA" id="gQN-Og-fpI"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bpv-1i-1h7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wod-Ah-Asi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2116" y="323"/>
+            <point key="canvasLocation" x="3441" y="323"/>
         </scene>
         <!--Item-->
         <scene sceneID="8z1-WU-wkk">
             <objects>
-                <navigationController id="4Bq-iy-Y1l" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="4Bq-iy-Y1l" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="97f-jF-E5N"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UrU-44-mU2">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="XgA-9G-pao" kind="relationship" relationship="rootViewController" id="MCA-Yr-TQt"/>
+                        <segue destination="XgA-9G-pao" kind="relationship" relationship="rootViewController" id="B9R-Go-qwi"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CkL-vN-2kV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -76,10 +130,9 @@
         <!--Item-->
         <scene sceneID="Cah-0g-3BP">
             <objects>
-                <navigationController id="6Pe-EF-3Qe" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="6Pe-EF-3Qe" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="btb-4p-OoI"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mpp-9f-Wf1">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -99,7 +152,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z9x-TS-4Bo">
-                                <rect key="frame" x="57" y="158" width="300" height="150"/>
+                                <rect key="frame" x="57" y="114" width="300" height="150"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffg-md-6bv">
                                         <rect key="frame" x="210" y="30.5" width="90" height="89"/>
@@ -318,7 +371,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YiN-gh-Vxe">
-                                <rect key="frame" x="344" y="108" width="50" height="50"/>
+                                <rect key="frame" x="344" y="64" width="50" height="50"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="PhA-RB-7JH"/>
@@ -355,7 +408,7 @@
                             <constraint firstItem="PvS-GO-kV7" firstAttribute="top" secondItem="YMs-Ra-Hsv" secondAttribute="bottom" id="t7I-gm-lgh"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Watch" image="clock.fill" catalog="system" selectedImage="clock.fill" id="D9b-Zs-w2g"/>
+                    <tabBarItem key="tabBarItem" title="Watch" image="timer.square" catalog="system" selectedImage="timer.square" id="D9b-Zs-w2g"/>
                     <navigationItem key="navigationItem" id="mOe-mF-MjD"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -380,8 +433,9 @@
     </scenes>
     <color key="tintColor" name="ButtonColor"/>
     <resources>
-        <image name="clock.fill" catalog="system" width="128" height="121"/>
+        <image name="clock.arrow.circlepath" catalog="system" width="128" height="110"/>
         <image name="doc.on.clipboard" catalog="system" width="116" height="128"/>
+        <image name="timer.square" catalog="system" width="128" height="114"/>
         <namedColor name="ButtonColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
+import RealmSwift
 
 protocol FirstDelegate: class {
     func saveLapToRecord(text: String)
@@ -139,6 +140,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                                                 _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
 
+    // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         print("success")
@@ -190,6 +192,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // MARK: - copyLap()
     @IBAction func copyLap() {
         UIPasteboard.general.string = copyTargetText
         let alertController:UIAlertController =
@@ -206,6 +209,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         present(alertController, animated: true, completion: nil)
     }
     
+    // MARK: - START
     @IBAction func startTimer() {
         mode = .running
         print("press start")
@@ -231,12 +235,29 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         copyButton.isEnabled = false
     }
     
-    
+    // MARK: - RESET
     @IBAction func resetTimer() {
         timer.invalidate()
         splitTimer.invalidate()
         secondsElapsed = 0.0
         secondsSplitElapsed = 0.0
+        
+        // Save Laps to Local Storage
+        let realmInstance = try! Realm()
+        let object:RecordModel = RecordModel()
+        // 記録した時刻を入れる
+        object.date = Date()
+        // 記録したラップを入れる
+        let dictionary =
+            ["date": Date(),
+             "laps": [["time": "12345"],
+                      ["time": "98765"]]
+            ] as [String : Any]
+        
+        let record = RecordModel(value: dictionary) // RecordModelのインスタンス作成
+        try! realmInstance.write {
+            realmInstance.add(record)
+        }
         
         self.minute.text = "00"
         self.second.text = "00"
@@ -264,10 +285,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         laps.removeAll(keepingCapacity: false)
         lapsForOutput.removeAll(keepingCapacity: false)
         tableView.reloadData()
-
-        delegate?.saveLapToRecord(text: "aaa")
     }
     
+    // MARK: - STOP
     @IBAction func stopTimer() {
         timer.invalidate()
         splitTimer.invalidate()
@@ -294,6 +314,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         copyTargetText = lapText
     }
     
+    // MARK: - LAP
     @IBAction func lap() {
         // スプリットタイマーをスタート
         if splitMode == .stopped {
@@ -315,6 +336,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         splitTimer.invalidate()
     }
 
+    // MARK: - Volume Events
     @objc func volumeChanged(notification: NSNotification) {
 
         if let userInfo = notification.userInfo {
