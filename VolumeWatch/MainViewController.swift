@@ -259,7 +259,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        for i in lapsForOutput {
 //            dictionary["laps"][0]
 //        }
-        let laps = dictionary["laps"]
         
         let record = RecordModel(value: dictionary) // RecordModelのインスタンス作成
         try! realmInstance.write {
