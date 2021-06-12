@@ -248,11 +248,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // 記録した時刻を入れる
         object.date = Date()
         // 記録したラップを入れる
+        print("laps for output =")
+        print(lapsForOutput)
         let dictionary =
             ["date": Date(),
              "laps": [["time": "12345"],
                       ["time": "98765"]]
             ] as [String : Any]
+        
+//        for i in lapsForOutput {
+//            dictionary["laps"][0]
+//        }
+        let laps = dictionary["laps"]
         
         let record = RecordModel(value: dictionary) // RecordModelのインスタンス作成
         try! realmInstance.write {

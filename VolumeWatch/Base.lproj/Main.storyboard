@@ -36,8 +36,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCS-gd-z1n">
-                                <rect key="frame" x="186" y="410.5" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Record Date :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCS-gd-z1n" userLabel="RecordDate">
+                                <rect key="frame" x="20" y="0.0" width="103.5" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ghH-29-410"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6k8-RM-KgA">
+                                <rect key="frame" x="0.0" y="150" width="414" height="658"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="mqR-Gb-zTu">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mqR-Gb-zTu" id="3wN-Le-dsv">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="9cp-q5-Q1d" id="Wme-XQ-iUD"/>
+                                </connections>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sOI-Jq-cko" userLabel="RecordDateLabel">
+                                <rect key="frame" x="143.5" y="0.0" width="42" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="d4x-5t-Y3i"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -46,13 +75,21 @@
                         <viewLayoutGuide key="safeArea" id="MYb-hw-b4L"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="mCS-gd-z1n" firstAttribute="centerX" secondItem="TNN-7X-SvV" secondAttribute="centerX" id="V4A-ku-KhX"/>
-                            <constraint firstItem="mCS-gd-z1n" firstAttribute="centerY" secondItem="TNN-7X-SvV" secondAttribute="centerY" id="aEt-ce-vB2"/>
+                            <constraint firstItem="sOI-Jq-cko" firstAttribute="leading" secondItem="mCS-gd-z1n" secondAttribute="trailing" constant="20" id="7Qe-kc-jEa"/>
+                            <constraint firstItem="6k8-RM-KgA" firstAttribute="top" secondItem="mCS-gd-z1n" secondAttribute="bottom" constant="100" id="Smw-Hc-Fbh"/>
+                            <constraint firstItem="MYb-hw-b4L" firstAttribute="bottom" secondItem="6k8-RM-KgA" secondAttribute="bottom" id="Wm7-jX-njp"/>
+                            <constraint firstItem="mCS-gd-z1n" firstAttribute="top" secondItem="MYb-hw-b4L" secondAttribute="top" id="Zcy-hG-IzR"/>
+                            <constraint firstItem="mCS-gd-z1n" firstAttribute="leading" secondItem="MYb-hw-b4L" secondAttribute="leading" constant="20" id="b0x-60-ksp"/>
+                            <constraint firstItem="sOI-Jq-cko" firstAttribute="centerY" secondItem="mCS-gd-z1n" secondAttribute="centerY" id="beS-8f-kYl"/>
+                            <constraint firstItem="MYb-hw-b4L" firstAttribute="trailing" secondItem="6k8-RM-KgA" secondAttribute="trailing" id="r3Y-va-lOP"/>
+                            <constraint firstItem="6k8-RM-KgA" firstAttribute="leading" secondItem="MYb-hw-b4L" secondAttribute="leading" id="wPR-5x-CVX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="dje-Ux-hni"/>
                     <connections>
                         <outlet property="label" destination="mCS-gd-z1n" id="94s-Uh-FaJ"/>
+                        <outlet property="recordDateLabel" destination="sOI-Jq-cko" id="aiB-UA-oaK"/>
+                        <outlet property="tableView" destination="6k8-RM-KgA" id="T8f-8u-3dV"/>
                         <outlet property="view" destination="TNN-7X-SvV" id="Oze-a2-Tfr"/>
                     </connections>
                 </viewController>

@@ -16,7 +16,6 @@ class RecordViewController: UITableViewController {
     var ItemList: Results<RecordModel>!
     
     override func viewDidAppear(_ animated: Bool) {
-//        self.label.text = String(self.ItemList.count)
         self.recordTableView.reloadData()
     }
     
@@ -39,9 +38,7 @@ class RecordViewController: UITableViewController {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "TableViewCell")
         let item: RecordModel = self.ItemList[(indexPath as NSIndexPath).row]
         let f = DateFormatter()
-        f.timeStyle = .full
-        f.dateStyle = .full
-        f.locale = Locale(identifier: "ja_JP")
+        f.dateFormat = "y/M/d HH:mm:ss"
         cell.accessoryType = .detailDisclosureButton
         cell.backgroundColor = self.view.backgroundColor
         cell.textLabel?.text = f.string(from: item.date!)
@@ -51,13 +48,18 @@ class RecordViewController: UITableViewController {
         return cell
     }
     
-    var selectedRow: String?
+    var recordDate: String?
+    var laps: List<Lap>?
     
     // Cell が選択された場合
     override func tableView(_ table: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // [indexPath.row] から画像名を探し、UImage を設定
-        selectedRow = "AAAAA"
-        if selectedRow != nil {
+        let item: RecordModel = self.ItemList[(indexPath as NSIndexPath).row]
+        let f = DateFormatter()
+        f.dateFormat = "y/M/d HH:mm"
+        // 記録日とラップを渡す
+        recordDate = f.string(from: item.date!)
+        laps = item.laps
+        if recordDate != nil && laps != nil {
             // SubViewController へ遷移するために Segue を呼び出す
             performSegue(withIdentifier: "Segue",sender: nil)
         }
@@ -68,7 +70,8 @@ class RecordViewController: UITableViewController {
         if (segue.identifier == "Segue") {
             let subVC: DetailViewController = (segue.destination as? DetailViewController)!
             // SubViewController のselectedImgに選択された画像を設定する
-            subVC.selectedRow = selectedRow
+            subVC.recordDate = recordDate
+            subVC.laps = laps
         }
     }
 }

@@ -6,16 +6,37 @@
 //
 
 import UIKit
+import RealmSwift
 
-class DetailViewController: UIViewController {
-
-    var selectedRow: String!
+class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    var recordDate: String!
+    var laps: List<Lap>!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var recordDateLabel: UILabel!
     @IBOutlet weak var label: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
-        label.text = "AAAA"
+        print(laps.count)
+        recordDateLabel.text = recordDate
+    }
+    
+    // 追加 画面が表示される際などにtableViewのデータを再読み込みする
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // todoItemの数 = セルの数
+        return laps.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        let object = laps[indexPath.row]
+        cell.textLabel?.text = object.time
+        return cell
     }
     
 
