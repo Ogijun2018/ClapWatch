@@ -11,7 +11,7 @@ import AVFoundation
 import MediaPlayer
 import RealmSwift
 
-class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class RecordViewController: UITableViewController {
     @IBOutlet weak var recordTableView: UITableView!
     var ItemList: Results<RecordModel>!
     
@@ -31,17 +31,18 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     // Table View Methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.ItemList.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "recordCell")
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "TableViewCell")
         let item: RecordModel = self.ItemList[(indexPath as NSIndexPath).row]
         let f = DateFormatter()
         f.timeStyle = .full
         f.dateStyle = .full
         f.locale = Locale(identifier: "ja_JP")
+        cell.accessoryType = .detailDisclosureButton
         cell.backgroundColor = self.view.backgroundColor
         cell.textLabel?.text = f.string(from: item.date!)
         cell.textLabel?.font = UIFont(name: "Avenir Next", size: 15)
@@ -50,15 +51,24 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetailSegue" {
-            if let indexPath = recordTableView.indexPathForSelectedRow {
-                guard let destination = segue.destination as? DetailViewController else {
-                    fatalError("Failed to prepare DetailViewController.")
-                }
-                
-//                destination.result = String(ItemList[indexPath.row].time!)
-            }
+    var selectedRow: String?
+    
+    // Cell が選択された場合
+    override func tableView(_ table: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // [indexPath.row] から画像名を探し、UImage を設定
+        selectedRow = "AAAAA"
+        if selectedRow != nil {
+            // SubViewController へ遷移するために Segue を呼び出す
+            performSegue(withIdentifier: "Segue",sender: nil)
+        }
+    }
+    
+    // Segue 準備
+    override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
+        if (segue.identifier == "Segue") {
+            let subVC: DetailViewController = (segue.destination as? DetailViewController)!
+            // SubViewController のselectedImgに選択された画像を設定する
+            subVC.selectedRow = selectedRow
         }
     }
 }

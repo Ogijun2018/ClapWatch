@@ -9,14 +9,13 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    var result: String!
-    
+    var selectedRow: String!
     @IBOutlet weak var label: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        label.text = result
+        label.text = "AAAA"
     }
     
 
