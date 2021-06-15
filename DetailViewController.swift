@@ -11,13 +11,13 @@ import RealmSwift
 class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var recordDate: String!
     var laps: List<Lap>!
+    var copyTargetText: String! = ""
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var recordDateLabel: UILabel!
     @IBOutlet weak var label: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        print(laps.count)
         recordDateLabel.text = recordDate
     }
     
@@ -25,6 +25,11 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        var num:Int = 1
+        for i in laps {
+            copyTargetText += "Lap\(num) \(String(i.time!))\n"
+            num += 1
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -33,10 +38,28 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        let cell: UITableViewCell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
         let object = laps[indexPath.row]
-        cell.textLabel?.text = object.time
+        cell.textLabel?.text = "Lap \(indexPath.row + 1)"
+        cell.detailTextLabel?.text = object.time
         return cell
+    }
+    
+    // MARK: - copyLap()
+    @IBAction func copyLap() {
+        UIPasteboard.general.string = copyTargetText
+        let alertController:UIAlertController =
+                    UIAlertController(title:"Lap Copied!",
+                                      message: nil,
+                              preferredStyle: .alert)
+        let defaultAction:UIAlertAction =
+                    UIAlertAction(title: "OK",
+                          style: .default,
+                          handler:{
+                            (action:UIAlertAction!) -> Void in
+                })
+        alertController.addAction(defaultAction)
+        present(alertController, animated: true, completion: nil)
     }
     
 

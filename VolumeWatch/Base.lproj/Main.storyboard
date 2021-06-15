@@ -71,16 +71,44 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fMz-pE-RY9">
+                                <rect key="frame" x="344" y="20" width="50" height="50"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="T1c-lL-up6"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="YhO-Hm-Kwg"/>
+                                    <constraint firstAttribute="height" constant="50" id="sCR-3x-COg"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="y7x-Ah-k70"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="tintColor" name="ButtonColor"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="doc.on.clipboard" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="copyLap" destination="BYZ-38-t0r" eventType="touchUpInside" id="W1O-Sl-djX"/>
+                                    <action selector="copyLap" destination="9cp-q5-Q1d" eventType="touchUpInside" id="avb-0R-nES"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="MYb-hw-b4L"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="sOI-Jq-cko" firstAttribute="leading" secondItem="mCS-gd-z1n" secondAttribute="trailing" constant="20" id="7Qe-kc-jEa"/>
+                            <constraint firstItem="MYb-hw-b4L" firstAttribute="trailing" secondItem="fMz-pE-RY9" secondAttribute="trailing" constant="20" id="NEy-hx-mHs"/>
                             <constraint firstItem="6k8-RM-KgA" firstAttribute="top" secondItem="mCS-gd-z1n" secondAttribute="bottom" constant="100" id="Smw-Hc-Fbh"/>
                             <constraint firstItem="MYb-hw-b4L" firstAttribute="bottom" secondItem="6k8-RM-KgA" secondAttribute="bottom" id="Wm7-jX-njp"/>
                             <constraint firstItem="mCS-gd-z1n" firstAttribute="top" secondItem="MYb-hw-b4L" secondAttribute="top" id="Zcy-hG-IzR"/>
                             <constraint firstItem="mCS-gd-z1n" firstAttribute="leading" secondItem="MYb-hw-b4L" secondAttribute="leading" constant="20" id="b0x-60-ksp"/>
                             <constraint firstItem="sOI-Jq-cko" firstAttribute="centerY" secondItem="mCS-gd-z1n" secondAttribute="centerY" id="beS-8f-kYl"/>
+                            <constraint firstItem="fMz-pE-RY9" firstAttribute="top" secondItem="MYb-hw-b4L" secondAttribute="top" constant="20" id="e0l-qH-cJA"/>
                             <constraint firstItem="MYb-hw-b4L" firstAttribute="trailing" secondItem="6k8-RM-KgA" secondAttribute="trailing" id="r3Y-va-lOP"/>
                             <constraint firstItem="6k8-RM-KgA" firstAttribute="leading" secondItem="MYb-hw-b4L" secondAttribute="leading" id="wPR-5x-CVX"/>
                         </constraints>
