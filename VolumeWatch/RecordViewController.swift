@@ -17,6 +17,7 @@ class RecordViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         self.recordTableView.reloadData()
+        self.recordTableView.rowHeight = 60
     }
     
     override func viewDidLoad() {
@@ -34,22 +35,47 @@ class RecordViewController: UITableViewController {
         return self.ItemList.count
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
+                    do{
+                        let realm = try Realm()
+                        try realm.write {
+                            realm.delete(self.ItemList[indexPath.row])
+                        }
+                        tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+                    }catch{
+                    }
+                    completionHandler(true)
+                }
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        deleteAction.backgroundColor = .systemRed
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        return configuration
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "TableViewCell")
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "TableViewCell")
         let item: RecordModel = self.ItemList[(indexPath as NSIndexPath).row]
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = UIImage(systemName: "clock")
+        let fullString = NSMutableAttributedString(attachment: imageAttachment)
+        fullString.append(NSAttributedString(string: " \(item.totalTime!)"))
         let f = DateFormatter()
         f.dateFormat = "y/M/d HH:mm:ss"
-        cell.accessoryType = .detailDisclosureButton
+        cell.accessoryType = .disclosureIndicator
         cell.backgroundColor = self.view.backgroundColor
         cell.textLabel?.text = f.string(from: item.date!)
-        cell.textLabel?.font = UIFont(name: "Avenir Next", size: 15)
-        cell.detailTextLabel?.font = UIFont(name: "Avenir Next", size: 15)
+        cell.detailTextLabel?.attributedText = fullString
+        cell.detailTextLabel?.textColor = .black
+        cell.textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 15)
+        cell.detailTextLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 17)
         
         return cell
     }
     
     var recordDate: String?
     var laps: List<Lap>?
+    var totalTime: String?
     
     // Cell が選択された場合
     override func tableView(_ table: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -59,7 +85,8 @@ class RecordViewController: UITableViewController {
         // 記録日とラップを渡す
         recordDate = f.string(from: item.date!)
         laps = item.laps
-        if recordDate != nil && laps != nil {
+        totalTime = item.totalTime!
+        if recordDate != nil && laps != nil && totalTime != nil {
             // SubViewController へ遷移するために Segue を呼び出す
             performSegue(withIdentifier: "Segue",sender: nil)
         }
@@ -71,6 +98,7 @@ class RecordViewController: UITableViewController {
             let subVC: DetailViewController = (segue.destination as? DetailViewController)!
             // SubViewController のselectedImgに選択された画像を設定する
             subVC.recordDate = recordDate
+            subVC.totalTime = totalTime
             subVC.laps = laps
         }
     }

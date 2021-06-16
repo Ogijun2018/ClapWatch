@@ -11,14 +11,19 @@ import RealmSwift
 class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var recordDate: String!
     var laps: List<Lap>!
+    var totalTime: String!
     var copyTargetText: String! = ""
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var recordDateLabel: UILabel!
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var totalTimeLabel: UILabel!
+    @IBOutlet weak var clockImg: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         recordDateLabel.text = recordDate
+        recordDateLabel.font = UIFont(name: "AvenirNext-Bold", size: 30)
+        totalTimeLabel.text = totalTime
+        totalTimeLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 25)
     }
     
     // 追加 画面が表示される際などにtableViewのデータを再読み込みする
@@ -42,6 +47,8 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let object = laps[indexPath.row]
         cell.textLabel?.text = "Lap \(indexPath.row + 1)"
         cell.detailTextLabel?.text = object.time
+        cell.textLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
+        cell.detailTextLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         return cell
     }
     

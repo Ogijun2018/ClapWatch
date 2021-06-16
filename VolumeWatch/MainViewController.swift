@@ -121,8 +121,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.backgroundColor = self.view.backgroundColor
         cell.textLabel?.text = "Lap \(laps.count - indexPath.row)"
         cell.detailTextLabel?.text = "\(laps[indexPath.row])"
-        cell.textLabel?.font = UIFont(name: "Avenir Next", size: 15)
-        cell.detailTextLabel?.font = UIFont(name: "Avenir Next", size: 15)
+        cell.textLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
+        cell.detailTextLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         
         return cell
     }
@@ -237,6 +237,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: - RESET
     @IBAction func resetTimer() {
+        // 最後にストップしたところまでのラップを入れる
+        lap()
         timer.invalidate()
         splitTimer.invalidate()
         secondsElapsed = 0.0
@@ -246,7 +248,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let realmInstance = try! Realm()
         let object:RecordModel = RecordModel()
         let recordLap = List<Lap>()
-        let results = realmInstance.objects(RecordModel.self)
+        let totalTime:String = "\(self.minute.text!):\(self.second.text!).\(self.mSec.text!)"
         
         for i in lapsForOutput {
             let lap = Lap()
@@ -257,6 +259,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // 記録した時刻,ラップを入れる
         object.date = Date()
         object.laps = recordLap
+        object.totalTime = totalTime
         try! realmInstance.write {
             realmInstance.add(object)
         }

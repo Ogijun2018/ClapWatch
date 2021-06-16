@@ -10,6 +10,7 @@ import RealmSwift
 
 class RecordModel: Object {
     @objc dynamic var date: Date? = nil
+    @objc dynamic var totalTime: String? = nil
     var laps = List<Lap>()
 }
 
