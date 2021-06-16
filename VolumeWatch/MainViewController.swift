@@ -66,6 +66,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var splitTimer = Timer()
     var mSecForBackground : Date?
     
+    let realmInstance = try! Realm()
+    
     func OutputLapText(removeSpace:Bool) -> String {
         let lapMinute = String(format:"%02d", self.calcuratedMinute)
         let lapSecond = String(format:"%02d", self.calcuratedSecond)
@@ -233,6 +235,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // 一時的にfalse
         lapButton.isEnabled = true
         copyButton.isEnabled = false
+        
+        // ストップウォッチ稼働時はRecords画面に遷移できないようにする
+        self.tabBarController!.tabBar.items![1].isEnabled = false
     }
     
     // MARK: - RESET
@@ -245,17 +250,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         secondsSplitElapsed = 0.0
         
         // Save Laps to Local Storage
-        let realmInstance = try! Realm()
+        // let realmInstance = try! Realm()
         let object:RecordModel = RecordModel()
         let recordLap = List<Lap>()
         let totalTime:String = "\(self.minute.text!):\(self.second.text!).\(self.mSec.text!)"
-        
+
         for i in lapsForOutput {
             let lap = Lap()
             lap.time = i
             recordLap.append(lap)
         }
-        
+
         // 記録した時刻,ラップを入れる
         object.date = Date()
         object.laps = recordLap
@@ -290,6 +295,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         laps.removeAll(keepingCapacity: false)
         lapsForOutput.removeAll(keepingCapacity: false)
         tableView.reloadData()
+        
+        // Records画面に遷移できるように変更
+        self.tabBarController!.tabBar.items![1].isEnabled = true
     }
     
     // MARK: - STOP
@@ -317,6 +325,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         lapText += "Lap\(num):  \(OutputLapText(removeSpace: true))"
         copyTargetText = lapText
+        
+        self.tabBarController!.tabBar.items![1].isEnabled = true
     }
     
     // MARK: - LAP

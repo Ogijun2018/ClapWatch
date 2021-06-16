@@ -24,6 +24,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         recordDateLabel.font = UIFont(name: "AvenirNext-Bold", size: 30)
         totalTimeLabel.text = totalTime
         totalTimeLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 25)
+        clockImg.isEnabled = false
     }
     
     // 追加 画面が表示される際などにtableViewのデータを再読み込みする

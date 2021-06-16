@@ -66,7 +66,6 @@ class RecordViewController: UITableViewController {
         cell.backgroundColor = self.view.backgroundColor
         cell.textLabel?.text = f.string(from: item.date!)
         cell.detailTextLabel?.attributedText = fullString
-        cell.detailTextLabel?.textColor = .black
         cell.textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 15)
         cell.detailTextLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 17)
         
