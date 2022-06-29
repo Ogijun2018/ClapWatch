@@ -30,7 +30,7 @@
 		BF454919264AC0F7005C1588 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		BF45491E264AC3B8005C1588 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		BFC68B4D258C721800269902 /* VolumeWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VolumeWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFC68B50258C721800269902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "/Users/jun/Develop/Volume-Watch/VolumeWatch/AppDelegate.swift"; sourceTree = "<absolute>"; };
+		BFC68B50258C721800269902 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "/Users/jun.ogino/Develop/Volume-Watch/VolumeWatch/AppDelegate.swift"; sourceTree = "<absolute>"; };
 		BFC68B54258C721800269902 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		BFC68B57258C721800269902 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFC68B59258C721A00269902 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 				BF32256D267073AB0084BA6B /* RecordModel.swift */,
 			);
 			name = VolumeWatch;
-			path = "/Users/jun/Develop/Volume-Watch/VolumeWatch";
+			path = "/Users/jun.ogino/Develop/Volume-Watch/VolumeWatch";
 			sourceTree = "<absolute>";
 		};
 /* End PBXGroup section */
