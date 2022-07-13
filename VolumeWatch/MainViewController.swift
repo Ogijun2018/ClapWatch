@@ -26,6 +26,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         case stopped
         case paused
     }
+
+    override var canBecomeFirstResponder: Bool {
+        get {
+            return true
+        }
+    }
     
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
     
@@ -132,25 +138,21 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return laps.count
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-           super.viewWillAppear(animated)
-           // 登録
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewWillEnterForeground(
-                                                _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewDidEnterBackground(
-                                                _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 
-    // MARK: - viewDidLoad()
+    // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.becomeFirstResponder() // To get shake gesture
         print("success")
         let volumeView = MPVolumeView(frame: CGRect(origin:CGPoint(x:-3000, y:0), size:CGSize.zero))
         self.view.addSubview(volumeView)
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.volumeChanged(notification:)), name:
         NSNotification.Name("AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
-        
+
         startButton.isHidden = false
         stopButton.isHidden = true
         resetButton.isHidden = true
@@ -158,11 +160,56 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         lapButton.isEnabled = false
         copyButton.isEnabled = false
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 登録
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewWillEnterForeground(
+                                                _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewDidEnterBackground(
+                                                _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIDevice.current.isProximityMonitoringEnabled = true
+
+        NotificationCenter.default.addObserver(self, selector: #selector(proxymitySensorState), name: UIDevice.proximityStateDidChangeNotification, object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        timer.invalidate()
+        splitTimer.invalidate()
+        UIDevice.current.isProximityMonitoringEnabled = false
+    }
+
+    // MARK: Sensor control
+    @objc func proxymitySensorState() {
+        if UIDevice.current.proximityState == true {
+            switch mode {
+            case .stopped, .paused:
+                startTimer()
+            case .running:
+                stopTimer()
+            }
+        } else {
+            print("left from sensor")
+        }
+    }
+
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            switch mode {
+            case .stopped, .paused:
+                startTimer()
+            case .running:
+                stopTimer()
+            }
+        }
+    }
+
+    // MARK: Control Foreground/Background
     @objc func viewWillEnterForeground(_ notification: Notification?) {
         if (self.isViewLoaded && (self.view.window != nil)) {
             if mode == .running {
@@ -194,7 +241,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    // MARK: - copyLap()
+    // MARK: - App Function
     @IBAction func copyLap() {
         UIPasteboard.general.string = copyTargetText
         let alertController:UIAlertController =
@@ -214,7 +261,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - START
     @IBAction func startTimer() {
         mode = .running
-        print("press start")
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
         
@@ -343,12 +389,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         laps.insert(OutputLapText(removeSpace: false), at: 0)
         lapsForOutput.append(OutputLapText(removeSpace: true))
         tableView.reloadData()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        timer.invalidate()
-        splitTimer.invalidate()
     }
 
     // MARK: - Volume Events
