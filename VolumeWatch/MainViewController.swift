@@ -182,6 +182,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         timer.invalidate()
         splitTimer.invalidate()
         UIDevice.current.isProximityMonitoringEnabled = false
+
+        NotificationCenter.default.removeObserver(self, name: UIDevice.proximityStateDidChangeNotification, object: nil)
     }
 
     // MARK: Sensor control
