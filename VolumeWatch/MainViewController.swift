@@ -10,14 +10,8 @@ import AVFoundation
 import MediaPlayer
 import RealmSwift
 
-protocol FirstDelegate: class {
-    func saveLapToRecord(text: String)
-}
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    weak var delegate: FirstDelegate?
-    
     var volumeValue : Float = 0.0
     var volumeView: MPVolumeView!
     
@@ -25,12 +19,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         case running
         case stopped
         case paused
-    }
-
-    override var canBecomeFirstResponder: Bool {
-        get {
-            return true
-        }
     }
     
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
@@ -73,7 +61,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var mSecForBackground : Date?
     
     let realmInstance = try! Realm()
-    
+
+    var swipeRecognizer = UISwipeGestureRecognizer()
+    var tapTwoFingerRecognizer = UITapGestureRecognizer()
+    var tapThreeFingerRecognizer = UITapGestureRecognizer()
+    var shakeGestureEnabled: Bool = false
+
     func OutputLapText(removeSpace:Bool) -> String {
         let lapMinute = String(format:"%02d", self.calcuratedMinute)
         let lapSecond = String(format:"%02d", self.calcuratedSecond)
@@ -97,6 +90,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return lapText
     }
     
+    @IBAction func toggleSwipe(_ sender: UISwitch) {
+        if(sender.isOn){
+            shakeGestureEnabled = true
+        } else {
+            shakeGestureEnabled = false
+        }
+    }
+
     @objc func updateTimer(_ timer: Timer){
         self.secondsElapsed += 0.01
         
@@ -139,19 +140,68 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return laps.count
     }
 
+    override func becomeFirstResponder() -> Bool {
+        return true
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+
+    func resetSensor() {
+        UIDevice.current.isProximityMonitoringEnabled = false
+        swipeRecognizer.isEnabled = false
+        tapTwoFingerRecognizer.isEnabled = false
+        tapThreeFingerRecognizer.isEnabled = false
+        shakeGestureEnabled = false
+    }
+
+    func enableSwipeGesture() {
+        swipeRecognizer.isEnabled = true
+    }
+
+    func enableTwoFingerTap() {
+        tapTwoFingerRecognizer.isEnabled = true
+    }
+
+    func enableThreeFingerTap() {
+        tapThreeFingerRecognizer.isEnabled = true
+    }
+
+    func enableShakeGesture() {
+        shakeGestureEnabled = true
+    }
+
+    func enableProximitySensor() {
+        UIDevice.current.isProximityMonitoringEnabled = true
     }
 
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.becomeFirstResponder() // To get shake gesture
-        print("success")
-        let volumeView = MPVolumeView(frame: CGRect(origin:CGPoint(x:-3000, y:0), size:CGSize.zero))
-        self.view.addSubview(volumeView)
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.volumeChanged(notification:)), name:
-        NSNotification.Name("AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.viewController = self
+
+        // 上方向スワイプ検出
+        swipeRecognizer = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(MainViewController.handleSwipeGesture(_:))
+            )
+        swipeRecognizer.direction = .up
+        self.view.addGestureRecognizer(swipeRecognizer)
+        swipeRecognizer.isEnabled = false
+
+        // 2本指タップ検出
+        tapTwoFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleTapGesture(_:)))
+        tapTwoFingerRecognizer.numberOfTouchesRequired = 2
+        self.view.addGestureRecognizer(tapTwoFingerRecognizer)
+        tapTwoFingerRecognizer.isEnabled = false
+
+        // 3本指タップ検出
+        tapThreeFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleTapGesture(_:)))
+        tapThreeFingerRecognizer.numberOfTouchesRequired = 3
+        self.view.addGestureRecognizer(tapThreeFingerRecognizer)
+        tapThreeFingerRecognizer.isEnabled = false
 
         startButton.isHidden = false
         stopButton.isHidden = true
@@ -159,6 +209,29 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         lapButton.isHidden = false
         lapButton.isEnabled = false
         copyButton.isEnabled = false
+    }
+
+    @objc func handleTapGesture(_ gesture: UITapGestureRecognizer){
+        switch mode {
+        case .stopped, .paused:
+            startTimer()
+        case .running:
+            stopTimer()
+        }
+    }
+
+    @objc func handleSwipeGesture(_ sender: UISwipeGestureRecognizer){
+        switch sender.direction {
+        case .up:
+            switch mode {
+            case .stopped, .paused:
+                startTimer()
+            case .running:
+                stopTimer()
+            }
+        default:
+            break
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -172,8 +245,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIDevice.current.isProximityMonitoringEnabled = true
-
         NotificationCenter.default.addObserver(self, selector: #selector(proxymitySensorState), name: UIDevice.proximityStateDidChangeNotification, object: nil)
     }
 
@@ -181,32 +252,32 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewWillDisappear(true)
         timer.invalidate()
         splitTimer.invalidate()
-        UIDevice.current.isProximityMonitoringEnabled = false
+//        UIDevice.current.isProximityMonitoringEnabled = false
 
         NotificationCenter.default.removeObserver(self, name: UIDevice.proximityStateDidChangeNotification, object: nil)
     }
 
     // MARK: Sensor control
     @objc func proxymitySensorState() {
-        if UIDevice.current.proximityState == true {
+        if UIDevice.current.proximityState {
             switch mode {
             case .stopped, .paused:
                 startTimer()
             case .running:
                 stopTimer()
             }
-        } else {
-            print("left from sensor")
         }
     }
 
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            switch mode {
-            case .stopped, .paused:
-                startTimer()
-            case .running:
-                stopTimer()
+        if shakeGestureEnabled {
+            if motion == .motionShake {
+                switch mode {
+                case .stopped, .paused:
+                    startTimer()
+                case .running:
+                    stopTimer()
+                }
             }
         }
     }
@@ -275,17 +346,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // スタートしたら明るくする
         lapButton.backgroundColor = UIColor.lightGray
         lapButton.setTitleColor(UIColor.white, for: .normal)
-        
+
+        // Hide start,reset button
         startButton.isHidden = true
-        stopButton.isHidden = false
         resetButton.isHidden = true
+
+        // Appear stop,lap button
+        stopButton.isHidden = false
         lapButton.isHidden = false
+
         // 一時的にfalse
         lapButton.isEnabled = true
         copyButton.isEnabled = false
         
-        // ストップウォッチ稼働時はRecords画面に遷移できないようにする
+        // ストップウォッチ稼働時は別画面に遷移できないようにする
         self.tabBarController!.tabBar.items![1].isEnabled = false
+        self.tabBarController!.tabBar.items![2].isEnabled = false
     }
     
     // MARK: - RESET
@@ -298,7 +374,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         secondsSplitElapsed = 0.0
         
         // Save Laps to Local Storage
-        // let realmInstance = try! Realm()
         let object:RecordModel = RecordModel()
         let recordLap = List<Lap>()
         let totalTime:String = "\(self.minute.text!):\(self.second.text!).\(self.mSec.text!)"
@@ -331,11 +406,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         lapButton.backgroundColor = UIColor.darkGray
         lapButton.setTitleColor(UIColor.gray, for: .normal)
-        
-        startButton.isHidden = false
+
+        // Hide stop,reset button
         stopButton.isHidden = true
         resetButton.isHidden = true
+
+        // Appear start,lap button
+        startButton.isHidden = false
         lapButton.isHidden = false
+
         lapButton.isEnabled = false
         copyButton.isEnabled = false
         
@@ -344,8 +423,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         lapsForOutput.removeAll(keepingCapacity: false)
         tableView.reloadData()
         
-        // Records画面に遷移できるように変更
+        // 別画面に遷移できるように変更
         self.tabBarController!.tabBar.items![1].isEnabled = true
+        self.tabBarController!.tabBar.items![2].isEnabled = true
     }
     
     // MARK: - STOP
@@ -353,16 +433,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         timer.invalidate()
         splitTimer.invalidate()
         mode = .paused
-        if laps.isEmpty {
-            splitMode = .stopped
-        } else {
-            splitMode = .paused
-        }
-        
-        startButton.isHidden = false
+        splitMode = laps.isEmpty ? .stopped : .paused
+
+        // Hide stop,lap button
         stopButton.isHidden = true
-        resetButton.isHidden = false
         lapButton.isHidden = true
+        // Appear start,reset button
+        startButton.isHidden = false
+        resetButton.isHidden = false
+
         copyButton.isEnabled = true
         
         var lapText: String = ""
@@ -375,18 +454,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         copyTargetText = lapText
         
         self.tabBarController!.tabBar.items![1].isEnabled = true
+        self.tabBarController!.tabBar.items![2].isEnabled = true
     }
     
     // MARK: - LAP
     @IBAction func lap() {
-        // スプリットタイマーをスタート
-        if splitMode == .stopped {
+        switch splitMode {
+        case .running:
+            secondsSplitElapsed = 0.0
+        case .stopped, .paused:
             splitMode = .running
             splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
             RunLoop.current.add(splitTimer, forMode: RunLoop.Mode.common)
-        } else if splitMode == .running {
-            splitMode = .running
-            secondsSplitElapsed = 0.0
         }
         laps.insert(OutputLapText(removeSpace: false), at: 0)
         lapsForOutput.append(OutputLapText(removeSpace: true))

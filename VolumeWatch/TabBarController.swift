@@ -11,12 +11,10 @@ import AVFoundation
 import MediaPlayer
 
 class TabBarController: UITabBarController {
-    //最初からあるコード
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
-    //最初からあるコード
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

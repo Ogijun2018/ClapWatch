@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:VolumeWatch.xcodeproj">
+      location = "group:/Users/jun.ogino/Develop/Volume-Watch/VolumeWatch.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

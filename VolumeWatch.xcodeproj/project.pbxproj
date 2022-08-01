@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		635F9EAC70F047A463E39813 /* Pods_VolumeWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62790742345834851FD1DD73 /* Pods_VolumeWatch.framework */; };
+		B8C0ECBE2891349B000D3BE6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */; };
+		B8C186DB2897D58A00B28BD3 /* BackTapIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B8C186DD2897D58A00B28BD3 /* BackTapIntents.intentdefinition */; };
 		BF32256E267073AB0084BA6B /* RecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF32256D267073AB0084BA6B /* RecordModel.swift */; };
 		BF322571267083480084BA6B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF322570267083480084BA6B /* DetailViewController.swift */; };
 		BF45491A264AC0F7005C1588 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF454919264AC0F7005C1588 /* TabBarController.swift */; };
@@ -23,6 +25,10 @@
 		3C083CD1033D08A13247FB0F /* Pods-VolumeWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VolumeWatch.release.xcconfig"; path = "Target Support Files/Pods-VolumeWatch/Pods-VolumeWatch.release.xcconfig"; sourceTree = "<group>"; };
 		62790742345834851FD1DD73 /* Pods_VolumeWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VolumeWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B74DAF3178B55DFE5E7E95BC /* Pods-VolumeWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VolumeWatch.debug.xcconfig"; path = "Target Support Files/Pods-VolumeWatch/Pods-VolumeWatch.debug.xcconfig"; sourceTree = "<group>"; };
+		B8C0ECBA2890D9EF000D3BE6 /* VolumeWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VolumeWatch.entitlements; sourceTree = "<group>"; };
+		B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		B8C186DC2897D58A00B28BD3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = ja; path = ja.lproj/BackTapIntents.intentdefinition; sourceTree = "<group>"; };
+		B8C186E02897D60B00B28BD3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BackTapIntents.strings; sourceTree = "<group>"; };
 		BF16705A260A304C00C7E9CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		BF16705B260A304C00C7E9CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BF32256D267073AB0084BA6B /* RecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordModel.swift; sourceTree = "<group>"; };
@@ -88,6 +94,7 @@
 		BFC68B4F258C721800269902 /* VolumeWatch */ = {
 			isa = PBXGroup;
 			children = (
+				B8C0ECBA2890D9EF000D3BE6 /* VolumeWatch.entitlements */,
 				BF322570267083480084BA6B /* DetailViewController.swift */,
 				BFC68B50258C721800269902 /* AppDelegate.swift */,
 				BFC68B54258C721800269902 /* MainViewController.swift */,
@@ -97,7 +104,9 @@
 				BFC68B59258C721A00269902 /* Assets.xcassets */,
 				BFC68B5B258C721A00269902 /* LaunchScreen.storyboard */,
 				BFC68B5E258C721A00269902 /* Info.plist */,
+				B8C186DD2897D58A00B28BD3 /* BackTapIntents.intentdefinition */,
 				BF32256D267073AB0084BA6B /* RecordModel.swift */,
+				B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */,
 			);
 			name = VolumeWatch;
 			path = "/Users/jun.ogino/Develop/Volume-Watch/VolumeWatch";
@@ -220,6 +229,8 @@
 			files = (
 				BF45491A264AC0F7005C1588 /* TabBarController.swift in Sources */,
 				BFC68B55258C721800269902 /* MainViewController.swift in Sources */,
+				B8C186DB2897D58A00B28BD3 /* BackTapIntents.intentdefinition in Sources */,
+				B8C0ECBE2891349B000D3BE6 /* SettingViewController.swift in Sources */,
 				BFC68B51258C721800269902 /* AppDelegate.swift in Sources */,
 				BF322571267083480084BA6B /* DetailViewController.swift in Sources */,
 				BF32256E267073AB0084BA6B /* RecordModel.swift in Sources */,
@@ -230,6 +241,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		B8C186DD2897D58A00B28BD3 /* BackTapIntents.intentdefinition */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B8C186DC2897D58A00B28BD3 /* ja */,
+				B8C186E02897D60B00B28BD3 /* en */,
+			);
+			name = BackTapIntents.intentdefinition;
+			sourceTree = "<group>";
+		};
 		BFC68B56258C721800269902 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -375,15 +395,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VolumeWatch/VolumeWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4.0.4;
+				CURRENT_PROJECT_VERSION = 1.4.1.1;
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
 				INFOPLIST_FILE = "$(SRCROOT)/VolumeWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ogijun.PhysicalButtonWatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -397,15 +418,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VolumeWatch/VolumeWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4.0.4;
+				CURRENT_PROJECT_VERSION = 1.4.1.1;
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
 				INFOPLIST_FILE = "$(SRCROOT)/VolumeWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ogijun.PhysicalButtonWatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
