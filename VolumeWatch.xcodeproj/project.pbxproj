@@ -99,14 +99,14 @@
 				BFC68B50258C721800269902 /* AppDelegate.swift */,
 				BFC68B54258C721800269902 /* MainViewController.swift */,
 				BF454919264AC0F7005C1588 /* TabBarController.swift */,
-				BFC68B56258C721800269902 /* Main.storyboard */,
 				BF45491E264AC3B8005C1588 /* RecordViewController.swift */,
-				BFC68B59258C721A00269902 /* Assets.xcassets */,
-				BFC68B5B258C721A00269902 /* LaunchScreen.storyboard */,
-				BFC68B5E258C721A00269902 /* Info.plist */,
-				B8C186DD2897D58A00B28BD3 /* BackTapIntents.intentdefinition */,
 				BF32256D267073AB0084BA6B /* RecordModel.swift */,
 				B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */,
+				BFC68B5B258C721A00269902 /* LaunchScreen.storyboard */,
+				BFC68B56258C721800269902 /* Main.storyboard */,
+				BFC68B59258C721A00269902 /* Assets.xcassets */,
+				BFC68B5E258C721A00269902 /* Info.plist */,
+				B8C186DD2897D58A00B28BD3 /* BackTapIntents.intentdefinition */,
 			);
 			name = VolumeWatch;
 			path = "/Users/jun.ogino/Develop/Volume-Watch/VolumeWatch";
