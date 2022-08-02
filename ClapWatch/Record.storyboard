@@ -11,7 +11,7 @@
         <!--Record-->
         <scene sceneID="qaL-So-CDz">
             <objects>
-                <viewController storyboardIdentifier="RecordViewController" id="c4a-Ih-wps" customClass="RecordViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecordViewController" id="c4a-Ih-wps" customClass="RecordViewController" customModule="ClapWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xy9-Ss-br9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

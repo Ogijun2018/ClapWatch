@@ -14,7 +14,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="T6m-4Z-rwX">
             <objects>
-                <tabBarController id="Xia-D2-8co" customClass="TabBarController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="Xia-D2-8co" customClass="TabBarController" customModule="ClapWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1G1-vk-EBU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -33,7 +33,7 @@
         <!--Detail View Controller-->
         <scene sceneID="P5J-hH-iLD">
             <objects>
-                <viewController id="9cp-q5-Q1d" customClass="DetailViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9cp-q5-Q1d" customClass="DetailViewController" customModule="ClapWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TNN-7X-SvV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -140,7 +140,7 @@
         <!--Setting-->
         <scene sceneID="8Iy-hi-Nhl">
             <objects>
-                <viewController id="X2O-Sp-KXq" customClass="SettingViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="X2O-Sp-KXq" customClass="SettingViewController" customModule="ClapWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="22c-rI-8nV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -222,7 +222,7 @@
         <!--Records-->
         <scene sceneID="qYv-99-xJT">
             <objects>
-                <tableViewController id="1pJ-eH-ffp" customClass="RecordViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="1pJ-eH-ffp" customClass="RecordViewController" customModule="ClapWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="SZf-KV-kAf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -259,7 +259,7 @@
         <!--Watch-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="WatchVC" id="BYZ-38-t0r" customClass="MainViewController" customModule="VolumeWatch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WatchVC" id="BYZ-38-t0r" customClass="MainViewController" customModule="ClapWatch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
