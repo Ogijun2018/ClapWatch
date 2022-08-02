@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  PhysicalButtonWatch_storyboard
+//  ClapWatch
 //
-//  Created by 荻野隼 on 2020/12/18.
+//  Created by jun.ogino on 2020/12/18.
 //
 
 import UIKit
