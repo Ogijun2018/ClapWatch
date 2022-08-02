@@ -1,8 +1,8 @@
 //
 //  RecordModel.swift
-//  VolumeWatch
+//  ClapWatch
 //
-//  Created by 荻野隼 on 2021/06/09.
+//  Created by jun.ogino on 2021/06/09.
 //
 
 import Foundation

@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BFC68B4C258C721800269902"
                BuildableName = "VolumeWatch.app"
-               BlueprintName = "VolumeWatch"
-               ReferencedContainer = "container:VolumeWatch.xcodeproj">
+               BlueprintName = "ClapWatch"
+               ReferencedContainer = "container:ClapWatch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,8 +46,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BFC68B4C258C721800269902"
             BuildableName = "VolumeWatch.app"
-            BlueprintName = "VolumeWatch"
-            ReferencedContainer = "container:VolumeWatch.xcodeproj">
+            BlueprintName = "ClapWatch"
+            ReferencedContainer = "container:ClapWatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BFC68B4C258C721800269902"
             BuildableName = "VolumeWatch.app"
-            BlueprintName = "VolumeWatch"
-            ReferencedContainer = "container:VolumeWatch.xcodeproj">
+            BlueprintName = "ClapWatch"
+            ReferencedContainer = "container:ClapWatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

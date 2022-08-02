@@ -1,8 +1,8 @@
 //
 //  RecordViewController.swift
-//  VolumeWatch
+//  ClapWatch
 //
-//  Created by 荻野隼 on 2021/05/11.
+//  Created by jun.ogino on 2021/05/11.
 //
 
 import Foundation

@@ -11,9 +11,6 @@ import MediaPlayer
 import RealmSwift
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
-
-    var volumeValue : Float = 0.0
-    var volumeView: MPVolumeView!
     
     enum stopWatchMode {
         case running
@@ -470,55 +467,5 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         laps.insert(OutputLapText(removeSpace: false), at: 0)
         lapsForOutput.append(OutputLapText(removeSpace: true))
         tableView.reloadData()
-    }
-
-    // MARK: - Volume Events
-    @objc func volumeChanged(notification: NSNotification) {
-
-        if let userInfo = notification.userInfo {
-            if let volumeChangeType = userInfo["AVSystemController_AudioVolumeChangeReasonNotificationParameter"] as? String {
-                if volumeChangeType == "ExplicitVolumeChange" {
-                    print(userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as Any)
-                    if volumeValue > userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
-                        print("volume down")
-                        if (mode == .paused) {
-                            resetTimer()
-                        } else if (mode == .running){
-                            lap()
-                        }
-                    }
-                    else if volumeValue < userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
-                        print("volume up")
-                        if (mode == .paused || mode == .stopped) {
-                            print("start timer!")
-                            startTimer()
-                        } else if (mode == .running){
-                            print("stop timer!")
-                            stopTimer()
-                        }
-                    }
-                    else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 1{
-                        print("volume max")
-                        if (mode == .paused || mode == .stopped) {
-                            print("start timer!")
-                            startTimer()
-                        } else if (mode == .running){
-                            print("stop timer!")
-                            stopTimer()
-                        }
-                    }
-                    else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue <= 0.0625{
-                        print("volume min")
-                        if (mode == .paused) {
-                            print("reset timer!")
-                            resetTimer()
-                        } else if (mode == .running){
-                            lap()
-                        }
-                    }
-                    volumeValue = userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float
-                }
-            }
-        }
     }
 }

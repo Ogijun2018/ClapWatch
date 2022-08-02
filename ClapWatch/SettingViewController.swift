@@ -1,6 +1,6 @@
 //
 //  SettingViewController.swift
-//  VolumeWatch
+//  ClapWatch
 //
 //  Created by jun.ogino on 2022/07/27.
 //

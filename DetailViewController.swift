@@ -1,6 +1,6 @@
 //
 //  DetailViewController.swift
-//  VolumeWatch
+//  ClapWatch
 //
 //  Created by 荻野隼 on 2021/06/09.
 //
