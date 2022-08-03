@@ -206,6 +206,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         lapButton.isHidden = false
         lapButton.isEnabled = false
         copyButton.isEnabled = false
+
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewWillEnterForeground(
+                                                _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewDidEnterBackground(
+                                                _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
 
     @objc func handleTapGesture(_ gesture: UITapGestureRecognizer){
@@ -231,15 +236,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // 登録
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewWillEnterForeground(
-                                                _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewDidEnterBackground(
-                                                _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(proxymitySensorState), name: UIDevice.proximityStateDidChangeNotification, object: nil)
@@ -249,7 +245,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewWillDisappear(true)
         timer.invalidate()
         splitTimer.invalidate()
-//        UIDevice.current.isProximityMonitoringEnabled = false
 
         NotificationCenter.default.removeObserver(self, name: UIDevice.proximityStateDidChangeNotification, object: nil)
     }
@@ -286,12 +281,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let timeInterval = Date().timeIntervalSince(mSecForBackground!)
                 var ms = Double(timeInterval)
                 ms = round(ms * 100) / 100
-                
+
                 // 若干の誤差があるので0.05sだけ足す
                 self.secondsElapsed += (ms + 0.05)
                 // 全体のタイマーをスタート
                 timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
-                
+
                 if splitMode == .running {
                     self.secondsSplitElapsed += (ms + 0.05)
                     // スプリットタイマーをスタート
