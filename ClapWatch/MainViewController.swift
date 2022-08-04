@@ -153,24 +153,37 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         shakeGestureEnabled = false
     }
 
+    // 近接センサーの制御
+    var proximityLapControl: Bool = false
+    func enableProximitySensor(_ isLap: Bool) {
+        UIDevice.current.isProximityMonitoringEnabled = true
+        proximityLapControl = isLap
+    }
+
+    // シェイクの制御
+    var shakeGestureLapControl: Bool = false
+    func enableShakeGesture(_ isLap: Bool) {
+        shakeGestureEnabled = true
+        shakeGestureLapControl = isLap
+    }
+
+    // 2本指タップの制御
+    var twoFingerLapControl: Bool = false
+    func enableTwoFingerTap(_ isLap: Bool) {
+        tapTwoFingerRecognizer.isEnabled = true
+        twoFingerLapControl = isLap
+    }
+
+    // 3本指タップの制御
+    var threeFingerLapControl: Bool = false
+    func enableThreeFingerTap(_ isLap: Bool) {
+        tapThreeFingerRecognizer.isEnabled = true
+        threeFingerLapControl = isLap
+    }
+
+    // TODO: swipe
     func enableSwipeGesture() {
         swipeRecognizer.isEnabled = true
-    }
-
-    func enableTwoFingerTap() {
-        tapTwoFingerRecognizer.isEnabled = true
-    }
-
-    func enableThreeFingerTap() {
-        tapThreeFingerRecognizer.isEnabled = true
-    }
-
-    func enableShakeGesture() {
-        shakeGestureEnabled = true
-    }
-
-    func enableProximitySensor() {
-        UIDevice.current.isProximityMonitoringEnabled = true
     }
 
     // MARK: LifeCycle
@@ -189,13 +202,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         swipeRecognizer.isEnabled = false
 
         // 2本指タップ検出
-        tapTwoFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleTapGesture(_:)))
+        tapTwoFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleTwoFingerTapGesture(_:)))
         tapTwoFingerRecognizer.numberOfTouchesRequired = 2
         self.view.addGestureRecognizer(tapTwoFingerRecognizer)
         tapTwoFingerRecognizer.isEnabled = false
 
         // 3本指タップ検出
-        tapThreeFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleTapGesture(_:)))
+        tapThreeFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleThreeFingerTapGesture(_:)))
         tapThreeFingerRecognizer.numberOfTouchesRequired = 3
         self.view.addGestureRecognizer(tapThreeFingerRecognizer)
         tapThreeFingerRecognizer.isEnabled = false
@@ -213,12 +226,25 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                                                 _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
 
-    @objc func handleTapGesture(_ gesture: UITapGestureRecognizer){
+    @objc func handleTwoFingerTapGesture(_ sender: UITapGestureRecognizer){
         switch mode {
         case .stopped, .paused:
-            startTimer()
+            if(!twoFingerLapControl){
+                startTimer()
+            }
         case .running:
-            stopTimer()
+            twoFingerLapControl ? lap() : stopTimer()
+        }
+    }
+
+    @objc func handleThreeFingerTapGesture(_ sender: UITapGestureRecognizer) {
+        switch mode {
+        case .stopped, .paused:
+            if(!threeFingerLapControl){
+                startTimer()
+            }
+        case .running:
+            threeFingerLapControl ? lap() : stopTimer()
         }
     }
 
@@ -238,7 +264,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(proxymitySensorState), name: UIDevice.proximityStateDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(proximitySensorState), name: UIDevice.proximityStateDidChangeNotification, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -250,13 +276,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     // MARK: Sensor control
-    @objc func proxymitySensorState() {
+    @objc func proximitySensorState() {
         if UIDevice.current.proximityState {
             switch mode {
             case .stopped, .paused:
-                startTimer()
+                if(!proximityLapControl){
+                    startTimer()
+                }
             case .running:
-                stopTimer()
+                proximityLapControl ? lap() : stopTimer()
             }
         }
     }
@@ -266,9 +294,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             if motion == .motionShake {
                 switch mode {
                 case .stopped, .paused:
-                    startTimer()
+                    if(!shakeGestureLapControl){
+                        startTimer()
+                    }
                 case .running:
-                    stopTimer()
+                    shakeGestureLapControl ? lap() : stopTimer()
                 }
             }
         }
@@ -350,6 +380,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // 一時的にfalse
         lapButton.isEnabled = true
         copyButton.isEnabled = false
+
+        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        generator.impactOccurred()
         
         // ストップウォッチ稼働時は別画面に遷移できないようにする
         self.tabBarController!.tabBar.items![1].isEnabled = false
@@ -414,6 +447,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         laps.removeAll(keepingCapacity: false)
         lapsForOutput.removeAll(keepingCapacity: false)
         tableView.reloadData()
+
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
         
         // 別画面に遷移できるように変更
         self.tabBarController!.tabBar.items![1].isEnabled = true
@@ -444,6 +480,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         lapText += "Lap\(num):  \(OutputLapText(removeSpace: true))"
         copyTargetText = lapText
+
+        let generator = UIImpactFeedbackGenerator(style: .heavy)
+        generator.impactOccurred()
         
         self.tabBarController!.tabBar.items![1].isEnabled = true
         self.tabBarController!.tabBar.items![2].isEnabled = true
@@ -462,5 +501,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         laps.insert(OutputLapText(removeSpace: false), at: 0)
         lapsForOutput.append(OutputLapText(removeSpace: true))
         tableView.reloadData()
+        let generator = UIImpactFeedbackGenerator(style: .soft)
+        generator.impactOccurred()
     }
 }

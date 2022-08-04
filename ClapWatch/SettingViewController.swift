@@ -8,15 +8,117 @@
 import UIKit
 import IntentsUI
 
-class SettingViewController: UIViewController {
-
+class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSiriButton(to: self.view)
+        tableView.allowsMultipleSelection = true
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+
+    enum Section: Int {
+        case StartStop
+        case Lap
+    }
+
+    func activateSensor(_ selectedIndexPaths: [IndexPath]) {
+        if let controller = tabBarController?.viewControllers?[0] as? MainViewController {
+            controller.resetSensor()
+            for index in selectedIndexPaths {
+                let isLap = index.section == 0 ? false : true
+                switch index.row {
+                case 0: controller.enableProximitySensor(isLap)
+                case 1: controller.enableShakeGesture(isLap)
+                case 2: controller.enableTwoFingerTap(isLap)
+                case 3: controller.enableThreeFingerTap(isLap)
+                default: break
+                }
+            }
+        }
+    }
+
+    // MARK: TableView
+    let sectionTitle = ["Start/Stop", "Lap"]
+    let icons = ["sensor.tag.radiowaves.forward", "waveform.path", "2.square", "3.square"]
+    let labels = ["近接センサー", "シェイク", "2本指タップ", "3本指タップ"]
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sectionTitle.count
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionTitle[section]
+    }
+
+    func tableView(_ table: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch Section(rawValue: section){
+        case .StartStop, .Lap:
+            return labels.count
+        default:
+            return 0
+        }
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        // 最初に、自分のSectionではない方の半透明になっていた選択肢を復活
+        let anotherSection = indexPath.section == 0 ? 1 : 0
+        for i in 0..<labels.count {
+            let cell = tableView.cellForRow(at: [anotherSection, i])
+            cell?.isUserInteractionEnabled = true
+            cell?.alpha = 1
+        }
+
+        // どちらかのSectionで選択したオプションはもう一方では使えなくする
+        let anotherSectionCell = tableView.cellForRow(at: [anotherSection, indexPath.row])
+        anotherSectionCell?.accessoryType = .none
+        anotherSectionCell?.isUserInteractionEnabled = false
+        anotherSectionCell?.alpha = 0.3
+
+        // 各Section内で最大1個しか選択できないようにする
+        if let selectedRows = tableView.indexPathsForSelectedRows {
+            let selectedInSection = selectedRows.filter { $0.section == indexPath.section }
+            for deselectingIndexPath in selectedInSection {
+                let cell = tableView.cellForRow(at: deselectingIndexPath)
+                cell?.accessoryType = .none
+                tableView.deselectRow(at: deselectingIndexPath, animated: false)
+            }
+        }
+
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = .checkmark
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+
+        if let selectedIndexPaths = tableView.indexPathsForSelectedRows {
+            activateSensor(selectedIndexPaths)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let anotherSection = indexPath.section == 0 ? 1 : 0
+        var anotherSectionCell: UITableViewCell?
+        anotherSectionCell = tableView.cellForRow(at: [anotherSection, indexPath.row])
+        anotherSectionCell?.isUserInteractionEnabled = true
+        anotherSectionCell?.alpha = 1
+
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = .none
+
+        if let selectedIndexPaths = tableView.indexPathsForSelectedRows {
+           activateSensor(selectedIndexPaths)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "settingTableCell", for: indexPath)
+        let img = UIImage(systemName:icons[indexPath.row])
+        cell.imageView?.image = img
+        cell.textLabel?.text = labels[indexPath.row]
+        return cell
     }
 
     func addSiriButton(to view: UIView) {
@@ -30,55 +132,6 @@ class SettingViewController: UIViewController {
             // Button Viewの縦方向の中心は、親ビューの下端から30ptの位置
             button.centerYAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -200.0).isActive = true
             view.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
-        }
-    }
-    @IBOutlet weak var proxymitySwitch: UISwitch!
-    @IBOutlet weak var shakeSwitch: UISwitch!
-    @IBOutlet weak var twoFingerTapSwitch: UISwitch!
-    @IBOutlet weak var threeFingerTapSwitch: UISwitch!
-
-    @IBAction func proxymitySwitch(_ sender: UISwitch) {
-        if let controller = tabBarController?.viewControllers?[0] as? MainViewController {
-            controller.resetSensor()
-            if sender.isOn {
-                controller.enableProximitySensor()
-                shakeSwitch.setOn(false, animated: true)
-                threeFingerTapSwitch.setOn(false, animated: true)
-                twoFingerTapSwitch.setOn(false, animated: true)
-            }
-        }
-    }
-    @IBAction func shakeSwitch(_ sender: UISwitch) {
-        if let controller = tabBarController?.viewControllers?[0] as? MainViewController {
-            controller.resetSensor()
-            if sender.isOn {
-                controller.enableShakeGesture()
-                proxymitySwitch.setOn(false, animated: true)
-                threeFingerTapSwitch.setOn(false, animated: true)
-                twoFingerTapSwitch.setOn(false, animated: true)
-            }
-        }
-    }
-    @IBAction func twoFingerTapSwitch(_ sender: UISwitch) {
-        if let controller = tabBarController?.viewControllers?[0] as? MainViewController {
-            controller.resetSensor()
-            if sender.isOn {
-                controller.enableTwoFingerTap()
-                proxymitySwitch.setOn(false, animated: true)
-                threeFingerTapSwitch.setOn(false, animated: true)
-                shakeSwitch.setOn(false, animated: true)
-            }
-        }
-    }
-    @IBAction func threeFingerTapSwitch(_ sender: UISwitch) {
-        if let controller = tabBarController?.viewControllers?[0] as? MainViewController {
-            controller.resetSensor()
-            if sender.isOn {
-                controller.enableThreeFingerTap()
-                proxymitySwitch.setOn(false, animated: true)
-                twoFingerTapSwitch.setOn(false, animated: true)
-                shakeSwitch.setOn(false, animated: true)
-            }
         }
     }
 }

@@ -11,7 +11,30 @@ import AVFoundation
 import MediaPlayer
 import RealmSwift
 
-class RecordViewController: UITableViewController {
+extension UINavigationItem {
+
+    func setTitleView(withTitle title: String, subTitile: String) {
+
+        let titleLabel = UILabel()
+        titleLabel.text = title
+        titleLabel.font = .boldSystemFont(ofSize: 17)
+        titleLabel.textColor = .black
+
+        let subTitleLabel = UILabel()
+        subTitleLabel.text = subTitile
+        subTitleLabel.font = .systemFont(ofSize: 14)
+        subTitleLabel.textColor = .gray
+
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, subTitleLabel])
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        stackView.axis = .vertical
+
+        self.titleView = stackView
+    }
+}
+
+class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var recordTableView: UITableView!
     var ItemList: Results<RecordModel>!
     
@@ -24,6 +47,7 @@ class RecordViewController: UITableViewController {
         super.viewDidLoad()
         let RealmInstance1 = try! Realm()
         self.ItemList = RealmInstance1.objects(RecordModel.self)
+        navigationItem.setTitleView(withTitle: "aaaaaa", subTitile: "bbbbb")
     }
     
     override func didReceiveMemoryWarning() {
@@ -31,11 +55,11 @@ class RecordViewController: UITableViewController {
     }
     
     // Table View Methods
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.ItemList.count
     }
     
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
                     do{
                         let realm = try Realm()
@@ -53,7 +77,7 @@ class RecordViewController: UITableViewController {
         return configuration
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "TableViewCell")
         let item: RecordModel = self.ItemList[(indexPath as NSIndexPath).row]
         let imageAttachment = NSTextAttachment()
@@ -77,7 +101,7 @@ class RecordViewController: UITableViewController {
     var totalTime: String?
     
     // Cell が選択された場合
-    override func tableView(_ table: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ table: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item: RecordModel = self.ItemList[(indexPath as NSIndexPath).row]
         let f = DateFormatter()
         f.dateFormat = "y/M/d HH:mm"
