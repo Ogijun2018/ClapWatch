@@ -15,6 +15,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         addSiriButton(to: self.view)
         tableView.allowsMultipleSelection = true
+        self.navigationItem.title = "Setting"
+        self.navigationController?.navigationBar.barStyle = .default
+        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     override func didReceiveMemoryWarning() {

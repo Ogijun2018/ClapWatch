@@ -22,8 +22,8 @@
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="WgX-zo-0bA"/>
-                        <segue destination="1pJ-eH-ffp" kind="relationship" relationship="viewControllers" id="iw3-fL-KvA"/>
-                        <segue destination="X2O-Sp-KXq" kind="relationship" relationship="viewControllers" id="nJQ-BD-iid"/>
+                        <segue destination="YY7-Gw-hbm" kind="relationship" relationship="viewControllers" id="1Cm-Bb-Ktu"/>
+                        <segue destination="YHj-DJ-dsN" kind="relationship" relationship="viewControllers" id="nJQ-BD-iid"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yu3-nu-ZfQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -135,9 +135,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ew-cy-cY1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1478" y="210"/>
+            <point key="canvasLocation" x="2386.9565217391305" y="209.59821428571428"/>
         </scene>
-        <!--Setting-->
+        <!--Setting View Controller-->
         <scene sceneID="8Iy-hi-Nhl">
             <objects>
                 <viewController id="X2O-Sp-KXq" customClass="SettingViewController" customModule="ClapWatch" customModuleProvider="target" sceneMemberID="viewController">
@@ -181,7 +181,6 @@
                         <viewLayoutGuide key="safeArea" id="xCd-r3-WKP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Setting" image="gear" catalog="system" id="FWF-YZ-by0"/>
                     <navigationItem key="navigationItem" id="XoO-dx-TCa"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -190,44 +189,51 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sht-sq-Sc0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="608.69565217391312" y="948.88392857142856"/>
+            <point key="canvasLocation" x="1542" y="1074"/>
         </scene>
-        <!--Records-->
-        <scene sceneID="qYv-99-xJT">
+        <!--Record View Controller-->
+        <scene sceneID="L6c-tV-qxJ">
             <objects>
-                <tableViewController id="1pJ-eH-ffp" customClass="RecordViewController" customModule="ClapWatch" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="SZf-KV-kAf">
+                <viewController id="OBS-ZA-xbu" customClass="RecordViewController" customModule="ClapWatch" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LtB-8N-Jl3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="oqU-Df-0Ry">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oqU-Df-0Ry" id="uk7-zj-J2s">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="V3Q-co-6j3">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="RKB-RZ-QXm">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RKB-RZ-QXm" id="enD-vd-mSw">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="9cp-q5-Q1d" kind="presentation" identifier="Segue" id="43D-gH-ERp"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
-                                    <segue destination="9cp-q5-Q1d" kind="presentation" identifier="Segue" id="2Pm-B4-KbT"/>
+                                    <outlet property="dataSource" destination="OBS-ZA-xbu" id="y7s-WF-d6L"/>
+                                    <outlet property="delegate" destination="OBS-ZA-xbu" id="Bss-xX-cRV"/>
                                 </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="1pJ-eH-ffp" id="Xkm-8h-pM9"/>
-                            <outlet property="delegate" destination="1pJ-eH-ffp" id="Ps3-oK-KdH"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="Records" image="clock.arrow.circlepath" catalog="system" selectedImage="clock.arrow.circlepath" id="u5c-mW-FLO"/>
-                    <navigationItem key="navigationItem" title="Records" id="nFW-Ja-sGb"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="V9a-Ap-CoT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ugm-j4-Qif"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="recordTableView" destination="SZf-KV-kAf" id="LwX-NH-s8o"/>
+                        <outlet property="recordTableView" destination="V3Q-co-6j3" id="uBQ-9E-iEM"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QC9-hk-16x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lyo-Up-9IY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="609" y="210"/>
+            <point key="canvasLocation" x="1455.072463768116" y="268.52678571428572"/>
         </scene>
         <!--Watch-->
         <scene sceneID="tne-QT-ifu">
@@ -515,11 +521,49 @@
             </objects>
             <point key="canvasLocation" x="610" y="-487"/>
         </scene>
+        <!--Records-->
+        <scene sceneID="5g1-MH-ZiN">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YY7-Gw-hbm" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Records" image="clock.arrow.2.circlepath" catalog="system" id="Bqf-1z-yX9"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6jk-yb-L1P">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OBS-ZA-xbu" kind="relationship" relationship="rootViewController" id="tw8-X9-H6H"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pF4-n1-r8X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="544.92753623188412" y="268.52678571428572"/>
+        </scene>
+        <!--Setting-->
+        <scene sceneID="tj5-0M-cCu">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YHj-DJ-dsN" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Setting" image="gear" catalog="system" id="FWF-YZ-by0"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="apW-VM-EgX">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="X2O-Sp-KXq" kind="relationship" relationship="rootViewController" id="WFq-HY-mf8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pq3-f3-yop" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="545" y="1074"/>
+        </scene>
     </scenes>
     <color key="tintColor" name="ButtonColor"/>
     <resources>
         <image name="clock" catalog="system" width="32" height="32"/>
-        <image name="clock.arrow.circlepath" catalog="system" width="32" height="32"/>
+        <image name="clock.arrow.2.circlepath" catalog="system" width="32" height="32"/>
         <image name="doc.on.clipboard" catalog="system" width="32" height="32"/>
         <image name="gear" catalog="system" width="32" height="32"/>
         <image name="timer.square" catalog="system" width="32" height="32"/>

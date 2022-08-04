@@ -15,15 +15,55 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var recordTableView: UITableView!
     var ItemList: Results<RecordModel>!
     
+//    @IBOutlet weak var deleteButton: UIButton!
+    var emptyLabel: UILabel = UILabel()
+    var deleteButton: UIBarButtonItem!
+
     override func viewDidAppear(_ animated: Bool) {
         self.recordTableView.reloadData()
         self.recordTableView.rowHeight = 60
+
+        emptyLabel.frame = self.recordTableView.frame
+        emptyLabel.textAlignment = NSTextAlignment.center
+        emptyLabel.text = "No Records"
+        emptyLabel.textColor = .gray
+        if(!self.ItemList.isEmpty){
+            emptyLabel.isHidden = true
+        }
+        self.view.addSubview(emptyLabel)
     }
-    
+
+   @objc func deleteRecords(_ sender: Any) {
+        let alert: UIAlertController = UIAlertController(title: "すべての記録を削除", message: "すべての記録を削除してもよろしいですか？", preferredStyle: .alert)
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: .default, handler: {
+            (action: UIAlertAction!) -> Void in
+            let realm = try! Realm()
+            try! realm.write {
+                realm.deleteAll()
+            }
+            self.recordTableView.reloadData()
+            self.emptyLabel.isHidden = false
+        })
+        let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: {
+            (action: UIAlertAction!) -> Void in
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+
+        present(alert, animated: true, completion: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let RealmInstance1 = try! Realm()
         self.ItemList = RealmInstance1.objects(RecordModel.self)
+        self.navigationItem.title = "Records"
+        self.navigationController?.navigationBar.barStyle = .default
+        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+
+        deleteButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteRecords(_:)))
+        self.navigationItem.rightBarButtonItem = deleteButton
     }
     
     override func didReceiveMemoryWarning() {
