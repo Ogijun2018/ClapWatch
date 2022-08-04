@@ -86,14 +86,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         return lapText
     }
-    
-    @IBAction func toggleSwipe(_ sender: UISwitch) {
-        if(sender.isOn){
-            shakeGestureEnabled = true
-        } else {
-            shakeGestureEnabled = false
-        }
-    }
 
     @objc func updateTimer(_ timer: Timer){
         self.secondsElapsed += 0.01
@@ -148,6 +140,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func resetSensor() {
         UIDevice.current.isProximityMonitoringEnabled = false
         swipeRecognizer.isEnabled = false
+        tableView.isScrollEnabled = true
         tapTwoFingerRecognizer.isEnabled = false
         tapThreeFingerRecognizer.isEnabled = false
         shakeGestureEnabled = false
@@ -167,6 +160,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         shakeGestureLapControl = isLap
     }
 
+    // スワイプの制御
+    var swipeGestureLapControl: Bool = false
+    func enableSwipeGesture(_ isLap: Bool) {
+        swipeRecognizer.isEnabled = true
+        swipeGestureLapControl = isLap
+        // ラップを表示しているTableViewのスクロールをできないようにする
+        tableView.isScrollEnabled = false
+    }
+
     // 2本指タップの制御
     var twoFingerLapControl: Bool = false
     func enableTwoFingerTap(_ isLap: Bool) {
@@ -181,16 +183,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         threeFingerLapControl = isLap
     }
 
-    // TODO: swipe
-    func enableSwipeGesture() {
-        swipeRecognizer.isEnabled = true
-    }
-
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.viewController = self
+
+        tableView.allowsSelection = false
 
         // 上方向スワイプ検出
         swipeRecognizer = UISwipeGestureRecognizer(
@@ -224,42 +223,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                                                 _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewDidEnterBackground(
                                                 _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
-    }
-
-    @objc func handleTwoFingerTapGesture(_ sender: UITapGestureRecognizer){
-        switch mode {
-        case .stopped, .paused:
-            if(!twoFingerLapControl){
-                startTimer()
-            }
-        case .running:
-            twoFingerLapControl ? lap() : stopTimer()
-        }
-    }
-
-    @objc func handleThreeFingerTapGesture(_ sender: UITapGestureRecognizer) {
-        switch mode {
-        case .stopped, .paused:
-            if(!threeFingerLapControl){
-                startTimer()
-            }
-        case .running:
-            threeFingerLapControl ? lap() : stopTimer()
-        }
-    }
-
-    @objc func handleSwipeGesture(_ sender: UISwipeGestureRecognizer){
-        switch sender.direction {
-        case .up:
-            switch mode {
-            case .stopped, .paused:
-                startTimer()
-            case .running:
-                stopTimer()
-            }
-        default:
-            break
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -301,6 +264,44 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     shakeGestureLapControl ? lap() : stopTimer()
                 }
             }
+        }
+    }
+
+    @objc func handleTwoFingerTapGesture(_ sender: UITapGestureRecognizer){
+        switch mode {
+        case .stopped, .paused:
+            if(!twoFingerLapControl){
+                startTimer()
+            }
+        case .running:
+            twoFingerLapControl ? lap() : stopTimer()
+        }
+    }
+
+    @objc func handleThreeFingerTapGesture(_ sender: UITapGestureRecognizer) {
+        switch mode {
+        case .stopped, .paused:
+            if(!threeFingerLapControl){
+                startTimer()
+            }
+        case .running:
+            threeFingerLapControl ? lap() : stopTimer()
+        }
+    }
+
+    @objc func handleSwipeGesture(_ sender: UISwipeGestureRecognizer){
+        switch sender.direction {
+        case .up:
+            switch mode {
+            case .stopped, .paused:
+                if(!swipeGestureLapControl){
+                    startTimer()
+                }
+            case .running:
+                swipeGestureLapControl ? lap() : stopTimer()
+            }
+        default:
+            break
         }
     }
 

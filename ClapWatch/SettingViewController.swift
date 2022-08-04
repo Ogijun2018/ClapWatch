@@ -40,16 +40,23 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 1: controller.enableShakeGesture(isLap)
                 case 2: controller.enableTwoFingerTap(isLap)
                 case 3: controller.enableThreeFingerTap(isLap)
+                case 4: controller.enableSwipeGesture(isLap)
                 default: break
                 }
             }
         }
     }
 
+    func resetSensor() {
+        if let controller = tabBarController?.viewControllers?[0] as? MainViewController {
+            controller.resetSensor()
+        }
+    }
+
     // MARK: TableView
     let sectionTitle = ["Start/Stop", "Lap"]
-    let icons = ["sensor.tag.radiowaves.forward", "waveform.path", "2.square", "3.square"]
-    let labels = ["近接センサー", "シェイク", "2本指タップ", "3本指タップ"]
+    let icons = ["sensor.tag.radiowaves.forward", "waveform.path", "2.square", "3.square", "hand.draw.fill"]
+    let labels = ["近接センサー", "シェイク", "2本指タップ", "3本指タップ", "上方向スワイプ"]
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitle.count
@@ -113,7 +120,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell?.accessoryType = .none
 
         if let selectedIndexPaths = tableView.indexPathsForSelectedRows {
-           activateSensor(selectedIndexPaths)
+            activateSensor(selectedIndexPaths)
+        } else {
+            print("reset all sensor")
+            resetSensor()
         }
     }
 
@@ -133,8 +143,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             button.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(button)
             view.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
-            // Button Viewの縦方向の中心は、親ビューの下端から30ptの位置
-            button.centerYAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -200.0).isActive = true
+            button.centerYAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -120.0).isActive = true
             view.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
         }
     }
