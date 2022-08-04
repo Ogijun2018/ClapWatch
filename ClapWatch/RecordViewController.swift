@@ -11,29 +11,6 @@ import AVFoundation
 import MediaPlayer
 import RealmSwift
 
-extension UINavigationItem {
-
-    func setTitleView(withTitle title: String, subTitile: String) {
-
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.font = .boldSystemFont(ofSize: 17)
-        titleLabel.textColor = .black
-
-        let subTitleLabel = UILabel()
-        subTitleLabel.text = subTitile
-        subTitleLabel.font = .systemFont(ofSize: 14)
-        subTitleLabel.textColor = .gray
-
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, subTitleLabel])
-        stackView.distribution = .equalCentering
-        stackView.alignment = .center
-        stackView.axis = .vertical
-
-        self.titleView = stackView
-    }
-}
-
 class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var recordTableView: UITableView!
     var ItemList: Results<RecordModel>!
@@ -47,7 +24,6 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         let RealmInstance1 = try! Realm()
         self.ItemList = RealmInstance1.objects(RecordModel.self)
-        navigationItem.setTitleView(withTitle: "aaaaaa", subTitile: "bbbbb")
     }
     
     override func didReceiveMemoryWarning() {
