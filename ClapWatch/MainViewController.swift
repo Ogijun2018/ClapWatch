@@ -129,10 +129,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return laps.count
     }
 
-    override func becomeFirstResponder() -> Bool {
-        return true
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
