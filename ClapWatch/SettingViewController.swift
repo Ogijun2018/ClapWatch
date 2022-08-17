@@ -41,6 +41,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 2: controller.enableTwoFingerTap(isLap)
                 case 3: controller.enableThreeFingerTap(isLap)
                 case 4: controller.enableSwipeGesture(isLap)
+                case 5: controller.enablePanGesture(isLap)
                 default: break
                 }
             }
@@ -55,8 +56,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     // MARK: TableView
     let sectionTitle = ["Start/Stop", "Lap"]
-    let icons = ["sensor.tag.radiowaves.forward", "waveform.path", "2.square", "3.square", "hand.draw.fill"]
-    let labels = ["近接センサー", "シェイク", "2本指タップ", "3本指タップ", "上方向スワイプ"]
+    let icons = ["sensor.tag.radiowaves.forward", "waveform.path", "2.square", "3.square", "hand.draw.fill", "hand.draw.fill"]
+    let labels = ["近接センサー", "シェイク", "2本指タップ", "3本指タップ", "上方向スワイプ", "パン"]
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitle.count

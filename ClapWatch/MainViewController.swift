@@ -60,6 +60,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     let realmInstance = try! Realm()
 
     var swipeRecognizer = UISwipeGestureRecognizer()
+    var panGestureRecognizer = UIPanGestureRecognizer()
     var tapTwoFingerRecognizer = UITapGestureRecognizer()
     var tapThreeFingerRecognizer = UITapGestureRecognizer()
     var shakeGestureEnabled: Bool = false
@@ -136,6 +137,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func resetSensor() {
         UIDevice.current.isProximityMonitoringEnabled = false
         swipeRecognizer.isEnabled = false
+        panGestureRecognizer.isEnabled = false
         tableView.isScrollEnabled = true
         tapTwoFingerRecognizer.isEnabled = false
         tapThreeFingerRecognizer.isEnabled = false
@@ -161,6 +163,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func enableSwipeGesture(_ isLap: Bool) {
         swipeRecognizer.isEnabled = true
         swipeGestureLapControl = isLap
+        // ラップを表示しているTableViewのスクロールをできないようにする
+        tableView.isScrollEnabled = false
+    }
+
+    // パンの制御
+    var panGestureLapControl: Bool = false
+    func enablePanGesture(_ isLap: Bool) {
+        panGestureRecognizer.isEnabled = true
+        panGestureLapControl = isLap
         // ラップを表示しているTableViewのスクロールをできないようにする
         tableView.isScrollEnabled = false
     }
@@ -195,6 +206,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         swipeRecognizer.direction = .up
         self.view.addGestureRecognizer(swipeRecognizer)
         swipeRecognizer.isEnabled = false
+
+        // パンジェスチャー検出
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(MainViewController.handlePanGesture(_:)))
+        self.view.addGestureRecognizer(panGestureRecognizer)
+        panGestureRecognizer.isEnabled = false
 
         // 2本指タップ検出
         tapTwoFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleTwoFingerTapGesture(_:)))
@@ -285,7 +301,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
-    @objc func handleSwipeGesture(_ sender: UISwipeGestureRecognizer){
+    @objc func handleSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         switch sender.direction {
         case .up:
             switch mode {
@@ -298,6 +314,20 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         default:
             break
+        }
+    }
+
+    @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
+        if sender.state == .ended {
+            print("sender state ended")
+            switch mode {
+            case .stopped, .paused:
+                if(!panGestureLapControl){
+                    startTimer()
+                }
+            case .running:
+                panGestureLapControl ? lap() : stopTimer()
+            }
         }
     }
 
