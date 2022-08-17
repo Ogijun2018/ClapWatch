@@ -12,7 +12,7 @@
 		B8642C892898BCD30019D0DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8642C882898BCD30019D0DE /* AppDelegate.swift */; };
 		B8B3D0812898C0E60089D48E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B3D0802898C0E60089D48E /* DetailViewController.swift */; };
 		B8C0ECBE2891349B000D3BE6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */; };
-		B8C6217F28ACE37D00615962 /* BackTapIntent.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B8C6217E28ACE37D00615962 /* BackTapIntent.intentdefinition */; };
+		B8C6218328ACF4B100615962 /* BackTapIntent.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B8C6218528ACF4B100615962 /* BackTapIntent.intentdefinition */; };
 		BF32256E267073AB0084BA6B /* RecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF32256D267073AB0084BA6B /* RecordModel.swift */; };
 		BF45491A264AC0F7005C1588 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF454919264AC0F7005C1588 /* TabBarController.swift */; };
 		BF45491F264AC3B8005C1588 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45491E264AC3B8005C1588 /* RecordViewController.swift */; };
@@ -31,7 +31,8 @@
 		B8B3D0802898C0E60089D48E /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		B8C0ECBA2890D9EF000D3BE6 /* ClapWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClapWatch.entitlements; sourceTree = "<group>"; };
 		B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		B8C6217E28ACE37D00615962 /* BackTapIntent.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = BackTapIntent.intentdefinition; sourceTree = "<group>"; };
+		B8C6218428ACF4B100615962 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/BackTapIntent.intentdefinition; sourceTree = "<group>"; };
+		B8C6218728ACF4B300615962 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/BackTapIntent.strings; sourceTree = "<group>"; };
 		BF32256D267073AB0084BA6B /* RecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordModel.swift; sourceTree = "<group>"; };
 		BF454919264AC0F7005C1588 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		BF45491E264AC3B8005C1588 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
@@ -97,7 +98,7 @@
 			children = (
 				B8C0ECBA2890D9EF000D3BE6 /* ClapWatch.entitlements */,
 				B8642C882898BCD30019D0DE /* AppDelegate.swift */,
-				B8C6217E28ACE37D00615962 /* BackTapIntent.intentdefinition */,
+				B8C6218528ACF4B100615962 /* BackTapIntent.intentdefinition */,
 				BFC68B54258C721800269902 /* MainViewController.swift */,
 				BF454919264AC0F7005C1588 /* TabBarController.swift */,
 				BF45491E264AC3B8005C1588 /* RecordViewController.swift */,
@@ -236,7 +237,7 @@
 				BF32256E267073AB0084BA6B /* RecordModel.swift in Sources */,
 				BF45491F264AC3B8005C1588 /* RecordViewController.swift in Sources */,
 				B8B3D0812898C0E60089D48E /* DetailViewController.swift in Sources */,
-				B8C6217F28ACE37D00615962 /* BackTapIntent.intentdefinition in Sources */,
+				B8C6218328ACF4B100615962 /* BackTapIntent.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +250,15 @@
 				B82759AC28ACDF2F00197240 /* ja */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		B8C6218528ACF4B100615962 /* BackTapIntent.intentdefinition */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B8C6218428ACF4B100615962 /* Base */,
+				B8C6218728ACF4B300615962 /* ja */,
+			);
+			name = BackTapIntent.intentdefinition;
 			sourceTree = "<group>";
 		};
 		BFC68B56258C721800269902 /* Main.storyboard */ = {
@@ -397,14 +407,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClapWatch/ClapWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.0.1;
+				CURRENT_PROJECT_VERSION = 2.2.0.1;
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
 				INFOPLIST_FILE = "$(SRCROOT)/ClapWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ogijun.PhysicalButtonWatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -420,14 +430,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClapWatch/ClapWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.0.1;
+				CURRENT_PROJECT_VERSION = 2.2.0.1;
 				DEVELOPMENT_TEAM = VZBG2DMPDR;
 				INFOPLIST_FILE = "$(SRCROOT)/ClapWatch/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ogijun.PhysicalButtonWatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
