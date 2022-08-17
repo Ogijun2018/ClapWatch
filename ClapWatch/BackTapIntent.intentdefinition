@@ -7,9 +7,9 @@
 	<key>INIntentDefinitionModelVersion</key>
 	<string>1.2</string>
 	<key>INIntentDefinitionNamespace</key>
-	<string>agshlv</string>
+	<string>rVrIzJ</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21F79</string>
+	<string>21G72</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
 	<string>13F100</string>
 	<key>INIntentDefinitionToolsVersion</key>
@@ -21,10 +21,8 @@
 			<string>generic</string>
 			<key>INIntentConfigurable</key>
 			<true/>
-			<key>INIntentDescription</key>
-			<string>背面タップでスタートストップを有効にします</string>
 			<key>INIntentDescriptionID</key>
-			<string>csOpYT</string>
+			<string>EmwKth</string>
 			<key>INIntentManagedParameterCombinations</key>
 			<dict>
 				<key></key>
@@ -66,7 +64,7 @@
 			<key>INIntentTitle</key>
 			<string>Back Tap</string>
 			<key>INIntentTitleID</key>
-			<string>0eyhFk</string>
+			<string>GfFbpq</string>
 			<key>INIntentType</key>
 			<string>Custom</string>
 			<key>INIntentVerb</key>

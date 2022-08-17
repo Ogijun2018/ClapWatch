@@ -15,7 +15,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         addSiriButton(to: self.view)
         tableView.allowsMultipleSelection = true
-        self.navigationItem.title = "Setting"
+        self.navigationItem.title = NSLocalizedString("Setting", comment: "")
         self.navigationController?.navigationBar.barStyle = .default
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -56,8 +56,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     // MARK: TableView
     let sectionTitle = ["Start/Stop", "Lap"]
-    let icons = ["sensor.tag.radiowaves.forward", "waveform.path", "2.square", "3.square", "hand.draw.fill", "hand.draw.fill"]
-    let labels = ["近接センサー", "シェイク", "2本指タップ", "3本指タップ", "上方向スワイプ", "パン"]
+    let icons = ["sensor.tag.radiowaves.forward", "waveform.path", "2.square", "3.square", "hand.draw.fill", "hand.draw"]
+    let labels = [NSLocalizedString("Proximity Sensor", comment: ""), NSLocalizedString("Shake", comment: ""), NSLocalizedString("Two-finger tap", comment: ""), NSLocalizedString("Three-finger tap", comment: ""), NSLocalizedString("Upward swipe", comment: ""), NSLocalizedString("Flick", comment: "")]
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitle.count
@@ -154,7 +154,7 @@ extension SettingViewController {
     @available(iOS 12.0, *)
     public var intent: BackTapIntent {
         let backTapIntent = BackTapIntent()
-        backTapIntent.suggestedInvocationPhrase = "スイッチ"
+        backTapIntent.suggestedInvocationPhrase = NSLocalizedString("Back tap", comment: "")
         return backTapIntent
     }
 }

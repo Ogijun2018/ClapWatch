@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5DD53E340CF862CEE32C7086 /* Pods_ClapWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FC0140B25FD0EE113E0257C /* Pods_ClapWatch.framework */; };
+		B82759AB28ACDF2F00197240 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B82759AD28ACDF2F00197240 /* Localizable.strings */; };
 		B8642C892898BCD30019D0DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8642C882898BCD30019D0DE /* AppDelegate.swift */; };
 		B8B3D0812898C0E60089D48E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B3D0802898C0E60089D48E /* DetailViewController.swift */; };
 		B8C0ECBE2891349B000D3BE6 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */; };
-		B8C186DB2897D58A00B28BD3 /* BackTapIntents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B8C186DD2897D58A00B28BD3 /* BackTapIntents.intentdefinition */; };
+		B8C6217F28ACE37D00615962 /* BackTapIntent.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B8C6217E28ACE37D00615962 /* BackTapIntent.intentdefinition */; };
 		BF32256E267073AB0084BA6B /* RecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF32256D267073AB0084BA6B /* RecordModel.swift */; };
 		BF45491A264AC0F7005C1588 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF454919264AC0F7005C1588 /* TabBarController.swift */; };
 		BF45491F264AC3B8005C1588 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45491E264AC3B8005C1588 /* RecordViewController.swift */; };
@@ -24,14 +25,13 @@
 /* Begin PBXFileReference section */
 		3A9FD5CA528FF7FBEE6BB7AB /* Pods-ClapWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClapWatch.debug.xcconfig"; path = "Target Support Files/Pods-ClapWatch/Pods-ClapWatch.debug.xcconfig"; sourceTree = "<group>"; };
 		6FC0140B25FD0EE113E0257C /* Pods_ClapWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClapWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B82759AC28ACDF2F00197240 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B82759AF28ACDF6500197240 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		B8642C882898BCD30019D0DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8B3D0802898C0E60089D48E /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		B8C0ECBA2890D9EF000D3BE6 /* ClapWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClapWatch.entitlements; sourceTree = "<group>"; };
 		B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		B8C186DC2897D58A00B28BD3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = ja; path = ja.lproj/BackTapIntents.intentdefinition; sourceTree = "<group>"; };
-		B8C186E02897D60B00B28BD3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BackTapIntents.strings; sourceTree = "<group>"; };
-		BF16705A260A304C00C7E9CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
-		BF16705B260A304C00C7E9CA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		B8C6217E28ACE37D00615962 /* BackTapIntent.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = BackTapIntent.intentdefinition; sourceTree = "<group>"; };
 		BF32256D267073AB0084BA6B /* RecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordModel.swift; sourceTree = "<group>"; };
 		BF454919264AC0F7005C1588 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		BF45491E264AC3B8005C1588 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +76,7 @@
 		BFC68B44258C721800269902 = {
 			isa = PBXGroup;
 			children = (
+				B82759AD28ACDF2F00197240 /* Localizable.strings */,
 				BFC68B4F258C721800269902 /* ClapWatch */,
 				BFC68B4E258C721800269902 /* Products */,
 				1108D2E8A89BC40CB7BE9535 /* Pods */,
@@ -96,6 +97,7 @@
 			children = (
 				B8C0ECBA2890D9EF000D3BE6 /* ClapWatch.entitlements */,
 				B8642C882898BCD30019D0DE /* AppDelegate.swift */,
+				B8C6217E28ACE37D00615962 /* BackTapIntent.intentdefinition */,
 				BFC68B54258C721800269902 /* MainViewController.swift */,
 				BF454919264AC0F7005C1588 /* TabBarController.swift */,
 				BF45491E264AC3B8005C1588 /* RecordViewController.swift */,
@@ -106,7 +108,6 @@
 				BFC68B56258C721800269902 /* Main.storyboard */,
 				BFC68B59258C721A00269902 /* Assets.xcassets */,
 				BFC68B5E258C721A00269902 /* Info.plist */,
-				B8C186DD2897D58A00B28BD3 /* BackTapIntents.intentdefinition */,
 			);
 			name = ClapWatch;
 			path = "/Users/jun.ogino/Develop/Volume-Watch/ClapWatch";
@@ -150,12 +151,12 @@
 			};
 			buildConfigurationList = BFC68B48258C721800269902 /* Build configuration list for PBXProject "ClapWatch" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = ja;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				ja,
-				Base,
 				en,
+				Base,
+				ja,
 			);
 			mainGroup = BFC68B44258C721800269902;
 			productRefGroup = BFC68B4E258C721800269902 /* Products */;
@@ -173,6 +174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFC68B5D258C721A00269902 /* LaunchScreen.storyboard in Resources */,
+				B82759AB28ACDF2F00197240 /* Localizable.strings in Resources */,
 				BFC68B5A258C721A00269902 /* Assets.xcassets in Resources */,
 				BFC68B58258C721800269902 /* Main.storyboard in Resources */,
 			);
@@ -229,32 +231,31 @@
 			files = (
 				BF45491A264AC0F7005C1588 /* TabBarController.swift in Sources */,
 				BFC68B55258C721800269902 /* MainViewController.swift in Sources */,
-				B8C186DB2897D58A00B28BD3 /* BackTapIntents.intentdefinition in Sources */,
 				B8642C892898BCD30019D0DE /* AppDelegate.swift in Sources */,
 				B8C0ECBE2891349B000D3BE6 /* SettingViewController.swift in Sources */,
 				BF32256E267073AB0084BA6B /* RecordModel.swift in Sources */,
 				BF45491F264AC3B8005C1588 /* RecordViewController.swift in Sources */,
 				B8B3D0812898C0E60089D48E /* DetailViewController.swift in Sources */,
+				B8C6217F28ACE37D00615962 /* BackTapIntent.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B8C186DD2897D58A00B28BD3 /* BackTapIntents.intentdefinition */ = {
+		B82759AD28ACDF2F00197240 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B8C186DC2897D58A00B28BD3 /* ja */,
-				B8C186E02897D60B00B28BD3 /* en */,
+				B82759AC28ACDF2F00197240 /* ja */,
 			);
-			name = BackTapIntents.intentdefinition;
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		BFC68B56258C721800269902 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				BFC68B57258C721800269902 /* Base */,
-				BF16705A260A304C00C7E9CA /* en */,
+				B82759AF28ACDF6500197240 /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -263,7 +264,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				BFC68B5C258C721A00269902 /* Base */,
-				BF16705B260A304C00C7E9CA /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

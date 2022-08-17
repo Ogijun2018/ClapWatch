@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  ClapWatch
+
+  Created by jun.ogino on 2022/08/17.
+  
+*/
+"Proximity Sensor" = "近接センサー";
+
+"Shake" = "シェイク";
+
+"Two-finger tap" = "2本指タップ";
+
+"Three-finger tap" = "3本指タップ";
+
+"Upward swipe" = "上方向スワイプ";
+
+"Flick" = "フリック";
+
+"Back tap" = "背面タップ";
+
+"Delete all records" = "すべての記録を削除";
+
+"Are you sure to delete all records?" = "すべての記録を削除してよろしいですか？";
+
+"Cancel" = "キャンセル";
+
+"Records" = "記録";
+
+"Setting" = "設定";

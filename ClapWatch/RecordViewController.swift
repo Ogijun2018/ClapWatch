@@ -34,7 +34,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
    @objc func deleteRecords(_ sender: Any) {
-        let alert: UIAlertController = UIAlertController(title: "すべての記録を削除", message: "すべての記録を削除してもよろしいですか？", preferredStyle: .alert)
+        let alert: UIAlertController = UIAlertController(title: NSLocalizedString("Delete all records", comment: ""), message: NSLocalizedString("Are you sure to delete all records?", comment: ""), preferredStyle: .alert)
         let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action: UIAlertAction!) -> Void in
             let realm = try! Realm()
@@ -44,7 +44,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.recordTableView.reloadData()
             self.emptyLabel.isHidden = false
         })
-        let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: {
+        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {
             (action: UIAlertAction!) -> Void in
         })
         alert.addAction(cancelAction)
@@ -57,7 +57,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         let RealmInstance1 = try! Realm()
         self.ItemList = RealmInstance1.objects(RecordModel.self)
-        self.navigationItem.title = "Records"
+        self.navigationItem.title = NSLocalizedString("Records", comment: "")
         self.navigationController?.navigationBar.barStyle = .default
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.prefersLargeTitles = true
