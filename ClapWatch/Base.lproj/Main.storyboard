@@ -259,7 +259,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZST-lT-K14">
-                                        <rect key="frame" x="101" y="34" width="98" height="82"/>
+                                        <rect key="frame" x="105" y="37.5" width="90" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="ZST-lT-K14" secondAttribute="height" multiplier="12:10" id="AB5-zu-Vxe"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="bSt-xe-kCM"/>
@@ -269,7 +269,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=":" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPa-yY-ef1">
-                                        <rect key="frame" x="86" y="39" width="15" height="72"/>
+                                        <rect key="frame" x="90" y="39" width="15" height="72"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="15" id="HOd-cU-Fm9"/>
                                             <constraint firstAttribute="height" constant="72" id="brN-DO-qjT"/>
@@ -289,7 +289,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DwR-lF-c9F">
-                                        <rect key="frame" x="199" y="39" width="15" height="72"/>
+                                        <rect key="frame" x="195" y="39" width="15" height="72"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="15" id="liq-fA-8QV"/>
                                             <constraint firstAttribute="height" constant="72" id="tsf-TQ-9Er"/>
@@ -348,7 +348,7 @@
                                     <constraint firstItem="ZST-lT-K14" firstAttribute="centerX" secondItem="Z9x-TS-4Bo" secondAttribute="centerX" id="pSE-X3-Vf9"/>
                                     <constraint firstItem="ffg-md-6bv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OqY-aj-wFu" secondAttribute="trailing" id="qzp-Yb-N5M"/>
                                     <constraint firstItem="AIK-E7-XwD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pkI-Ac-uYu" secondAttribute="trailing" id="s16-mJ-PWV"/>
-                                    <constraint firstItem="BPa-yY-ef1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pkI-Ac-uYu" secondAttribute="leading" constant="86" id="tBf-3I-4fZ"/>
+                                    <constraint firstItem="BPa-yY-ef1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pkI-Ac-uYu" secondAttribute="leading" constant="90" id="tBf-3I-4fZ"/>
                                     <constraint firstItem="ZST-lT-K14" firstAttribute="centerY" secondItem="Z9x-TS-4Bo" secondAttribute="centerY" id="tdZ-k0-FZc"/>
                                     <constraint firstAttribute="bottom" secondItem="AIK-E7-XwD" secondAttribute="bottom" id="ucR-r4-RU6"/>
                                     <constraint firstItem="nNV-nt-6qP" firstAttribute="leading" secondItem="08s-Sc-Clf" secondAttribute="trailing" constant="3" id="udX-zz-Iie"/>
