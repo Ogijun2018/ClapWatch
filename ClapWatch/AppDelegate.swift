@@ -24,20 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
-
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if let _ = userActivity.interaction?.intent as?
-            BackTapIntent {
-            switch appDelegate.viewController.mode {
-            case .stopped, .paused:
-                appDelegate.viewController.startTimer()
-            case .running:
-                appDelegate.viewController.stopTimer()
-            }
-        }
-            return true
-        }
     
 //    func applicationDidEnterBackground(_ application: UIApplication) {
 //            // アプリがバックグラウンドへ移行するタイミングを通知
