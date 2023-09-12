@@ -93,14 +93,11 @@
 		BFC68B4F258C721800269902 /* ClapWatch */ = {
 			isa = PBXGroup;
 			children = (
+				FBF171732AB0AEC800ABC601 /* Models */,
+				FBF171722AB0AEBE00ABC601 /* ViewControllers */,
+				FBF171712AB0AEB100ABC601 /* Views */,
 				B80C478728D6E1C500361E19 /* ClapWatch.entitlements */,
 				B8642C882898BCD30019D0DE /* AppDelegate.swift */,
-				BFC68B54258C721800269902 /* MainViewController.swift */,
-				BF454919264AC0F7005C1588 /* TabBarController.swift */,
-				BF45491E264AC3B8005C1588 /* RecordViewController.swift */,
-				B8B3D0802898C0E60089D48E /* DetailViewController.swift */,
-				BF32256D267073AB0084BA6B /* RecordModel.swift */,
-				B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */,
 				BFC68B5B258C721A00269902 /* LaunchScreen.storyboard */,
 				BFC68B56258C721800269902 /* Main.storyboard */,
 				BFC68B59258C721A00269902 /* Assets.xcassets */,
@@ -108,6 +105,33 @@
 			);
 			path = ClapWatch;
 			sourceTree = SOURCE_ROOT;
+		};
+		FBF171712AB0AEB100ABC601 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FBF171722AB0AEBE00ABC601 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				BFC68B54258C721800269902 /* MainViewController.swift */,
+				BF45491E264AC3B8005C1588 /* RecordViewController.swift */,
+				B8B3D0802898C0E60089D48E /* DetailViewController.swift */,
+				B8C0ECBD2891349B000D3BE6 /* SettingViewController.swift */,
+				BF454919264AC0F7005C1588 /* TabBarController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		FBF171732AB0AEC800ABC601 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BF32256D267073AB0084BA6B /* RecordModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
