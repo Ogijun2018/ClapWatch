@@ -106,9 +106,8 @@
 				BFC68B59258C721A00269902 /* Assets.xcassets */,
 				BFC68B5E258C721A00269902 /* Info.plist */,
 			);
-			name = ClapWatch;
-			path = "/Users/jun.ogino/Develop/Volume-Watch/ClapWatch";
-			sourceTree = "<absolute>";
+			path = ClapWatch;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
