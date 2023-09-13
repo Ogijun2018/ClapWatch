@@ -7,8 +7,6 @@
 
 import Foundation
 import UIKit
-import AVFoundation
-import MediaPlayer
 import RealmSwift
 
 class RecordViewController: UIViewController {

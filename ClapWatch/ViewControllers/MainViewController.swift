@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import AVFoundation
-import MediaPlayer
 import RealmSwift
 
 class MainViewController: UIViewController {
