@@ -14,7 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var backgroundTaskID : UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier(rawValue: 0)
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         if #available(iOS 15.0, *) {
             // disable UITab bar transparent
             let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
@@ -28,17 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-    
-//    func applicationDidEnterBackground(_ application: UIApplication) {
-//            // アプリがバックグラウンドへ移行するタイミングを通知
-//        NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
-//        print("aaaaaa")
-//    }
-//
-//    func applicationWillEnterForeground(_ application: UIApplication) {
-//        // アプリがフォアグラウンドへ移行するタイミングを通知
-//        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
-//    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         backgroundTaskID = application.beginBackgroundTask(){
