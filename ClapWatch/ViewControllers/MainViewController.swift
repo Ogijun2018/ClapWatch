@@ -6,11 +6,9 @@
 //
 
 import UIKit
-import AVFoundation
-import MediaPlayer
 import RealmSwift
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+class MainViewController: UIViewController {
     
     enum stopWatchMode {
         case running
@@ -20,22 +18,97 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
     
-    @IBOutlet weak var startButton: UIButton!
-    @IBOutlet weak var stopButton: UIButton!
-    @IBOutlet weak var resetButton: UIButton!
-    @IBOutlet weak var lapButton: UIButton!
-    @IBOutlet weak var tableView: UITableView!
+    var startButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Start", for: .normal)
+        button.backgroundColor = .systemGreen
+        button.layer.cornerRadius = 10
+        return button
+    }()
     
-    @IBOutlet weak var minute: UILabel!
-    @IBOutlet weak var second: UILabel!
-    @IBOutlet weak var mSec: UILabel!
+    var resetButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Reset", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.backgroundColor = .systemGray
+        button.layer.cornerRadius = 10
+        return button
+    }()
     
-    @IBOutlet weak var copyButton: UIButton!
-    
+    var tableView: UITableView = UITableView()
+
+    var timerContainerView = UIView()
+    var minute: UILabel = {
+        let label = UILabel()
+        label.text = "00"
+        label.font = UIFont(name: "Avenir Next Regular", size: 60)
+        label.textAlignment = .center
+        return label
+    }()
+    private let colon: UILabel = {
+        let label = UILabel()
+        label.text = ":"
+        label.font = UIFont(name: "Avenir Next Regular", size: 60)
+        label.textAlignment = .center
+        return label
+    }()
+    var second: UILabel = {
+        let label = UILabel()
+        label.text = "00"
+        label.font = UIFont(name: "Avenir Next Regular", size: 60)
+        label.textAlignment = .center
+        return label
+    }()
+    private let dott: UILabel = {
+        let label = UILabel()
+        label.text = "."
+        label.font = UIFont(name: "Avenir Next Regular", size: 60)
+        label.textAlignment = .center
+        return label
+    }()
+    var mSec: UILabel = {
+        let label = UILabel()
+        label.text = "00"
+        label.font = UIFont(name: "Avenir Next Regular", size: 60)
+        label.textAlignment = .center
+        return label
+    }()
+
+    var copyButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.init(systemName: "doc.on.clipboard", withConfiguration: UIImage.SymbolConfiguration(scale: .large)), for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 25
+        return button
+    }()
+
+    var splitTimerContainerView = UIView()
     // スプリットタイム用UILabel
-    @IBOutlet weak var splitMinute: UILabel!
-    @IBOutlet weak var splitSecond: UILabel!
-    @IBOutlet weak var splitMSec: UILabel!
+    var splitMinute: UILabel = {
+        let label = UILabel()
+        label.text = "00"
+        label.font = UIFont(name: "Avenir Next Regular", size: 28)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        return label
+    }()
+    var splitSecond: UILabel = {
+        let label = UILabel()
+        label.text = "00"
+        label.font = UIFont(name: "Avenir Next Regular", size: 28)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        return label
+    }()
+    var splitMSec: UILabel = {
+        let label = UILabel()
+        label.text = "00"
+        label.font = UIFont(name: "Avenir Next Regular", size: 28)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        return label
+    }()
     
     var calcuratedMinute : Int = 0
     var calcuratedSecond : Int = 0
@@ -112,22 +185,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.splitMinute.text = String(format:"%02d", self.calcuratedSplitMinute)
         self.splitSecond.text = String(format:"%02d", self.calcuratedSplitSecond)
         self.splitMSec.text = String(format:"%02d", self.calcuratedSplitMSec)
-    }
-    
-    // Table View Methods
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "Cell")
-        cell.backgroundColor = self.view.backgroundColor
-        cell.textLabel?.text = "Lap \(laps.count - indexPath.row)"
-        cell.detailTextLabel?.text = "\(laps[indexPath.row])"
-        cell.textLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
-        cell.detailTextLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return laps.count
     }
 
     override func didReceiveMemoryWarning() {
@@ -223,14 +280,107 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tapThreeFingerRecognizer.numberOfTouchesRequired = 3
         self.view.addGestureRecognizer(tapThreeFingerRecognizer)
         tapThreeFingerRecognizer.isEnabled = false
+        
+        let objects = [
+            "container": timerContainerView,
+            "splitContainer": splitTimerContainerView,
+            "minute": minute,
+            "colon": colon,
+            "second": second,
+            "dot": dott,
+            "mSec": mSec,
+            "splitMin": splitMinute,
+            "splitSec": splitSecond,
+            "splitMSec": splitMSec,
+            "right": startButton,
+            "left": resetButton,
+            "copy": copyButton,
+            "table": tableView
+        ]
 
-        startButton.isHidden = false
-        stopButton.isHidden = true
-        resetButton.isHidden = true
-        lapButton.isHidden = false
-        lapButton.isEnabled = false
+        view.addSubview(copyButton)
+        timerContainerView.addSubview(minute)
+        timerContainerView.addSubview(colon)
+        timerContainerView.addSubview(second)
+        timerContainerView.addSubview(dott)
+        timerContainerView.addSubview(mSec)
+        splitTimerContainerView.addSubview(splitMinute)
+        splitTimerContainerView.addSubview(splitSecond)
+        splitTimerContainerView.addSubview(splitMSec)
+        view.addSubview(timerContainerView)
+        view.addSubview(splitTimerContainerView)
+        view.addSubview(startButton)
+        view.addSubview(resetButton)
+        view.addSubview(tableView)
+
+        view.backgroundColor = .white
+
+        tableView.delegate = self
+        tableView.dataSource = self
+       
+        objects.forEach { $1.translatesAutoresizingMaskIntoConstraints = false }
+
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[copy(==50)]-20-|", metrics: nil, views: objects))
+
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-50-[left]-30-[right(==left)]-50-|", metrics: nil, views: objects))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=0)-[container]-(>=0)-|", metrics: nil, views: objects))
+        splitTimerContainerView.trailingAnchor.constraint(equalTo: timerContainerView.trailingAnchor, constant: -5).isActive = true
+
+
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[container][splitContainer]-30-[right(==70)]-30-[table]|", metrics: nil, views: objects))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[container][splitContainer]-30-[left(==70)]-30-[table]", metrics: nil, views: objects))
+
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[table]|", metrics: nil, views: objects))
+        timerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[minute]-10-[colon]-10-[second(==minute)]-10-[dot]-10-[mSec(==minute)]|", metrics: nil, views: objects))
+        timerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[minute]|", metrics: nil, views: objects))
+
+        timerContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+
+        splitTimerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[splitMin]-10-[splitSec(==splitMin)]-10-[splitMSec(==splitMin)]|", metrics: nil, views: objects))
+        splitTimerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[splitMin]|", metrics: nil, views: objects))
+
+        splitMinute.centerYAnchor.constraint(equalTo: splitSecond.centerYAnchor).isActive = true
+        splitMinute.centerYAnchor.constraint(equalTo: splitMSec.centerYAnchor).isActive = true
+
+        minute.centerYAnchor.constraint(equalTo: second.centerYAnchor).isActive = true
+        minute.centerYAnchor.constraint(equalTo: mSec.centerYAnchor).isActive = true
+        minute.centerYAnchor.constraint(equalTo: dott.centerYAnchor).isActive = true
+        minute.centerYAnchor.constraint(equalTo: colon.centerYAnchor).isActive = true
+        
+        startButton.addAction(.init { [weak self] _ in
+            switch self?.mode {
+            case .stopped, .paused:
+                self?.startTimer()
+                self?.startButton.setTitle("Stop", for: .normal)
+                self?.startButton.backgroundColor = .systemRed
+                self?.resetButton.setTitle("Lap", for: .normal)
+            case .running:
+                self?.stopTimer()
+                self?.startButton.setTitle("Start", for: .normal)
+                self?.startButton.backgroundColor = .systemGreen
+                self?.resetButton.setTitle("Reset", for: .normal)
+            default:
+                break
+            }
+        }, for: .touchUpInside)
+        
+        resetButton.addAction(.init { [weak self] _ in
+            switch self?.mode {
+            case .paused:
+                self?.resetTimer()
+                self?.resetButton.setTitle("Lap", for: .normal)
+            case .running:
+                self?.lap()
+            default:
+                break
+            }
+        }, for: .touchUpInside)
+
         copyButton.isEnabled = false
-
+        copyButton.addAction(.init { [weak self] _ in
+            self?.copyLap()
+        }, for: .touchUpInside)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewWillEnterForeground(
                                                 _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewDidEnterBackground(
@@ -364,7 +514,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - App Function
-    @IBAction func copyLap() {
+    private func copyLap() {
         UIPasteboard.general.string = copyTargetText
         let alertController:UIAlertController =
                     UIAlertController(title:"Lap Copied!",
@@ -381,7 +531,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - START
-    @IBAction func startTimer() {
+    private func startTimer() {
         mode = .running
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
@@ -393,19 +543,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         // スタートしたら明るくする
-        lapButton.backgroundColor = UIColor.lightGray
-        lapButton.setTitleColor(UIColor.white, for: .normal)
-
-        // Hide start,reset button
-        startButton.isHidden = true
-        resetButton.isHidden = true
-
-        // Appear stop,lap button
-        stopButton.isHidden = false
-        lapButton.isHidden = false
+        resetButton.backgroundColor = .lightGray
+        resetButton.setTitleColor(.white, for: .normal)
 
         // 一時的にfalse
-        lapButton.isEnabled = true
         copyButton.isEnabled = false
 
         let generator = UIImpactFeedbackGenerator(style: .heavy)
@@ -417,7 +558,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - RESET
-    @IBAction func resetTimer() {
+    private func resetTimer() {
         // 最後にストップしたところまでのラップを入れる
         lap()
         timer.invalidate()
@@ -456,18 +597,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         mode = .stopped
         splitMode = .stopped
         
-        lapButton.backgroundColor = UIColor.darkGray
-        lapButton.setTitleColor(UIColor.gray, for: .normal)
+        resetButton.backgroundColor = .systemGray
+        resetButton.setTitleColor(.lightGray, for: .normal)
 
-        // Hide stop,reset button
-        stopButton.isHidden = true
-        resetButton.isHidden = true
-
-        // Appear start,lap button
-        startButton.isHidden = false
-        lapButton.isHidden = false
-
-        lapButton.isEnabled = false
         copyButton.isEnabled = false
         
         // lap reset
@@ -484,18 +616,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - STOP
-    @IBAction func stopTimer() {
+    private func stopTimer() {
         timer.invalidate()
         splitTimer.invalidate()
         mode = .paused
         splitMode = laps.isEmpty ? .stopped : .paused
-
-        // Hide stop,lap button
-        stopButton.isHidden = true
-        lapButton.isHidden = true
-        // Appear start,reset button
-        startButton.isHidden = false
-        resetButton.isHidden = false
 
         copyButton.isEnabled = true
         
@@ -516,7 +641,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: - LAP
-    @IBAction func lap() {
+    private func lap() {
         switch splitMode {
         case .running:
             secondsSplitElapsed = 0.0
@@ -530,5 +655,24 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.reloadData()
         let generator = UIImpactFeedbackGenerator(style: .soft)
         generator.impactOccurred()
+    }
+}
+
+// MARK: - TableView Delegate
+
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "Cell")
+        cell.backgroundColor = self.view.backgroundColor
+        cell.textLabel?.text = "Lap \(laps.count - indexPath.row)"
+        cell.detailTextLabel?.text = "\(laps[indexPath.row])"
+        cell.textLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
+        cell.detailTextLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
+        
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return laps.count
     }
 }
