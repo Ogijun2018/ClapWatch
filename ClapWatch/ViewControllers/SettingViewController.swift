@@ -7,12 +7,25 @@
 
 import UIKit
 
-class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var tableView: UITableView!
+class SettingViewController: UIViewController {
+
+    var tableView = UITableView(frame: .zero, style: .insetGrouped)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsMultipleSelection = true
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        let objects = ["table": tableView]
+
+        view.addSubview(tableView)
+        objects.forEach { $1.translatesAutoresizingMaskIntoConstraints = false }
+
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[table]|", metrics: nil, views: objects))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[table]|", metrics: nil, views: objects))
+        view.backgroundColor = .white
+
         self.navigationItem.title = NSLocalizedString("Setting", comment: "")
         self.navigationController?.navigationBar.barStyle = .default
         self.navigationItem.largeTitleDisplayMode = .always
@@ -52,11 +65,22 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
 
-    // MARK: TableView
     let sectionTitle = ["Start/Stop", "Lap"]
-    let icons = ["sensor.tag.radiowaves.forward", "waveform.path", "2.square", "3.square", "hand.draw.fill", "hand.draw"]
-    let labels = [NSLocalizedString("Proximity Sensor", comment: ""), NSLocalizedString("Shake", comment: ""), NSLocalizedString("Two-finger tap", comment: ""), NSLocalizedString("Three-finger tap", comment: ""), NSLocalizedString("Upward swipe", comment: ""), NSLocalizedString("Flick", comment: "")]
+    let icons = ["sensor.tag.radiowaves.forward",
+                 "waveform.path",
+                 "2.square",
+                 "3.square",
+                 "hand.draw.fill",
+                 "hand.draw"]
+    let labels = [NSLocalizedString("Proximity Sensor", comment: ""),
+                  NSLocalizedString("Shake", comment: ""),
+                  NSLocalizedString("Two-finger tap", comment: ""),
+                  NSLocalizedString("Three-finger tap", comment: ""),
+                  NSLocalizedString("Upward swipe", comment: ""),
+                  NSLocalizedString("Flick", comment: "")]
+}
 
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitle.count
     }
@@ -126,7 +150,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "settingTableCell", for: indexPath)
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
         let img = UIImage(systemName:icons[indexPath.row])
         cell.imageView?.image = img
         cell.textLabel?.text = labels[indexPath.row]
