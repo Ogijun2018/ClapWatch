@@ -22,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
             UITabBar.appearance().standardAppearance = tabBarAppearance
         }
+        window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = TabBarController()
+        window?.makeKeyAndVisible()
+        
         return true
     }
     

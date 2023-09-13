@@ -314,7 +314,9 @@ class MainViewController: UIViewController {
         view.addSubview(startButton)
         view.addSubview(resetButton)
         view.addSubview(tableView)
-        
+
+        view.backgroundColor = .white
+
         tableView.delegate = self
         tableView.dataSource = self
        
