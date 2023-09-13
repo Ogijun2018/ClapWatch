@@ -316,6 +316,7 @@ class MainViewController: UIViewController {
         view.addSubview(tableView)
         
         tableView.delegate = self
+        tableView.dataSource = self
        
         objects.forEach { $1.translatesAutoresizingMaskIntoConstraints = false }
 
@@ -326,11 +327,10 @@ class MainViewController: UIViewController {
         splitTimerContainerView.trailingAnchor.constraint(equalTo: timerContainerView.trailingAnchor, constant: -5).isActive = true
 
 
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[container][splitContainer]-50-[right(==70)]", metrics: nil, views: objects))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[container][splitContainer]-50-[left(==70)]", metrics: nil, views: objects))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[container][splitContainer]-30-[right(==70)]-30-[table]|", metrics: nil, views: objects))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[container][splitContainer]-30-[left(==70)]-30-[table]", metrics: nil, views: objects))
 
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[table]|", metrics: nil, views: objects))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[table(==300)]|", metrics: nil, views: objects))
         timerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[minute]-10-[colon]-10-[second(==minute)]-10-[dot]-10-[mSec(==minute)]|", metrics: nil, views: objects))
         timerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[minute]|", metrics: nil, views: objects))
 
@@ -660,8 +660,8 @@ class MainViewController: UIViewController {
 
 // MARK: - TableView Delegate
 
-extension MainViewController: UITableViewDelegate {
-    private func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "Cell")
         cell.backgroundColor = self.view.backgroundColor
         cell.textLabel?.text = "Lap \(laps.count - indexPath.row)"
@@ -671,7 +671,7 @@ extension MainViewController: UITableViewDelegate {
         
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return laps.count
     }
