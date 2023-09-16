@@ -105,6 +105,15 @@ final class WatchViewModel {
         }
     }
 
+    func controlWithSensor(isLapControl: Bool) {
+        switch mode {
+        case .stopped, .paused:
+            if !isLapControl { startTimer() }
+        case .running:
+            isLapControl ? lap() : stopTimer()
+        }
+    }
+
     func didEnterBackground(isViewLoaded: Bool, window: UIWindow?) {
         timer.invalidate()
         splitTimer.invalidate()

@@ -10,14 +10,7 @@ import Combine
 import RealmSwift
 
 class MainViewController: UIViewController {
-    
-    enum stopWatchMode {
-        case running
-        case stopped
-        case paused
-    }
 
-    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
     // Haptic
     let startHaptic = UIImpactFeedbackGenerator(style: .heavy)
     let resetHaptic = UINotificationFeedbackGenerator()
@@ -62,10 +55,6 @@ class MainViewController: UIViewController {
     var tapTwoFingerRecognizer = UITapGestureRecognizer()
     var tapThreeFingerRecognizer = UITapGestureRecognizer()
     var shakeGestureEnabled: Bool = false
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
 
     func resetSensor() {
         UIDevice.current.isProximityMonitoringEnabled = false
@@ -126,34 +115,29 @@ class MainViewController: UIViewController {
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-//        appDelegate.viewController = self
 
         // 上方向スワイプ検出
-//        swipeRecognizer = UISwipeGestureRecognizer(
-//            target: self,
-//            action: #selector(MainViewController.handleSwipeGesture(_:))
-//            )
-//        swipeRecognizer.direction = .up
-//        self.view.addGestureRecognizer(swipeRecognizer)
-//        swipeRecognizer.isEnabled = false
-//
-//        // パンジェスチャー検出
-//        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(MainViewController.handlePanGesture(_:)))
-//        self.view.addGestureRecognizer(panGestureRecognizer)
-//        panGestureRecognizer.isEnabled = false
-//
-//        // 2本指タップ検出
-//        tapTwoFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleTwoFingerTapGesture(_:)))
-//        tapTwoFingerRecognizer.numberOfTouchesRequired = 2
-//        self.view.addGestureRecognizer(tapTwoFingerRecognizer)
-//        tapTwoFingerRecognizer.isEnabled = false
-//
-//        // 3本指タップ検出
-//        tapThreeFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleThreeFingerTapGesture(_:)))
-//        tapThreeFingerRecognizer.numberOfTouchesRequired = 3
-//        self.view.addGestureRecognizer(tapThreeFingerRecognizer)
-//        tapThreeFingerRecognizer.isEnabled = false
+        swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture))
+        swipeRecognizer.direction = .up
+        self.view.addGestureRecognizer(swipeRecognizer)
+        swipeRecognizer.isEnabled = false
+
+        // パンジェスチャー検出
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
+        self.view.addGestureRecognizer(panGestureRecognizer)
+        panGestureRecognizer.isEnabled = false
+
+        // 2本指タップ検出
+        tapTwoFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTwoFingerTapGesture))
+        tapTwoFingerRecognizer.numberOfTouchesRequired = 2
+        self.view.addGestureRecognizer(tapTwoFingerRecognizer)
+        tapTwoFingerRecognizer.isEnabled = false
+
+        // 3本指タップ検出
+        tapThreeFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleThreeFingerTapGesture))
+        tapThreeFingerRecognizer.numberOfTouchesRequired = 3
+        self.view.addGestureRecognizer(tapThreeFingerRecognizer)
+        tapThreeFingerRecognizer.isEnabled = false
         
         let objects = [
             "timer": timerView,
@@ -164,20 +148,16 @@ class MainViewController: UIViewController {
             "table": tableView
         ]
 
-        view.addSubview(copyButton)
-        view.addSubview(timerView)
-        view.addSubview(splitTimerView)
-        view.addSubview(rightButton)
-        view.addSubview(leftButton)
-        view.addSubview(tableView)
-
         view.backgroundColor = .white
 
         tableView.delegate = self
         tableView.dataSource = self
         tableView.allowsSelection = false
        
-        objects.forEach { $1.translatesAutoresizingMaskIntoConstraints = false }
+        objects.forEach {
+            view.addSubview($1)
+            $1.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[copy(==50)]-20-|", metrics: nil, views: objects))
 
@@ -202,7 +182,7 @@ class MainViewController: UIViewController {
         }, for: .touchUpInside)
 
         copyButton.addAction(.init { [weak self] _ in
-            self?.copyLap()
+            self?.alertCopy()
         }, for: .touchUpInside)
         
         NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -240,6 +220,7 @@ class MainViewController: UIViewController {
                 self.leftButton.setTitle("Lap", for: .normal)
                 self.leftButton.backgroundColor = .systemGray
                 self.leftButton.setTitleColor(.lightGray, for: .normal)
+                self.resetHaptic.notificationOccurred(.success)
             case .lap:
                 self.leftButton.setTitle("Lap", for: .normal)
                 self.leftButton.backgroundColor = .lightGray
@@ -252,6 +233,7 @@ class MainViewController: UIViewController {
 
         viewModel.$rightButtonBehavior.sink { [weak self] behavior in
             guard let self else { return }
+            self.startHaptic.impactOccurred()
             switch behavior {
             case .start:
                 self.rightButton.setTitle("Start", for: .normal)
@@ -275,97 +257,44 @@ class MainViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        NotificationCenter.default.addObserver(self, selector: #selector(proximitySensorState), name: UIDevice.proximityStateDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(proximitySensorState), name: UIDevice.proximityStateDidChangeNotification, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         viewModel.willDisappear()
-//        NotificationCenter.default.removeObserver(self, name: UIDevice.proximityStateDidChangeNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIDevice.proximityStateDidChangeNotification, object: nil)
     }
 
     // MARK: Sensor control
-//    @objc func proximitySensorState() {
-//        if UIDevice.current.proximityState {
-//            switch mode {
-//            case .stopped, .paused:
-//                if(!proximityLapControl){
-//                    startTimer()
-//                }
-//            case .running:
-//                proximityLapControl ? lap() : stopTimer()
-//            }
-//        }
-//    }
-//
-//    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-//        if shakeGestureEnabled {
-//            if motion == .motionShake {
-//                switch mode {
-//                case .stopped, .paused:
-//                    if(!shakeGestureLapControl){
-//                        startTimer()
-//                    }
-//                case .running:
-//                    shakeGestureLapControl ? lap() : stopTimer()
-//                }
-//            }
-//        }
-//    }
-//
-//    @objc func handleTwoFingerTapGesture(_ sender: UITapGestureRecognizer){
-//        switch mode {
-//        case .stopped, .paused:
-//            if(!twoFingerLapControl){
-//                startTimer()
-//            }
-//        case .running:
-//            twoFingerLapControl ? lap() : stopTimer()
-//        }
-//    }
-//
-//    @objc func handleThreeFingerTapGesture(_ sender: UITapGestureRecognizer) {
-//        switch mode {
-//        case .stopped, .paused:
-//            if(!threeFingerLapControl){
-//                startTimer()
-//            }
-//        case .running:
-//            threeFingerLapControl ? lap() : stopTimer()
-//        }
-//    }
-//
-//    @objc func handleSwipeGesture(_ sender: UISwipeGestureRecognizer) {
-//        switch sender.direction {
-//        case .up:
-//            switch mode {
-//            case .stopped, .paused:
-//                if(!swipeGestureLapControl){
-//                    startTimer()
-//                }
-//            case .running:
-//                swipeGestureLapControl ? lap() : stopTimer()
-//            }
-//        default:
-//            break
-//        }
-//    }
-//
-//    @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
-//        if sender.state == .ended {
-//            print("sender state ended")
-//            switch mode {
-//            case .stopped, .paused:
-//                if(!panGestureLapControl){
-//                    startTimer()
-//                }
-//            case .running:
-//                panGestureLapControl ? lap() : stopTimer()
-//            }
-//        }
-//    }
+    @objc private func proximitySensorState() {
+        guard UIDevice.current.proximityState else { return }
+        viewModel.controlWithSensor(isLapControl: proximityLapControl)
+    }
 
-    // MARK: Control Foreground/Background
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        guard shakeGestureEnabled, motion == .motionShake else { return }
+        viewModel.controlWithSensor(isLapControl: shakeGestureLapControl)
+    }
+
+    @objc private func handleTwoFingerTapGesture(){
+        viewModel.controlWithSensor(isLapControl: twoFingerLapControl)
+    }
+
+    @objc private func handleThreeFingerTapGesture() {
+        viewModel.controlWithSensor(isLapControl: threeFingerLapControl)
+    }
+
+    @objc private func handleSwipeGesture(_ sender: UISwipeGestureRecognizer) {
+        guard case .up = sender.direction else { return }
+        viewModel.controlWithSensor(isLapControl: swipeGestureLapControl)
+    }
+
+    @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
+        guard case .ended = sender.state else { return }
+        viewModel.controlWithSensor(isLapControl: panGestureLapControl)
+    }
+
     @objc private func viewWillEnterForeground() {
         guard self.isViewLoaded && self.view.window != nil else { return }
         viewModel.willEnterForeground()
@@ -375,7 +304,7 @@ class MainViewController: UIViewController {
         viewModel.didEnterBackground(isViewLoaded: self.isViewLoaded, window: self.view.window)
     }
 
-    private func copyLap() {
+    private func alertCopy() {
         let alert = UIAlertController(title:"Lap Copied!", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
@@ -392,7 +321,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.detailTextLabel?.text = "\(laps[indexPath.row])"
         cell.textLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         cell.detailTextLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
-        
         return cell
     }
 
