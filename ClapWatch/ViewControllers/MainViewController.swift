@@ -26,7 +26,7 @@ class MainViewController: UIViewController {
     var viewModel = WatchViewModel()
     var cancellables: Set<AnyCancellable> = []
 
-    var startButton: UIButton = {
+    var rightButton: UIButton = {
         let button = UIButton()
         button.setTitle("Start", for: .normal)
         button.backgroundColor = .systemGreen
@@ -34,7 +34,7 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    var resetButton: UIButton = {
+    var leftButton: UIButton = {
         let button = UIButton()
         button.setTitle("Reset", for: .normal)
         button.setTitleColor(.lightGray, for: .normal)
@@ -158,8 +158,8 @@ class MainViewController: UIViewController {
         let objects = [
             "timer": timerView,
             "spTimer": splitTimerView,
-            "right": startButton,
-            "left": resetButton,
+            "right": rightButton,
+            "left": leftButton,
             "copy": copyButton,
             "table": tableView
         ]
@@ -167,8 +167,8 @@ class MainViewController: UIViewController {
         view.addSubview(copyButton)
         view.addSubview(timerView)
         view.addSubview(splitTimerView)
-        view.addSubview(startButton)
-        view.addSubview(resetButton)
+        view.addSubview(rightButton)
+        view.addSubview(leftButton)
         view.addSubview(tableView)
 
         view.backgroundColor = .white
@@ -191,14 +191,14 @@ class MainViewController: UIViewController {
 
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[table]|", metrics: nil, views: objects))
         
-        startButton.addAction(.init { [weak self] _ in
+        rightButton.addAction(.init { [weak self] _ in
             guard let self else { return }
-            self.viewModel.startButtonDidTap()
+            self.viewModel.rightButtonDidTap()
         }, for: .touchUpInside)
         
-        resetButton.addAction(.init { [weak self] _ in
+        leftButton.addAction(.init { [weak self] _ in
             guard let self else { return }
-            self.viewModel.resetButtonDidTap()
+            self.viewModel.leftButtonDidTap()
         }, for: .touchUpInside)
 
         copyButton.addAction(.init { [weak self] _ in
@@ -237,16 +237,16 @@ class MainViewController: UIViewController {
             guard let self else { return }
             switch behavior {
             case .disabledLap:
-                self.resetButton.setTitle("Lap", for: .normal)
-                self.resetButton.backgroundColor = .systemGray
-                self.resetButton.setTitleColor(.lightGray, for: .normal)
+                self.leftButton.setTitle("Lap", for: .normal)
+                self.leftButton.backgroundColor = .systemGray
+                self.leftButton.setTitleColor(.lightGray, for: .normal)
             case .lap:
-                self.resetButton.setTitle("Lap", for: .normal)
-                self.resetButton.backgroundColor = .lightGray
-                self.resetButton.setTitleColor(.white, for: .normal)
+                self.leftButton.setTitle("Lap", for: .normal)
+                self.leftButton.backgroundColor = .lightGray
+                self.leftButton.setTitleColor(.white, for: .normal)
             case .reset:
-                self.resetButton.setTitle("Reset", for: .normal)
-                self.resetButton.setTitleColor(.white, for: .normal)
+                self.leftButton.setTitle("Reset", for: .normal)
+                self.leftButton.setTitleColor(.white, for: .normal)
             }
         }.store(in: &cancellables)
 
@@ -254,11 +254,11 @@ class MainViewController: UIViewController {
             guard let self else { return }
             switch behavior {
             case .start:
-                self.startButton.setTitle("Start", for: .normal)
-                self.startButton.backgroundColor = .systemGreen
+                self.rightButton.setTitle("Start", for: .normal)
+                self.rightButton.backgroundColor = .systemGreen
             case .stop:
-                self.startButton.setTitle("Stop", for: .normal)
-                self.startButton.backgroundColor = .systemRed
+                self.rightButton.setTitle("Stop", for: .normal)
+                self.rightButton.backgroundColor = .systemRed
             }
         }.store(in: &cancellables)
 

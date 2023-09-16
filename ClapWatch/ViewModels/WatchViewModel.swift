@@ -83,7 +83,7 @@ final class WatchViewModel {
     }
 
     // MARK: - Inputs
-    func startButtonDidTap() {
+    func rightButtonDidTap() {
         switch mode {
         case .stopped, .paused:
             startTimer()
@@ -94,7 +94,7 @@ final class WatchViewModel {
         }
     }
 
-    func resetButtonDidTap() {
+    func leftButtonDidTap() {
         switch mode {
         case .paused:
             resetTimer()
