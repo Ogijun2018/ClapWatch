@@ -42,11 +42,10 @@ class MainViewController: UIViewController {
         button.layer.cornerRadius = 10
         return button
     }()
-    
-    var tableView: UITableView = UITableView()
 
     var timerView = TimerView()
     var splitTimerView = SplitTimerView()
+    var tableView = UITableView()
 
     var copyButton: UIButton = {
         let button = UIButton()
@@ -54,6 +53,7 @@ class MainViewController: UIViewController {
         button.backgroundColor = .systemGray6
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 25
+        button.isEnabled = false
         return button
     }()
 
@@ -126,10 +126,8 @@ class MainViewController: UIViewController {
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.viewController = self
-
-        tableView.allowsSelection = false
+//        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//        appDelegate.viewController = self
 
         // 上方向スワイプ検出
 //        swipeRecognizer = UISwipeGestureRecognizer(
@@ -177,6 +175,7 @@ class MainViewController: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.allowsSelection = false
        
         objects.forEach { $1.translatesAutoresizingMaskIntoConstraints = false }
 
@@ -202,15 +201,12 @@ class MainViewController: UIViewController {
             self.viewModel.resetButtonDidTap()
         }, for: .touchUpInside)
 
-        copyButton.isEnabled = false
         copyButton.addAction(.init { [weak self] _ in
             self?.copyLap()
         }, for: .touchUpInside)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewWillEnterForeground(
-                                                _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewDidEnterBackground(
-                                                _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(viewDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
 
         viewModel.$mainWatchTime
             .receive(on: DispatchQueue.main)
@@ -230,47 +226,41 @@ class MainViewController: UIViewController {
                 self.splitTimerView.mSec.text = time.stringMilliSecond
         }.store(in: &cancellables)
 
-        viewModel.$mode
-            .sink(receiveValue: { [weak self] mode in
+        viewModel.$tabBarButtonEnabled
+            .sink { [weak self] tabBarButtonEnabled in
                 guard let self else { return }
-                switch mode {
-                case .paused:
-                    self.startHaptic.impactOccurred()
-                    self.copyButton.isEnabled = true
-                    self.tabBarController!.tabBar.items![1].isEnabled = true
-                    self.tabBarController!.tabBar.items![2].isEnabled = true
+                self.tabBarController!.tabBar.items![1].isEnabled = tabBarButtonEnabled
+                self.tabBarController!.tabBar.items![2].isEnabled = tabBarButtonEnabled
+            }.store(in: &cancellables)
 
-                    self.startButton.setTitle("Start", for: .normal)
-                    self.startButton.backgroundColor = .systemGreen
-                    self.resetButton.setTitle("Reset", for: .normal)
-                case .running:
-                    self.startHaptic.impactOccurred()
-                    // スタートしたら明るくする
-                    self.resetButton.backgroundColor = .lightGray
-                    self.resetButton.setTitleColor(.white, for: .normal)
-                    // 一時的にfalse
-                    self.copyButton.isEnabled = false
-                    // ストップウォッチ稼働時は別画面に遷移できないようにする
-                    self.tabBarController!.tabBar.items![1].isEnabled = false
-                    self.tabBarController!.tabBar.items![2].isEnabled = false
+        viewModel.$leftButtonBehavior.sink { [weak self] behavior in
+            guard let self else { return }
+            switch behavior {
+            case .disabledLap:
+                self.resetButton.setTitle("Lap", for: .normal)
+                self.resetButton.backgroundColor = .systemGray
+                self.resetButton.setTitleColor(.lightGray, for: .normal)
+            case .lap:
+                self.resetButton.setTitle("Lap", for: .normal)
+                self.resetButton.backgroundColor = .lightGray
+                self.resetButton.setTitleColor(.white, for: .normal)
+            case .reset:
+                self.resetButton.setTitle("Reset", for: .normal)
+                self.resetButton.setTitleColor(.white, for: .normal)
+            }
+        }.store(in: &cancellables)
 
-                    self.startButton.setTitle("Stop", for: .normal)
-                    self.startButton.backgroundColor = .systemRed
-                    self.resetButton.setTitle("Lap", for: .normal)
-                case .stopped:
-                    self.resetHaptic.notificationOccurred(.success)
-                    self.resetButton.backgroundColor = .systemGray
-                    self.resetButton.setTitleColor(.lightGray, for: .normal)
-                    self.copyButton.isEnabled = false
-
-                    // 別画面に遷移できるように変更
-                    self.tabBarController!.tabBar.items![1].isEnabled = true
-                    self.tabBarController!.tabBar.items![2].isEnabled = true
-
-                    self.resetButton.setTitle("Lap", for: .normal)
-                    self.tableView.reloadData()
-                }
-            }).store(in: &cancellables)
+        viewModel.$rightButtonBehavior.sink { [weak self] behavior in
+            guard let self else { return }
+            switch behavior {
+            case .start:
+                self.startButton.setTitle("Start", for: .normal)
+                self.startButton.backgroundColor = .systemGreen
+            case .stop:
+                self.startButton.setTitle("Stop", for: .normal)
+                self.startButton.backgroundColor = .systemRed
+            }
+        }.store(in: &cancellables)
 
         viewModel.$laps.sink { [weak self] laps in
             guard let self else { return }
@@ -376,12 +366,12 @@ class MainViewController: UIViewController {
 //    }
 
     // MARK: Control Foreground/Background
-    @objc func viewWillEnterForeground(_ notification: Notification?) {
+    @objc private func viewWillEnterForeground() {
         guard self.isViewLoaded && self.view.window != nil else { return }
         viewModel.willEnterForeground()
     }
 
-    @objc func viewDidEnterBackground(_ notification: Notification?) {
+    @objc private func viewDidEnterBackground() {
         viewModel.didEnterBackground(isViewLoaded: self.isViewLoaded, window: self.view.window)
     }
 

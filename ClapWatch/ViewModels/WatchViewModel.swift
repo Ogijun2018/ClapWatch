@@ -17,15 +17,43 @@ final class WatchViewModel {
         case paused
     }
 
+    enum RightButtonBehavior {
+        case start
+        case stop
+    }
+
+    enum LeftButtonBehavior {
+        case disabledLap
+        case lap
+        case reset
+    }
+
     // MARK: - Outputs
 
     @Published private(set) var mainWatchTime: WatchTime = WatchTime()
     @Published private(set) var splitWatchTime: WatchTime = WatchTime()
-    @Published private(set) var mode: stopWatchMode = .stopped
-    @Published private(set) var splitMode: stopWatchMode = .stopped
+    @Published private(set) var rightButtonBehavior: RightButtonBehavior = .start
+    @Published private(set) var leftButtonBehavior: LeftButtonBehavior = .reset
     @Published private(set) var laps: [String] = []
-    @Published private(set) var lapsForOutput: [String] = []
     @Published private(set) var copyTargetText: String = ""
+    @Published private(set) var tabBarButtonEnabled: Bool = true
+
+    var mode: stopWatchMode = .stopped {
+        didSet {
+            switch mode {
+            case .stopped:
+                leftButtonBehavior = .disabledLap
+                rightButtonBehavior = .start
+            case .paused:
+                leftButtonBehavior = .reset
+                rightButtonBehavior = .start
+            case .running:
+                leftButtonBehavior = .lap
+                rightButtonBehavior = .stop
+            }
+        }
+    }
+    var splitMode: stopWatchMode = .stopped
 
     var secondsElapsed = 0.0 {
         didSet {
@@ -45,6 +73,7 @@ final class WatchViewModel {
     var timer = Timer()
     var splitTimer = Timer()
     var mSecForBackground : Date?
+    var lapsForOutput: [String] = []
 
     let realmInstance = try! Realm()
 
@@ -58,8 +87,10 @@ final class WatchViewModel {
         switch mode {
         case .stopped, .paused:
             startTimer()
+            tabBarButtonEnabled = false
         case .running:
             stopTimer()
+            tabBarButtonEnabled = true
         }
     }
 
