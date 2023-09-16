@@ -18,6 +18,10 @@
 		BFC68B55258C721800269902 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC68B54258C721800269902 /* MainViewController.swift */; };
 		BFC68B5A258C721A00269902 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFC68B59258C721A00269902 /* Assets.xcassets */; };
 		BFC68B5D258C721A00269902 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFC68B5B258C721A00269902 /* LaunchScreen.storyboard */; };
+		FBF1717A2AB338DA00ABC601 /* WatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF171792AB338DA00ABC601 /* WatchViewModel.swift */; };
+		FBF1717C2AB5C47400ABC601 /* WatchTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF1717B2AB5C47400ABC601 /* WatchTime.swift */; };
+		FBF1717E2AB5E3F300ABC601 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF1717D2AB5E3F300ABC601 /* TimerView.swift */; };
+		FBF171802AB5E64E00ABC601 /* SplitTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF1717F2AB5E64E00ABC601 /* SplitTimerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +41,10 @@
 		BFC68B5C258C721A00269902 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BFC68B5E258C721A00269902 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F14C92755236BA829B2AD84D /* Pods-ClapWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClapWatch.release.xcconfig"; path = "Target Support Files/Pods-ClapWatch/Pods-ClapWatch.release.xcconfig"; sourceTree = "<group>"; };
+		FBF171792AB338DA00ABC601 /* WatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViewModel.swift; sourceTree = "<group>"; };
+		FBF1717B2AB5C47400ABC601 /* WatchTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTime.swift; sourceTree = "<group>"; };
+		FBF1717D2AB5E3F300ABC601 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		FBF1717F2AB5E64E00ABC601 /* SplitTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitTimerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +98,7 @@
 		BFC68B4F258C721800269902 /* ClapWatch */ = {
 			isa = PBXGroup;
 			children = (
+				FBF171782AB338BB00ABC601 /* ViewModels */,
 				FBF171732AB0AEC800ABC601 /* Models */,
 				FBF171722AB0AEBE00ABC601 /* ViewControllers */,
 				FBF171712AB0AEB100ABC601 /* Views */,
@@ -105,6 +114,8 @@
 		FBF171712AB0AEB100ABC601 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FBF1717D2AB5E3F300ABC601 /* TimerView.swift */,
+				FBF1717F2AB5E64E00ABC601 /* SplitTimerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -125,8 +136,17 @@
 			isa = PBXGroup;
 			children = (
 				BF32256D267073AB0084BA6B /* RecordModel.swift */,
+				FBF1717B2AB5C47400ABC601 /* WatchTime.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		FBF171782AB338BB00ABC601 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				FBF171792AB338DA00ABC601 /* WatchViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,12 +264,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBF1717C2AB5C47400ABC601 /* WatchTime.swift in Sources */,
 				BF45491A264AC0F7005C1588 /* TabBarController.swift in Sources */,
 				BFC68B55258C721800269902 /* MainViewController.swift in Sources */,
+				FBF1717A2AB338DA00ABC601 /* WatchViewModel.swift in Sources */,
 				B8642C892898BCD30019D0DE /* AppDelegate.swift in Sources */,
 				B8C0ECBE2891349B000D3BE6 /* SettingViewController.swift in Sources */,
 				BF32256E267073AB0084BA6B /* RecordModel.swift in Sources */,
+				FBF171802AB5E64E00ABC601 /* SplitTimerView.swift in Sources */,
 				BF45491F264AC3B8005C1588 /* RecordViewController.swift in Sources */,
+				FBF1717E2AB5E3F300ABC601 /* TimerView.swift in Sources */,
 				B8B3D0812898C0E60089D48E /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

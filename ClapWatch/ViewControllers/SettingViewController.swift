@@ -42,17 +42,19 @@ class SettingViewController: UIViewController {
     }
 
     func activateSensor(_ selectedIndexPaths: [IndexPath]) {
-        if let controller = tabBarController?.viewControllers?[0] as? MainViewController {
-            controller.resetSensor()
+        if let tab = self.tabBarController,
+           let nav = tab.viewControllers?[0] as? UINavigationController,
+           let vc = nav.viewControllers.first as? MainViewController {
+            vc.resetSensor()
             for index in selectedIndexPaths {
                 let isLap = index.section == 0 ? false : true
                 switch index.row {
-                case 0: controller.enableProximitySensor(isLap)
-                case 1: controller.enableShakeGesture(isLap)
-                case 2: controller.enableTwoFingerTap(isLap)
-                case 3: controller.enableThreeFingerTap(isLap)
-                case 4: controller.enableSwipeGesture(isLap)
-                case 5: controller.enablePanGesture(isLap)
+                case 0: vc.enableProximitySensor(isLap)
+                case 1: vc.enableShakeGesture(isLap)
+                case 2: vc.enableTwoFingerTap(isLap)
+                case 3: vc.enableThreeFingerTap(isLap)
+                case 4: vc.enableSwipeGesture(isLap)
+                case 5: vc.enablePanGesture(isLap)
                 default: break
                 }
             }
@@ -60,8 +62,10 @@ class SettingViewController: UIViewController {
     }
 
     func resetSensor() {
-        if let controller = tabBarController?.viewControllers?[0] as? MainViewController {
-            controller.resetSensor()
+        if let tab = self.tabBarController,
+           let nav = tab.viewControllers?[0] as? UINavigationController,
+           let vc = nav.viewControllers.first as? MainViewController {
+            vc.resetSensor()
         }
     }
 
