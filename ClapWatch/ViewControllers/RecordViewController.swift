@@ -86,6 +86,8 @@ class RecordViewController: UIViewController {
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[table]|", metrics: nil, views: objects))
         emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+
+
     }
     
     override func didReceiveMemoryWarning() {

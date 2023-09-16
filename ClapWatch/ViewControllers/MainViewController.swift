@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 import RealmSwift
 
 class MainViewController: UIViewController {
@@ -15,9 +16,16 @@ class MainViewController: UIViewController {
         case stopped
         case paused
     }
-    
+
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
-    
+    // Haptic
+    let startHaptic = UIImpactFeedbackGenerator(style: .heavy)
+    let resetHaptic = UINotificationFeedbackGenerator()
+
+    var laps: [String] = []
+    var viewModel = WatchViewModel()
+    var cancellables: Set<AnyCancellable> = []
+
     var startButton: UIButton = {
         let button = UIButton()
         button.setTitle("Start", for: .normal)
@@ -109,83 +117,12 @@ class MainViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-    
-    var calcuratedMinute : Int = 0
-    var calcuratedSecond : Int = 0
-    var calcuratedMSec : Int = 0
-    
-    var calcuratedSplitMinute : Int = 0
-    var calcuratedSplitSecond : Int = 0
-    var calcuratedSplitMSec : Int = 0
-    
-    var secondsElapsed = 0.0
-    var secondsSplitElapsed = 0.0
-    var mode: stopWatchMode = .stopped
-    var splitMode: stopWatchMode = .stopped
-    
-    var laps: [String] = []
-    var lapsForOutput: [String] = []
-    var copyTargetText: String = ""
-    var timer = Timer()
-    var splitTimer = Timer()
-    var mSecForBackground : Date?
-    
-    let realmInstance = try! Realm()
 
     var swipeRecognizer = UISwipeGestureRecognizer()
     var panGestureRecognizer = UIPanGestureRecognizer()
     var tapTwoFingerRecognizer = UITapGestureRecognizer()
     var tapThreeFingerRecognizer = UITapGestureRecognizer()
     var shakeGestureEnabled: Bool = false
-
-    func OutputLapText(removeSpace:Bool) -> String {
-        let lapMinute = String(format:"%02d", self.calcuratedMinute)
-        let lapSecond = String(format:"%02d", self.calcuratedSecond)
-        let lapMSec = String(format:"%02d", self.calcuratedMSec)
-        
-        let splitLapMinute = String(format:"%02d", self.calcuratedSplitMinute)
-        let splitLapSecond = String(format:"%02d", self.calcuratedSplitSecond)
-        let splitLapMSec = String(format:"%02d", self.calcuratedSplitMSec)
-        
-        var lapText = "Split: \(lapMinute):\(lapSecond).\(lapMSec)    Lap: \(splitLapMinute):\(splitLapSecond).\(splitLapMSec)"
-        if laps.isEmpty || lapsForOutput.isEmpty {
-            lapText = "Lap: \(lapMinute):\(lapSecond).\(lapMSec)"
-        }
-        
-        if(removeSpace){
-            let result = lapText.range(of: "  ")
-            if let theRange = result {
-                lapText.removeSubrange(theRange)
-            }
-        }
-        return lapText
-    }
-
-    @objc func updateTimer(_ timer: Timer){
-        self.secondsElapsed += 0.01
-        
-        // secondsElapsedは小数点2桁までのDouble値
-        self.calcuratedMinute = Int((self.secondsElapsed / 60).truncatingRemainder(dividingBy: 60))
-        self.calcuratedSecond = Int(self.secondsElapsed.truncatingRemainder(dividingBy: 60.0))
-        self.calcuratedMSec = Int((self.secondsElapsed * 100).truncatingRemainder(dividingBy: 100))
-        
-        self.minute.text = String(format:"%02d", self.calcuratedMinute)
-        self.second.text = String(format:"%02d", self.calcuratedSecond)
-        self.mSec.text = String(format:"%02d", self.calcuratedMSec)
-    }
-    
-    @objc func updateSplitTimer(_ timer: Timer){
-        self.secondsSplitElapsed += 0.01
-        
-        // secondsElapsedは小数点2桁までのDouble値
-        self.calcuratedSplitMinute = Int((self.secondsSplitElapsed / 60).truncatingRemainder(dividingBy: 60))
-        self.calcuratedSplitSecond = Int(self.secondsSplitElapsed.truncatingRemainder(dividingBy: 60.0))
-        self.calcuratedSplitMSec = Int((self.secondsSplitElapsed * 100).truncatingRemainder(dividingBy: 100))
-        
-        self.splitMinute.text = String(format:"%02d", self.calcuratedSplitMinute)
-        self.splitSecond.text = String(format:"%02d", self.calcuratedSplitSecond)
-        self.splitMSec.text = String(format:"%02d", self.calcuratedSplitMSec)
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -256,30 +193,30 @@ class MainViewController: UIViewController {
         tableView.allowsSelection = false
 
         // 上方向スワイプ検出
-        swipeRecognizer = UISwipeGestureRecognizer(
-            target: self,
-            action: #selector(MainViewController.handleSwipeGesture(_:))
-            )
-        swipeRecognizer.direction = .up
-        self.view.addGestureRecognizer(swipeRecognizer)
-        swipeRecognizer.isEnabled = false
-
-        // パンジェスチャー検出
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(MainViewController.handlePanGesture(_:)))
-        self.view.addGestureRecognizer(panGestureRecognizer)
-        panGestureRecognizer.isEnabled = false
-
-        // 2本指タップ検出
-        tapTwoFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleTwoFingerTapGesture(_:)))
-        tapTwoFingerRecognizer.numberOfTouchesRequired = 2
-        self.view.addGestureRecognizer(tapTwoFingerRecognizer)
-        tapTwoFingerRecognizer.isEnabled = false
-
-        // 3本指タップ検出
-        tapThreeFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleThreeFingerTapGesture(_:)))
-        tapThreeFingerRecognizer.numberOfTouchesRequired = 3
-        self.view.addGestureRecognizer(tapThreeFingerRecognizer)
-        tapThreeFingerRecognizer.isEnabled = false
+//        swipeRecognizer = UISwipeGestureRecognizer(
+//            target: self,
+//            action: #selector(MainViewController.handleSwipeGesture(_:))
+//            )
+//        swipeRecognizer.direction = .up
+//        self.view.addGestureRecognizer(swipeRecognizer)
+//        swipeRecognizer.isEnabled = false
+//
+//        // パンジェスチャー検出
+//        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(MainViewController.handlePanGesture(_:)))
+//        self.view.addGestureRecognizer(panGestureRecognizer)
+//        panGestureRecognizer.isEnabled = false
+//
+//        // 2本指タップ検出
+//        tapTwoFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleTwoFingerTapGesture(_:)))
+//        tapTwoFingerRecognizer.numberOfTouchesRequired = 2
+//        self.view.addGestureRecognizer(tapTwoFingerRecognizer)
+//        tapTwoFingerRecognizer.isEnabled = false
+//
+//        // 3本指タップ検出
+//        tapThreeFingerRecognizer = UITapGestureRecognizer(target: self, action: #selector(MainViewController.handleThreeFingerTapGesture(_:)))
+//        tapThreeFingerRecognizer.numberOfTouchesRequired = 3
+//        self.view.addGestureRecognizer(tapThreeFingerRecognizer)
+//        tapThreeFingerRecognizer.isEnabled = false
         
         let objects = [
             "container": timerContainerView,
@@ -348,32 +285,13 @@ class MainViewController: UIViewController {
         minute.centerYAnchor.constraint(equalTo: colon.centerYAnchor).isActive = true
         
         startButton.addAction(.init { [weak self] _ in
-            switch self?.mode {
-            case .stopped, .paused:
-                self?.startTimer()
-                self?.startButton.setTitle("Stop", for: .normal)
-                self?.startButton.backgroundColor = .systemRed
-                self?.resetButton.setTitle("Lap", for: .normal)
-            case .running:
-                self?.stopTimer()
-                self?.startButton.setTitle("Start", for: .normal)
-                self?.startButton.backgroundColor = .systemGreen
-                self?.resetButton.setTitle("Reset", for: .normal)
-            default:
-                break
-            }
+            guard let self else { return }
+            self.viewModel.startButtonDidTap()
         }, for: .touchUpInside)
         
         resetButton.addAction(.init { [weak self] _ in
-            switch self?.mode {
-            case .paused:
-                self?.resetTimer()
-                self?.resetButton.setTitle("Lap", for: .normal)
-            case .running:
-                self?.lap()
-            default:
-                break
-            }
+            guard let self else { return }
+            self.viewModel.resetButtonDidTap()
         }, for: .touchUpInside)
 
         copyButton.isEnabled = false
@@ -385,137 +303,182 @@ class MainViewController: UIViewController {
                                                 _:)), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.viewDidEnterBackground(
                                                 _:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+
+        viewModel.$mainWatchTime
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] time in
+                guard let self else { return }
+                self.minute.text = time.stringMinute
+                self.second.text = time.stringSecond
+                self.mSec.text = time.stringMilliSecond
+        }.store(in: &cancellables)
+
+        viewModel.$splitWatchTime
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] time in
+                guard let self else { return }
+                self.splitMinute.text = time.stringMinute
+                self.splitSecond.text = time.stringSecond
+                self.splitMSec.text = time.stringMilliSecond
+        }.store(in: &cancellables)
+
+        viewModel.$mode
+            .sink(receiveValue: { [weak self] mode in
+                guard let self else { return }
+                switch mode {
+                case .paused:
+                    self.startHaptic.impactOccurred()
+                    self.copyButton.isEnabled = true
+                    self.tabBarController!.tabBar.items![1].isEnabled = true
+                    self.tabBarController!.tabBar.items![2].isEnabled = true
+
+                    self.startButton.setTitle("Start", for: .normal)
+                    self.startButton.backgroundColor = .systemGreen
+                    self.resetButton.setTitle("Reset", for: .normal)
+                case .running:
+                    self.startHaptic.impactOccurred()
+                    // スタートしたら明るくする
+                    self.resetButton.backgroundColor = .lightGray
+                    self.resetButton.setTitleColor(.white, for: .normal)
+                    // 一時的にfalse
+                    self.copyButton.isEnabled = false
+                    // ストップウォッチ稼働時は別画面に遷移できないようにする
+                    self.tabBarController!.tabBar.items![1].isEnabled = false
+                    self.tabBarController!.tabBar.items![2].isEnabled = false
+
+                    self.startButton.setTitle("Stop", for: .normal)
+                    self.startButton.backgroundColor = .systemRed
+                    self.resetButton.setTitle("Lap", for: .normal)
+                case .stopped:
+                    self.resetHaptic.notificationOccurred(.success)
+                    self.resetButton.backgroundColor = .systemGray
+                    self.resetButton.setTitleColor(.lightGray, for: .normal)
+                    self.copyButton.isEnabled = false
+
+                    // 別画面に遷移できるように変更
+                    self.tabBarController!.tabBar.items![1].isEnabled = true
+                    self.tabBarController!.tabBar.items![2].isEnabled = true
+
+                    self.resetButton.setTitle("Lap", for: .normal)
+                    self.tableView.reloadData()
+                }
+            }).store(in: &cancellables)
+
+        viewModel.$laps.sink { [weak self] laps in
+            guard let self else { return }
+            self.laps = laps
+            self.tableView.reloadData()
+        }.store(in: &cancellables)
+
+        viewModel.$copyTargetText.sink { text in
+            UIPasteboard.general.string = text
+        }.store(in: &cancellables)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(proximitySensorState), name: UIDevice.proximityStateDidChangeNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(proximitySensorState), name: UIDevice.proximityStateDidChangeNotification, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        timer.invalidate()
-        splitTimer.invalidate()
-
-        NotificationCenter.default.removeObserver(self, name: UIDevice.proximityStateDidChangeNotification, object: nil)
+        viewModel.willDisappear()
+//        NotificationCenter.default.removeObserver(self, name: UIDevice.proximityStateDidChangeNotification, object: nil)
     }
 
     // MARK: Sensor control
-    @objc func proximitySensorState() {
-        if UIDevice.current.proximityState {
-            switch mode {
-            case .stopped, .paused:
-                if(!proximityLapControl){
-                    startTimer()
-                }
-            case .running:
-                proximityLapControl ? lap() : stopTimer()
-            }
-        }
-    }
-
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if shakeGestureEnabled {
-            if motion == .motionShake {
-                switch mode {
-                case .stopped, .paused:
-                    if(!shakeGestureLapControl){
-                        startTimer()
-                    }
-                case .running:
-                    shakeGestureLapControl ? lap() : stopTimer()
-                }
-            }
-        }
-    }
-
-    @objc func handleTwoFingerTapGesture(_ sender: UITapGestureRecognizer){
-        switch mode {
-        case .stopped, .paused:
-            if(!twoFingerLapControl){
-                startTimer()
-            }
-        case .running:
-            twoFingerLapControl ? lap() : stopTimer()
-        }
-    }
-
-    @objc func handleThreeFingerTapGesture(_ sender: UITapGestureRecognizer) {
-        switch mode {
-        case .stopped, .paused:
-            if(!threeFingerLapControl){
-                startTimer()
-            }
-        case .running:
-            threeFingerLapControl ? lap() : stopTimer()
-        }
-    }
-
-    @objc func handleSwipeGesture(_ sender: UISwipeGestureRecognizer) {
-        switch sender.direction {
-        case .up:
-            switch mode {
-            case .stopped, .paused:
-                if(!swipeGestureLapControl){
-                    startTimer()
-                }
-            case .running:
-                swipeGestureLapControl ? lap() : stopTimer()
-            }
-        default:
-            break
-        }
-    }
-
-    @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
-        if sender.state == .ended {
-            print("sender state ended")
-            switch mode {
-            case .stopped, .paused:
-                if(!panGestureLapControl){
-                    startTimer()
-                }
-            case .running:
-                panGestureLapControl ? lap() : stopTimer()
-            }
-        }
-    }
+//    @objc func proximitySensorState() {
+//        if UIDevice.current.proximityState {
+//            switch mode {
+//            case .stopped, .paused:
+//                if(!proximityLapControl){
+//                    startTimer()
+//                }
+//            case .running:
+//                proximityLapControl ? lap() : stopTimer()
+//            }
+//        }
+//    }
+//
+//    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+//        if shakeGestureEnabled {
+//            if motion == .motionShake {
+//                switch mode {
+//                case .stopped, .paused:
+//                    if(!shakeGestureLapControl){
+//                        startTimer()
+//                    }
+//                case .running:
+//                    shakeGestureLapControl ? lap() : stopTimer()
+//                }
+//            }
+//        }
+//    }
+//
+//    @objc func handleTwoFingerTapGesture(_ sender: UITapGestureRecognizer){
+//        switch mode {
+//        case .stopped, .paused:
+//            if(!twoFingerLapControl){
+//                startTimer()
+//            }
+//        case .running:
+//            twoFingerLapControl ? lap() : stopTimer()
+//        }
+//    }
+//
+//    @objc func handleThreeFingerTapGesture(_ sender: UITapGestureRecognizer) {
+//        switch mode {
+//        case .stopped, .paused:
+//            if(!threeFingerLapControl){
+//                startTimer()
+//            }
+//        case .running:
+//            threeFingerLapControl ? lap() : stopTimer()
+//        }
+//    }
+//
+//    @objc func handleSwipeGesture(_ sender: UISwipeGestureRecognizer) {
+//        switch sender.direction {
+//        case .up:
+//            switch mode {
+//            case .stopped, .paused:
+//                if(!swipeGestureLapControl){
+//                    startTimer()
+//                }
+//            case .running:
+//                swipeGestureLapControl ? lap() : stopTimer()
+//            }
+//        default:
+//            break
+//        }
+//    }
+//
+//    @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
+//        if sender.state == .ended {
+//            print("sender state ended")
+//            switch mode {
+//            case .stopped, .paused:
+//                if(!panGestureLapControl){
+//                    startTimer()
+//                }
+//            case .running:
+//                panGestureLapControl ? lap() : stopTimer()
+//            }
+//        }
+//    }
 
     // MARK: Control Foreground/Background
     @objc func viewWillEnterForeground(_ notification: Notification?) {
-        if (self.isViewLoaded && (self.view.window != nil)) {
-            if mode == .running {
-                let timeInterval = Date().timeIntervalSince(mSecForBackground!)
-                var ms = Double(timeInterval)
-                ms = round(ms * 100) / 100
-
-                // 若干の誤差があるので0.05sだけ足す
-                self.secondsElapsed += (ms + 0.05)
-                // 全体のタイマーをスタート
-                timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
-
-                if splitMode == .running {
-                    self.secondsSplitElapsed += (ms + 0.05)
-                    // スプリットタイマーをスタート
-                    splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
-                }
-            }
-        }
+        guard self.isViewLoaded && self.view.window != nil else { return }
+        viewModel.willEnterForeground()
     }
 
     @objc func viewDidEnterBackground(_ notification: Notification?) {
-        timer.invalidate()
-        splitTimer.invalidate()
-        if (self.isViewLoaded && (self.view.window != nil)) {
-            if mode == .running {
-                mSecForBackground = Date()
-            }
-        }
+        viewModel.didEnterBackground(isViewLoaded: self.isViewLoaded, window: self.view.window)
     }
     
     // MARK: - App Function
     private func copyLap() {
-        UIPasteboard.general.string = copyTargetText
         let alertController:UIAlertController =
                     UIAlertController(title:"Lap Copied!",
                                       message: nil,
@@ -528,133 +491,6 @@ class MainViewController: UIViewController {
                 })
         alertController.addAction(defaultAction)
         present(alertController, animated: true, completion: nil)
-    }
-    
-    // MARK: - START
-    private func startTimer() {
-        mode = .running
-        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
-        RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
-        
-        if splitMode == .paused && !laps.isEmpty {
-            splitMode = .running
-            splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
-            RunLoop.current.add(splitTimer, forMode: RunLoop.Mode.common)
-        }
-        
-        // スタートしたら明るくする
-        resetButton.backgroundColor = .lightGray
-        resetButton.setTitleColor(.white, for: .normal)
-
-        // 一時的にfalse
-        copyButton.isEnabled = false
-
-        let generator = UIImpactFeedbackGenerator(style: .heavy)
-        generator.impactOccurred()
-        
-        // ストップウォッチ稼働時は別画面に遷移できないようにする
-        self.tabBarController!.tabBar.items![1].isEnabled = false
-        self.tabBarController!.tabBar.items![2].isEnabled = false
-    }
-    
-    // MARK: - RESET
-    private func resetTimer() {
-        // 最後にストップしたところまでのラップを入れる
-        lap()
-        timer.invalidate()
-        splitTimer.invalidate()
-        secondsElapsed = 0.0
-        secondsSplitElapsed = 0.0
-        
-        // Save Laps to Local Storage
-        let object:RecordModel = RecordModel()
-        let recordLap = List<Lap>()
-        let totalTime:String = "\(self.minute.text!):\(self.second.text!).\(self.mSec.text!)"
-
-        for i in lapsForOutput {
-            let lap = Lap()
-            lap.time = i
-            recordLap.append(lap)
-        }
-
-        // 記録した時刻,ラップを入れる
-        object.date = Date()
-        object.laps = recordLap
-        object.totalTime = totalTime
-        try! realmInstance.write {
-            realmInstance.add(object)
-        }
-        
-        self.minute.text = "00"
-        self.second.text = "00"
-        self.mSec.text = "00"
-        self.splitMinute.text = "00"
-        self.splitSecond.text = "00"
-        self.splitMSec.text = "00"
-        calcuratedSplitSecond = 0
-        calcuratedSplitMinute = 0
-        calcuratedSplitMSec = 0
-        mode = .stopped
-        splitMode = .stopped
-        
-        resetButton.backgroundColor = .systemGray
-        resetButton.setTitleColor(.lightGray, for: .normal)
-
-        copyButton.isEnabled = false
-        
-        // lap reset
-        laps.removeAll(keepingCapacity: false)
-        lapsForOutput.removeAll(keepingCapacity: false)
-        tableView.reloadData()
-
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
-        
-        // 別画面に遷移できるように変更
-        self.tabBarController!.tabBar.items![1].isEnabled = true
-        self.tabBarController!.tabBar.items![2].isEnabled = true
-    }
-    
-    // MARK: - STOP
-    private func stopTimer() {
-        timer.invalidate()
-        splitTimer.invalidate()
-        mode = .paused
-        splitMode = laps.isEmpty ? .stopped : .paused
-
-        copyButton.isEnabled = true
-        
-        var lapText: String = ""
-        var num: Int = 1
-        for val in lapsForOutput {
-            lapText += "Lap\(num):  \(val)\n"
-            num += 1
-        }
-        lapText += "Lap\(num):  \(OutputLapText(removeSpace: true))"
-        copyTargetText = lapText
-
-        let generator = UIImpactFeedbackGenerator(style: .heavy)
-        generator.impactOccurred()
-        
-        self.tabBarController!.tabBar.items![1].isEnabled = true
-        self.tabBarController!.tabBar.items![2].isEnabled = true
-    }
-    
-    // MARK: - LAP
-    private func lap() {
-        switch splitMode {
-        case .running:
-            secondsSplitElapsed = 0.0
-        case .stopped, .paused:
-            splitMode = .running
-            splitTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateSplitTimer(_:)), userInfo: nil, repeats: true)
-            RunLoop.current.add(splitTimer, forMode: RunLoop.Mode.common)
-        }
-        laps.insert(OutputLapText(removeSpace: false), at: 0)
-        lapsForOutput.append(OutputLapText(removeSpace: true))
-        tableView.reloadData()
-        let generator = UIImpactFeedbackGenerator(style: .soft)
-        generator.impactOccurred()
     }
 }
 
