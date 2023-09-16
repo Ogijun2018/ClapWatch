@@ -45,42 +45,8 @@ class MainViewController: UIViewController {
     
     var tableView: UITableView = UITableView()
 
-    var timerContainerView = UIView()
-    var minute: UILabel = {
-        let label = UILabel()
-        label.text = "00"
-        label.font = UIFont(name: "Avenir Next Regular", size: 60)
-        label.textAlignment = .center
-        return label
-    }()
-    private let colon: UILabel = {
-        let label = UILabel()
-        label.text = ":"
-        label.font = UIFont(name: "Avenir Next Regular", size: 60)
-        label.textAlignment = .center
-        return label
-    }()
-    var second: UILabel = {
-        let label = UILabel()
-        label.text = "00"
-        label.font = UIFont(name: "Avenir Next Regular", size: 60)
-        label.textAlignment = .center
-        return label
-    }()
-    private let dott: UILabel = {
-        let label = UILabel()
-        label.text = "."
-        label.font = UIFont(name: "Avenir Next Regular", size: 60)
-        label.textAlignment = .center
-        return label
-    }()
-    var mSec: UILabel = {
-        let label = UILabel()
-        label.text = "00"
-        label.font = UIFont(name: "Avenir Next Regular", size: 60)
-        label.textAlignment = .center
-        return label
-    }()
+    var timerView = TimerView()
+    var splitTimerView = SplitTimerView()
 
     var copyButton: UIButton = {
         let button = UIButton()
@@ -89,33 +55,6 @@ class MainViewController: UIViewController {
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 25
         return button
-    }()
-
-    var splitTimerContainerView = UIView()
-    // スプリットタイム用UILabel
-    var splitMinute: UILabel = {
-        let label = UILabel()
-        label.text = "00"
-        label.font = UIFont(name: "Avenir Next Regular", size: 28)
-        label.textColor = .secondaryLabel
-        label.textAlignment = .center
-        return label
-    }()
-    var splitSecond: UILabel = {
-        let label = UILabel()
-        label.text = "00"
-        label.font = UIFont(name: "Avenir Next Regular", size: 28)
-        label.textColor = .secondaryLabel
-        label.textAlignment = .center
-        return label
-    }()
-    var splitMSec: UILabel = {
-        let label = UILabel()
-        label.text = "00"
-        label.font = UIFont(name: "Avenir Next Regular", size: 28)
-        label.textColor = .secondaryLabel
-        label.textAlignment = .center
-        return label
     }()
 
     var swipeRecognizer = UISwipeGestureRecognizer()
@@ -219,16 +158,8 @@ class MainViewController: UIViewController {
 //        tapThreeFingerRecognizer.isEnabled = false
         
         let objects = [
-            "container": timerContainerView,
-            "splitContainer": splitTimerContainerView,
-            "minute": minute,
-            "colon": colon,
-            "second": second,
-            "dot": dott,
-            "mSec": mSec,
-            "splitMin": splitMinute,
-            "splitSec": splitSecond,
-            "splitMSec": splitMSec,
+            "timer": timerView,
+            "spTimer": splitTimerView,
             "right": startButton,
             "left": resetButton,
             "copy": copyButton,
@@ -236,16 +167,8 @@ class MainViewController: UIViewController {
         ]
 
         view.addSubview(copyButton)
-        timerContainerView.addSubview(minute)
-        timerContainerView.addSubview(colon)
-        timerContainerView.addSubview(second)
-        timerContainerView.addSubview(dott)
-        timerContainerView.addSubview(mSec)
-        splitTimerContainerView.addSubview(splitMinute)
-        splitTimerContainerView.addSubview(splitSecond)
-        splitTimerContainerView.addSubview(splitMSec)
-        view.addSubview(timerContainerView)
-        view.addSubview(splitTimerContainerView)
+        view.addSubview(timerView)
+        view.addSubview(splitTimerView)
         view.addSubview(startButton)
         view.addSubview(resetButton)
         view.addSubview(tableView)
@@ -260,29 +183,14 @@ class MainViewController: UIViewController {
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[copy(==50)]-20-|", metrics: nil, views: objects))
 
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-50-[left]-30-[right(==left)]-50-|", metrics: nil, views: objects))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=0)-[container]-(>=0)-|", metrics: nil, views: objects))
-        splitTimerContainerView.trailingAnchor.constraint(equalTo: timerContainerView.trailingAnchor, constant: -5).isActive = true
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=0)-[timer]-(>=0)-|", metrics: nil, views: objects))
+        timerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        splitTimerView.trailingAnchor.constraint(equalTo: timerView.trailingAnchor, constant: -5).isActive = true
 
-
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[container][splitContainer]-30-[right(==70)]-30-[table]|", metrics: nil, views: objects))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[container][splitContainer]-30-[left(==70)]-30-[table]", metrics: nil, views: objects))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[timer][spTimer]-30-[right(==70)]-30-[table]|", metrics: nil, views: objects))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-70-[copy(==50)]-20-[timer][spTimer]-30-[left(==70)]-30-[table]", metrics: nil, views: objects))
 
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[table]|", metrics: nil, views: objects))
-        timerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[minute]-10-[colon]-10-[second(==minute)]-10-[dot]-10-[mSec(==minute)]|", metrics: nil, views: objects))
-        timerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[minute]|", metrics: nil, views: objects))
-
-        timerContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
-        splitTimerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[splitMin]-10-[splitSec(==splitMin)]-10-[splitMSec(==splitMin)]|", metrics: nil, views: objects))
-        splitTimerContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[splitMin]|", metrics: nil, views: objects))
-
-        splitMinute.centerYAnchor.constraint(equalTo: splitSecond.centerYAnchor).isActive = true
-        splitMinute.centerYAnchor.constraint(equalTo: splitMSec.centerYAnchor).isActive = true
-
-        minute.centerYAnchor.constraint(equalTo: second.centerYAnchor).isActive = true
-        minute.centerYAnchor.constraint(equalTo: mSec.centerYAnchor).isActive = true
-        minute.centerYAnchor.constraint(equalTo: dott.centerYAnchor).isActive = true
-        minute.centerYAnchor.constraint(equalTo: colon.centerYAnchor).isActive = true
         
         startButton.addAction(.init { [weak self] _ in
             guard let self else { return }
@@ -308,18 +216,18 @@ class MainViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] time in
                 guard let self else { return }
-                self.minute.text = time.stringMinute
-                self.second.text = time.stringSecond
-                self.mSec.text = time.stringMilliSecond
+                self.timerView.minute.text = time.stringMinute
+                self.timerView.second.text = time.stringSecond
+                self.timerView.mSec.text = time.stringMilliSecond
         }.store(in: &cancellables)
 
         viewModel.$splitWatchTime
             .receive(on: DispatchQueue.main)
             .sink { [weak self] time in
                 guard let self else { return }
-                self.splitMinute.text = time.stringMinute
-                self.splitSecond.text = time.stringSecond
-                self.splitMSec.text = time.stringMilliSecond
+                self.splitTimerView.minute.text = time.stringMinute
+                self.splitTimerView.second.text = time.stringSecond
+                self.splitTimerView.mSec.text = time.stringMilliSecond
         }.store(in: &cancellables)
 
         viewModel.$mode
@@ -476,21 +384,11 @@ class MainViewController: UIViewController {
     @objc func viewDidEnterBackground(_ notification: Notification?) {
         viewModel.didEnterBackground(isViewLoaded: self.isViewLoaded, window: self.view.window)
     }
-    
-    // MARK: - App Function
+
     private func copyLap() {
-        let alertController:UIAlertController =
-                    UIAlertController(title:"Lap Copied!",
-                                      message: nil,
-                              preferredStyle: .alert)
-        let defaultAction:UIAlertAction =
-                    UIAlertAction(title: "OK",
-                          style: .default,
-                          handler:{
-                            (action:UIAlertAction!) -> Void in
-                })
-        alertController.addAction(defaultAction)
-        present(alertController, animated: true, completion: nil)
+        let alert = UIAlertController(title:"Lap Copied!", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
