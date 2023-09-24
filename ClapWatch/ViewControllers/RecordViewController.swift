@@ -30,10 +30,6 @@ class RecordViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         recordTableView.reloadData()
-
-        if(!self.ItemList.isEmpty){
-            emptyLabel.isHidden = true
-        }
     }
 
    @objc func deleteRecords(_ sender: Any) {
@@ -86,8 +82,7 @@ class RecordViewController: UIViewController {
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[table]|", metrics: nil, views: objects))
         emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-
-
+        emptyLabel.isHidden = !ItemList.isEmpty
     }
     
     override func didReceiveMemoryWarning() {
