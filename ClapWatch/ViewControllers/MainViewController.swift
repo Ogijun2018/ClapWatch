@@ -208,9 +208,8 @@ class MainViewController: UIViewController {
 
         viewModel.$tabBarButtonEnabled
             .sink { [weak self] tabBarButtonEnabled in
-                guard let self else { return }
-                self.tabBarController!.tabBar.items![1].isEnabled = tabBarButtonEnabled
-                self.tabBarController!.tabBar.items![2].isEnabled = tabBarButtonEnabled
+                guard let self, let tabBarItems = self.tabBarController?.tabBar.items else { return }
+                tabBarItems.forEach { $0.isEnabled = tabBarButtonEnabled }
             }.store(in: &cancellables)
 
         viewModel.$leftButtonBehavior.sink { [weak self] behavior in

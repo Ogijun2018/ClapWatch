@@ -12,6 +12,12 @@ class RecordModel: Object {
     @objc dynamic var date: Date? = nil
     @objc dynamic var totalTime: String? = nil
     var laps = List<Lap>()
+    var formattedDate: String? {
+        guard let date else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "y/M/d HH:mm:ss"
+        return formatter.string(from: date)
+    }
 }
 
 class Lap: Object {

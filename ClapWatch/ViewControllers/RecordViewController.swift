@@ -102,37 +102,33 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
-                    do{
-                        let realm = try Realm()
-                        try realm.write {
-                            realm.delete(self.ItemList[indexPath.row])
-                        }
-                        tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
-                    }catch{
-                    }
-                    completionHandler(true)
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, completion in
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    realm.delete(self.ItemList[indexPath.row])
                 }
+                tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+                completion(true)
+            } catch {
+                completion(false)
+            }
+        }
         deleteAction.image = UIImage(systemName: "trash.fill")
-        deleteAction.backgroundColor = .systemRed
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         return configuration
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "TableViewCell")
-        let item: RecordModel = self.ItemList[(indexPath as NSIndexPath).row]
-        let imageAttachment = NSTextAttachment()
-        imageAttachment.image = UIImage(systemName: "clock")
-        let fullString = NSMutableAttributedString(attachment: imageAttachment)
-        fullString.append(NSAttributedString(string: " \(item.totalTime!)"))
-        let f = DateFormatter()
-        f.dateFormat = "y/M/d HH:mm:ss"
+        let item = ItemList[indexPath.row]
+        let imgString = NSAttributedString(attachment: .init(image: UIImage(systemName: "clock")!))
+        let fullString = NSMutableAttributedString(string: " \(item.totalTime!)")
+        fullString.insert(imgString, at: 0)
         cell.accessoryType = .disclosureIndicator
-        cell.backgroundColor = self.view.backgroundColor
-        cell.textLabel?.text = f.string(from: item.date!)
-        cell.detailTextLabel?.attributedText = fullString
+        cell.textLabel?.text = item.formattedDate
         cell.textLabel?.font = UIFont(name: "AvenirNext-Medium", size: 15)
+        cell.detailTextLabel?.attributedText = fullString
         cell.detailTextLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 17)
 
         return cell
@@ -140,10 +136,8 @@ extension RecordViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ table: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item: RecordModel = self.ItemList[(indexPath as NSIndexPath).row]
-        guard let date = item.date, let totalTime = item.totalTime else { return }
-        let f = DateFormatter()
-        f.dateFormat = "y/M/d HH:mm"
-        let vc = DetailViewController(recordDate: f.string(from: date),
+        guard let formattedDate = item.formattedDate, let totalTime = item.totalTime else { return }
+        let vc = DetailViewController(recordDate: formattedDate,
                                       laps: item.laps,
                                       totalTime: totalTime)
         vc.modalPresentationStyle = .pageSheet
